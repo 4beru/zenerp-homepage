@@ -1,11 +1,12 @@
 "use client";
 
 import { lazy, Suspense, useEffect, useState } from "react";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { stack } from "@/lib/site-config";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { LotusMark } from "@/components/zen/lotus-mark";
 import { ArrowRightIcon, LotusIcon } from "@/components/zen/icons";
 
@@ -27,7 +28,11 @@ function AfterPaint({ children }: { children: React.ReactNode }) {
 
 /** Hero: titular corto (ángulo zen) + subtítulo + dos CTAs + loto oficial. */
 export function Hero() {
-  const reduced = useReducedMotion();
+  // Hidratación-segura: false durante la hidratación (igual al server),
+  // preferencia real recién tras el mount. Los `initial` de framer son
+  // constantes para no mismatchear atributos; reduced queda para los
+  // estilos inline reactivos (parallax, scroll-dot).
+  const reduced = usePrefersReducedMotion();
   const hydrated = useHydrated();
   const openDialog = useLeadDialog((s) => s.openDialog);
   const { value: erpCount } = useCountUp(3, { duration: 1400 });
@@ -68,7 +73,7 @@ export function Hero() {
         <motion.div
           style={parallaxContent}
           variants={container}
-          initial={reduced ? false : "hidden"}
+          initial="hidden"
           animate="show"
         >
           <motion.p
@@ -144,7 +149,7 @@ export function Hero() {
         <motion.div
           style={parallaxLogo}
           variants={item}
-          initial={reduced ? false : "hidden"}
+          initial="hidden"
           animate="show"
           className="hidden justify-center lg:flex"
         >

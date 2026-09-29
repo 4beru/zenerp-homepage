@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useReducedMotion, useScroll, useSpring } from "framer-motion";
+import { motion, useScroll, useSpring } from "framer-motion";
 import { useHydrated } from "@/hooks/use-hydrated";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 /**
  * Barra de progreso de scroll: línea coral fina (2px) fija arriba de todo.
@@ -9,7 +10,7 @@ import { useHydrated } from "@/hooks/use-hydrated";
  * si la página se hidrata con scroll intermedio (refresh a mitad de página).
  */
 export function ScrollProgress() {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const hydrated = useHydrated();
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {

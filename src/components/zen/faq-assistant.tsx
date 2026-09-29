@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/zen/icons";
 
@@ -66,7 +67,7 @@ const STEP_LABEL: Record<Exclude<Step, "intro" | "result">, string> = {
 
 export function FaqAssistant() {
   const openDialog = useLeadDialog((s) => s.openDialog);
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const [step, setStep] = useState<Step>("intro");
   const [answer1, setAnswer1] = useState<number | null>(null);
   const [answer2, setAnswer2] = useState<number | null>(null);

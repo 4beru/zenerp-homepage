@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { ArrowUpIcon } from "@/components/zen/icons";
 
 /**
@@ -10,7 +11,7 @@ import { ArrowUpIcon } from "@/components/zen/icons";
  * (respeta prefers-reduced-motion vía CSS scroll-behavior).
  */
 export function BackToTop() {
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {

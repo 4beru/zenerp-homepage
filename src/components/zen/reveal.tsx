@@ -1,11 +1,14 @@
 "use client";
 
-import { motion, useReducedMotion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 /**
  * Reveal: fade + leve translateY al entrar en viewport, con stagger opcional
- * entre hijos (via RevealGroup). Con prefers-reduced-motion renderiza directo.
+ * entre hijos (via RevealGroup). El `initial` es constante ("hidden") para
+ * que el HTML del servidor y la hidratación coincidan siempre; con
+ * prefers-reduced-motion, MotionConfig (raíz) desactiva el translateY y
+ * queda solo el fade de opacidad.
  * Uso: <Reveal delay={0.1}>…</Reveal> o <RevealGroup stagger={0.08}>…</RevealGroup>
  */
 export const revealVariants: Variants = {
@@ -28,14 +31,13 @@ export function Reveal({
   delay?: number;
   as?: "div" | "section" | "li" | "span";
 }) {
-  const reduced = useReducedMotion();
   const Comp = motion[as];
 
   return (
     <Comp
       className={className}
       variants={revealVariants}
-      initial={reduced ? false : "hidden"}
+      initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px 0px" }}
       transition={{ delay }}
@@ -57,13 +59,12 @@ export function RevealGroup({
   stagger?: number;
   as?: "div" | "ul" | "section";
 }) {
-  const reduced = useReducedMotion();
   const Comp = motion[as];
 
   return (
     <Comp
       className={className}
-      initial={reduced ? false : "hidden"}
+      initial="hidden"
       whileInView="show"
       viewport={{ once: true, margin: "-80px 0px" }}
       variants={{
@@ -86,7 +87,6 @@ export function RevealItem({
   className?: string;
   as?: "div" | "li";
 }) {
-  const reduced = useReducedMotion();
   const Comp = motion[as];
 
   return (

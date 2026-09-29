@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { ZEN_LOGO_PATH } from "@/components/zen/zen-logo-path";
 
 /**
@@ -10,7 +11,9 @@ import { ZEN_LOGO_PATH } from "@/components/zen/zen-logo-path";
  * Con prefers-reduced-motion: estático, sin halo animado.
  */
 export function LotusMark({ className }: { className?: string }) {
-  const reduced = useReducedMotion();
+  // Gated: durante la hidratación vale false (igual al server) para que
+  // los estilos inline (halo/respiración) y el initial de framer coincidan.
+  const reduced = usePrefersReducedMotion();
 
   return (
     <div className={`relative ${className ?? ""}`}>

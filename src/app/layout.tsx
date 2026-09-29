@@ -2,6 +2,7 @@ import type { Viewport, Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { MotionProvider } from "@/components/zen/motion-provider";
 import { siteConfig } from "@/lib/site-config";
 
 const inter = Inter({
@@ -36,6 +37,13 @@ export const metadata: Metadata = {
     "Argentina",
   ],
   authors: [{ name: "Zen ERP" }],
+  manifest: "/manifest.webmanifest",
+  applicationName: siteName,
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "black-translucent",
+    title: siteName,
+  },
   icons: {
     icon: [
       { url: "/zen-logo.svg", type: "image/svg+xml" },
@@ -105,7 +113,19 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {children}
+        {/* Accesibilidad: primer elemento enfocable del documento */}
+        <a
+          href="#inicio"
+          className="skip-link rounded-full bg-zen-accent px-5 py-2.5 text-sm font-semibold text-[#1a1210] shadow-lg outline-none print:hidden"
+        >
+          Saltar al contenido
+        </a>
+        {/* Sin JS: las secciones con Reveal quedan en opacity:0 inline;
+            forzamos visibilidad para navegadores sin JavaScript. */}
+        <noscript>
+          <style>{`*{opacity:1!important;transform:none!important;animation:none!important;transition:none!important}`}</style>
+        </noscript>
+        <MotionProvider>{children}</MotionProvider>
         <div className="print:hidden">
           <Toaster />
         </div>

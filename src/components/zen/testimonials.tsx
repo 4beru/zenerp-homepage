@@ -1,10 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { testimonials } from "@/data/testimonials";
 import { SectionHeading } from "@/components/zen/section-heading";
 import { Reveal } from "@/components/zen/reveal";
+import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/zen/icons";
 
 /**
@@ -14,7 +15,7 @@ import { ArrowLeftIcon, ArrowRightIcon } from "@/components/zen/icons";
  */
 export function Testimonials() {
   const total = testimonials.length;
-  const reduced = useReducedMotion();
+  const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   // Sin IO (navegadores viejos): arranca directo (no bloquea el avance).
@@ -72,6 +73,18 @@ export function Testimonials() {
     if (Math.abs(delta) > 40) go(delta < 0 ? 1 : -1);
   };
 
+  // Teclado: ← / → cambian de testimonio cuando la región tiene foco
+  // (la región es focusable para que quien navega por Tab la controle).
+  const onKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      go(-1);
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      go(1);
+    }
+  };
+
   const t = testimonials[index];
 
   return (
@@ -110,7 +123,8 @@ export function Testimonials() {
             role="region"
             aria-roledescription="carrusel"
             aria-label="Testimonios de clientes"
-            className="relative mx-auto mt-12 max-w-3xl lg:mt-14"
+            tabIndex={0}
+            className="relative mx-auto mt-12 max-w-3xl outline-none focus-visible:ring-2 focus-visible:ring-zen-accent/50 focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505] rounded-3xl lg:mt-14"
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocus={() => setPaused(true)}
@@ -121,6 +135,7 @@ export function Testimonials() {
             }}
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
+            onKeyDown={onKeyDown}
           >
             <div className="glass-card relative overflow-hidden rounded-3xl px-6 py-9 sm:px-10 sm:py-11">
               {/* Glow interno superior */}

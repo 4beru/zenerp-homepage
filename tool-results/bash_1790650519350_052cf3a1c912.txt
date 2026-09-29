@@ -1,0 +1,928 @@
+✓ Zen ERP — Software a medida y sistemas de gestión (ERP)
+  http://localhost:3000/
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 175ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 150ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 240ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 135ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 253ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 304ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 148ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 188ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 130ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 54ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 270ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 120ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 184ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 653ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 166ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 183ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 158ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 193ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 132ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 152ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 140ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 221ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 177ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 174ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 161ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 105ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[warning] You have Reduced Motion enabled on your device. Animations may not appear as expected.. For more information and steps for solving, visit https://motion.dev/troubleshooting/reduced-motion-disabled
+[error] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+%s%s https://react.dev/link/hydration-mismatch 
+
+  ...
+    <LoadingBoundary name="/" loading={null}>
+      <HTTPAccessFallbackBoundary notFound={<SegmentViewNode>} forbidden={undefined} unauthorized={undefined}>
+        <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<SegmentViewNode>} forbidden={undefined} ...>
+          <RedirectBoundary>
+            <RedirectErrorBoundary router={{...}}>
+              <InnerLayoutRouter url="/" tree={[...]} params={{}} cacheNode={{rsc:<Fragment>, ...}} segmentPath={[...]} ...>
+                <SegmentViewNode type="page" pagePath="page.tsx">
+                  <SegmentTrieNode>
+                  <Home>
+                    <div className="flex min-h...">
+                      <script>
+                      <ScrollProgress>
+                      <Header>
+                      <main className="flex flex-...">
+                        <Hero>
+                          <section id="inicio" aria-label="Presentación" className="relative f...">
+                            <AfterPaint>
+                            <div className="relative m...">
+                              ...
+                                <div style={{}} ref={function useMotionRef.useCallback}>
+                                  <motion.p variants={{hidden:{...}, ...}} className="flex items...">
+                                    <p
+                                      className="flex items-center gap-2 text-sm text-zen-muted"
+                                      style={{
++                                       opacity: 1
+-                                       opacity: "0"
++                                       transform: "none"
+-                                       transform: "translateY(24px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                  <motion.h1 variants={{hidden:{...}, ...}} className="mt-6 max-w...">
+                                    <h1
+                                      className="mt-6 max-w-3xl text-4xl leading-[1.1] font-semibold tracking-tight te..."
+                                      style={{
++                                       opacity: 1
+-                                       opacity: "0"
++                                       transform: "none"
+-                                       transform: "translateY(24px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                  <motion.p variants={{hidden:{...}, ...}} className="mt-6 max-w...">
+                                    <p
+                                      className="mt-6 max-w-xl text-lg leading-relaxed text-pretty text-zen-muted"
+                                      style={{
++                                       opacity: 1
+-                                       opacity: "0"
++                                       transform: "none"
+-                                       transform: "translateY(24px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
++                                     Construimos aplicaciones web, mobile y desktop e implementamos sistemas de gestió...
+                                  <motion.div variants={{hidden:{...}, ...}} className="mt-10 flex...">
+                                    <div
+                                      className="mt-10 flex flex-wrap items-center gap-4"
+                                      style={{
++                                       opacity: 1
+-                                       opacity: "0"
++                                       transform: "none"
+-                                       transform: "translateY(24px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                  <motion.p variants={{hidden:{...}, ...}} className="mt-14 flex...">
+                                    <p
+                                      className="mt-14 flex max-w-xl items-baseline gap-3 text-sm text-zen-muted"
+                                      style={{
++                                       opacity: 1
+-                                       opacity: "0"
++                                       transform: "none"
+-                                       transform: "translateY(24px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                              <motion.div style={undefined} variants={{hidden:{...}, ...}} initial={false} animate="show" ...>
+                                <div
+                                  className="hidden justify-center lg:flex"
+                                  style={{
++                                   opacity: 1
+-                                   opacity: "0"
++                                   transform: "none"
+-                                   transform: "translateY(24px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                                  <LotusMark className="w-full max...">
+                                    <div className="relative w...">
+                                      <div
+                                        aria-hidden={true}
+                                        className="zen-halo-el absolute inset-[8%] rounded-full"
+                                        style={{
++                                         background: "radial-gradient(50% 50% at 50% 50%, rgba(255,138,101,0.20), rgb..."
++                                         filter: "blur(28px)"
+-                                         filter: "blur(28px)"
++                                         animation: "none"
+-                                         background-image: "radial-gradient(50% 50%, rgba(255, 138, 101, 0.2), rgba(2..."
+-                                         background-position-x: "initial"
+-                                         background-position-y: "initial"
+-                                         background-size: "initial"
+-                                         background-repeat: "initial"
+-                                         background-attachment: "initial"
+-                                         background-origin: "initial"
+-                                         background-clip: "initial"
+-                                         background-color: "initial"
+-                                         animation-duration: "7s"
+-                                         animation-timing-function: "ease-in-out"
+-                                         animation-delay: "0s"
+-                                         animation-iteration-count: "infinite"
+-                                         animation-direction: "normal"
+-                                         animation-fill-mode: "none"
+-                                         animation-play-state: "running"
+-                                         animation-name: "zen-halo"
+-                                         animation-timeline: "auto"
+-                                         animation-range-start: "normal"
+-                                         animation-range-end: "normal"
+                                        }}
+                                      >
+                                      <div
+                                        className="relative"
++                                       style={undefined}
+-                                       style={{animation-duration:"9s",animation-timing-function:"ease-in-out", ...}}
+                                      >
+                                        <motion.svg viewBox="0 0 679 454" fill="none" role="img" ...>
+                                          <svg
+                                            viewBox="0 0 679 454"
+                                            fill="none"
+                                            role="img"
+                                            aria-label="Logo de Zen ERP: flor de loto terracota"
+                                            className="h-auto w-full drop-shadow-[0_18px_50px_rgba(193,97,74,0.28)]"
+                                            style={{
++                                             opacity: 1
+-                                             opacity: "0"
++                                             filter: "blur(0px)"
+-                                             filter: "blur(14px)"
++                                             transform: "none"
+-                                             transform: "scale(0.94)"
+                                            }}
+                                            ref={function useMotionRef.useCallback}
+                                          >
+                            ...
+                              <div className="relative m..." style={{}} ref={function useMotionRef.useCallback}>
+                                <LotusMark>
+                                  <div className={"relative "}>
+                                    <div
+                                      aria-hidden={true}
+                                      className="zen-halo-el absolute inset-[8%] rounded-full"
+                                      style={{
++                                       background: "radial-gradient(50% 50% at 50% 50%, rgba(255,138,101,0.20), rgba(..."
++                                       filter: "blur(28px)"
+-                                       filter: "blur(28px)"
++                                       animation: "none"
+-                                       background-image: "radial-gradient(50% 50%, rgba(255, 138, 101, 0.2), rgba(255..."
+-                                       background-position-x: "initial"
+-                                       background-position-y: "initial"
+-                                       background-size: "initial"
+-                                       background-repeat: "initial"
+-                                       background-attachment: "initial"
+-                                       background-origin: "initial"
+-                                       background-clip: "initial"
+-                                       background-color: "initial"
+-                                       animation-duration: "7s"
+-                                       animation-timing-function: "ease-in-out"
+-                                       animation-delay: "0s"
+-                                       animation-iteration-count: "infinite"
+-                                       animation-direction: "normal"
+-                                       animation-fill-mode: "none"
+-                                       animation-play-state: "running"
+-                                       animation-name: "zen-halo"
+-                                       animation-timeline: "auto"
+-                                       animation-range-start: "normal"
+-                                       animation-range-end: "normal"
+                                      }}
+                                    >
+                                    <div
+                                      className="relative"
++                                     style={undefined}
+-                                     style={{animation-duration:"9s",animation-timing-function:"ease-in-out",animation-delay:"0s", ...}}
+                                    >
+                                      <motion.svg viewBox="0 0 679 454" fill="none" role="img" aria-label="Logo de Ze..." ...>
+                                        <svg
+                                          viewBox="0 0 679 454"
+                                          fill="none"
+                                          role="img"
+                                          aria-label="Logo de Zen ERP: flor de loto terracota"
+                                          className="h-auto w-full drop-shadow-[0_18px_50px_rgba(193,97,74,0.28)]"
+                                          style={{
++                                           opacity: 1
+-                                           opacity: "0"
++                                           filter: "blur(0px)"
+-                                           filter: "blur(14px)"
++                                           transform: "none"
+-                                           transform: "scale(0.94)"
+                                          }}
+                                          ref={function useMotionRef.useCallback}
+                                        >
+                            <div>
+                            <a href="#servicios" aria-label="Desplazars..." className="group abso...">
+                              <span className="relative f...">
+                                <span
+                                  className="h-1.5 w-1.5 rounded-full bg-zen-accent/80"
+                                  style={{
++                                   animation: "none"
+-                                   animation-duration: "1.8s"
+-                                   animation-timing-function: "ease-in-out"
+-                                   animation-delay: "0s"
+-                                   animation-iteration-count: "infinite"
+-                                   animation-direction: "normal"
+-                                   animation-fill-mode: "none"
+-                                   animation-play-state: "running"
+-                                   animation-name: "scroll-dot"
+-                                   animation-timeline: "auto"
+-                                   animation-range-start: "normal"
+-                                   animation-range-end: "normal"
+                                  }}
+                                >
+                              ...
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            ...
+                              <ul className="mt-14 grid..." style={{}} ref={function useMotionRef.useCallback}>
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                            <Reveal delay={0.1}>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                        <Process>
+                          <section ref={{current:null}} id="proceso" aria-labelledby="proceso-title" ...>
+                            <div>
+                            <div className="relative m...">
+                              <Reveal>
+                                <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className={undefined}
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                              <div className="relative m...">
+                                <div aria-hidden={true} className="absolute t...">
+                                  <div
+                                    className="h-full w-full origin-top bg-zen-accent/80 transition-transform duration..."
++                                   style={{transform:"scaleY(1)"}}
+-                                   style={{transform:"scaleY(0.25)"}}
+                                  >
+                                <ol className="grid gap-5...">
+                                  <li>
+                                  <li
+                                    data-step={true}
++                                   data-active="true"
+-                                   data-active="false"
+                                    className="step-card glass-card relative h-full rounded-2xl p-6 pt-12 pl-14 lg:pt-..."
+                                  >
+                                  <li
+                                    data-step={true}
++                                   data-active="true"
+-                                   data-active="false"
+                                    className="step-card glass-card relative h-full rounded-2xl p-6 pt-12 pl-14 lg:pt-..."
+                                  >
+                                  <li
+                                    data-step={true}
++                                   data-active="true"
+-                                   data-active="false"
+                                    className="step-card glass-card relative h-full rounded-2xl p-6 pt-12 pl-14 lg:pt-..."
+                                  >
+                              <Reveal>
+                                <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className={undefined}
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                            ...
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            ...
+                              <ul className="mt-14 grid..." style={{}} ref={function useMotionRef.useCallback}>
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem as="li" className="h-full">
+                                  <motion.li className="h-full" variants={{hidden:{...}, ...}}>
+                                    <li
+                                      className="h-full"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                            <Reveal delay={0.08}>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            <Reveal delay={0.12}>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                        ...
+                          <div className="glass-card..." style={{}} ref={function useMotionRef.useCallback}>
+                            <RevealItem className="mb-10 flex...">
+                              <motion.div className="mb-10 flex..." variants={{hidden:{...}, ...}}>
+                                <div
+                                  className="mb-10 flex items-center justify-center gap-4"
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            <dl className="grid grid-...">
+                              <StatCell stat={{value:15, ...}} index={0}>
+                                <RevealItem className="lg:px-10 l...">
+                                  <motion.div className="lg:px-10 l..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="lg:px-10 lg:first:pl-0 lg:last:pr-0"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                              <StatCell stat={{value:3, ...}} index={1}>
+                                <RevealItem className="lg:px-10 l...">
+                                  <motion.div className="lg:px-10 l..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="lg:px-10 lg:first:pl-0 lg:last:pr-0"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                              <StatCell stat={{value:24, ...}} index={2}>
+                                <RevealItem className="lg:px-10 l...">
+                                  <motion.div className="lg:px-10 l..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="lg:px-10 lg:first:pl-0 lg:last:pr-0"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                              <StatCell stat={{value:100, ...}} index={3}>
+                                <RevealItem className="lg:px-10 l...">
+                                  <motion.div className="lg:px-10 l..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="lg:px-10 lg:first:pl-0 lg:last:pr-0"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            <Reveal delay={0.15}>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            ...
+                              <div className="mt-12 grid..." style={{}} ref={function useMotionRef.useCallback}>
+                                <RevealItem className="glass-card...">
+                                  <motion.div className="glass-card..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="glass-card team-card flex flex-col rounded-2xl p-6 sm:p-7"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem className="glass-card...">
+                                  <motion.div className="glass-card..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="glass-card team-card flex flex-col rounded-2xl p-6 sm:p-7"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <RevealItem className="glass-card...">
+                                  <motion.div className="glass-card..." variants={{hidden:{...}, ...}}>
+                                    <div
+                                      className="glass-card team-card flex flex-col rounded-2xl p-6 sm:p-7"
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                            <Reveal delay={0.2}>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            <div className="mt-14 lg:m...">
+                              <Reveal className="lg:sticky ...">
+                                <motion.div className="lg:sticky ..." variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className="lg:sticky lg:top-28 lg:self-start"
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                              ...
+                                <ul className="mt-12 lg:mt-0" style={{}} ref={function useMotionRef.useCallback}>
+                                  <RevealItem as="li">
+                                    <motion.li className={undefined} variants={{hidden:{...}, ...}}>
+                                      <li
+                                        className={undefined}
+                                        style={{
+-                                         opacity: "0"
+-                                         transform: "translateY(26px)"
+                                        }}
+                                        ref={function useMotionRef.useCallback}
+                                      >
+                                  <RevealItem as="li">
+                                    <motion.li className={undefined} variants={{hidden:{...}, ...}}>
+                                      <li
+                                        className={undefined}
+                                        style={{
+-                                         opacity: "0"
+-                                         transform: "translateY(26px)"
+                                        }}
+                                        ref={function useMotionRef.useCallback}
+                                      >
+                                  <RevealItem as="li">
+                                    <motion.li className={undefined} variants={{hidden:{...}, ...}}>
+                                      <li
+                                        className={undefined}
+                                        style={{
+-                                         opacity: "0"
+-                                         transform: "translateY(26px)"
+                                        }}
+                                        ref={function useMotionRef.useCallback}
+                                      >
+                                  <RevealItem as="li">
+                                    <motion.li className={undefined} variants={{hidden:{...}, ...}}>
+                                      <li
+                                        className={undefined}
+                                        style={{
+-                                         opacity: "0"
+-                                         transform: "translateY(26px)"
+                                        }}
+                                        ref={function useMotionRef.useCallback}
+                                      >
+                        ...
+                          <div className="lg:grid lg...">
+                            <div>
+                              <Reveal>
+                                <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className={undefined}
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                              <Reveal delay={0.15} className="lg:sticky ...">
+                                <motion.div className="lg:sticky ..." variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className="lg:sticky lg:top-28 lg:mt-8"
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                            ...
+                              <div data-slot="accordion" className="mt-12 flex..." data-orientation="vertical" ...>
+                                <Reveal delay={0}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <Reveal delay={0.05}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <Reveal delay={0.1}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <Reveal delay={0.15000000000000002}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <Reveal delay={0.2}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                                <Reveal delay={0.25}>
+                                  <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                    <div
+                                      className={undefined}
+                                      style={{
+-                                       opacity: "0"
+-                                       transform: "translateY(26px)"
+                                      }}
+                                      ref={function useMotionRef.useCallback}
+                                    >
+                        ...
+                          <div className="relative m...">
+                            <Reveal>
+                              <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                <div
+                                  className={undefined}
+                                  style={{
+-                                   opacity: "0"
+-                                   transform: "translateY(26px)"
+                                  }}
+                                  ref={function useMotionRef.useCallback}
+                                >
+                            <div className="mt-14 lg:m...">
+                              <Reveal delay={0.1}>
+                                <motion.div className={undefined} variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className={undefined}
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                              <Reveal delay={0.2} className="mt-10 lg:mt-0">
+                                <motion.div className="mt-10 lg:mt-0" variants={{hidden:{...}, ...}} initial={false} ...>
+                                  <div
+                                    className="mt-10 lg:mt-0"
+                                    style={{
+-                                     opacity: "0"
+-                                     transform: "translateY(26px)"
+                                    }}
+                                    ref={function useMotionRef.useCallback}
+                                  >
+                      ...
+                ...
+              ...
+
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 185ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 206ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 258ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 205ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 106ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 238ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 167ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 149ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 105ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 315ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 125ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 318ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 101ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 177ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 342ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 188ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 118ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 196ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 166ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 166ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 209ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 270ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 124ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 153ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 172ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 501ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 183ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 154ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 160ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 245ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 153ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 212ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 171ms
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 170ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 143ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
+[log] [Fast Refresh] rebuilding
+[log] [Fast Refresh] done in 182ms
+[info] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[log] [HMR] connected
