@@ -57,17 +57,17 @@
 :root {
   --radius: 0.75rem;
 
-  /* Paleta Zen ERP */
+  /* Paleta Zen ERP — Studio Warm Solarized */
   --zen-bg: #050505;
-  --zen-bg-to: #161d1e;
-  --zen-surface: #12181a;
-  --zen-surface-raised: #1b2426;
-  --zen-accent: #ffab91;
-  --zen-accent-strong: #ff8a65;
-  --zen-accent-soft: rgba(255, 171, 145, 0.12);
-  --zen-ink: #f5f1ed;
-  --zen-muted: #9ca3af;
-  --zen-line: rgba(245, 241, 237, 0.08);
+  --zen-bg-to: #0c1011;
+  --zen-surface: #0e1315;
+  --zen-surface-raised: #151c1e;
+  --zen-accent: #cb4b16;
+  --zen-accent-strong: #d9531e;
+  --zen-accent-soft: rgba(203, 75, 22, 0.12);
+  --zen-ink: #eee8d5;
+  --zen-muted: #839496;
+  --zen-line: rgba(238, 232, 213, 0.08);
 }
 
 html {
