@@ -146,6 +146,45 @@ export const serviceIcons = {
   puzzle: PuzzleIcon,
 } as const;
 
+/** Diagnóstico: conversación / diálogo. */
+export function ChatIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3h11A2.5 2.5 0 0 1 20 5.5v7a2.5 2.5 0 0 1-2.5 2.5H9l-4.4 3.6a.5.5 0 0 1-.8-.4L3.7 15H4V5.5Z" />
+      <path d="M8 8h8M8 11.5h5" />
+    </svg>
+  );
+}
+
+/** Propuesta: documento por escrito. */
+export function NoteIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M6 3.5h9L19.5 8v11a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5Z" />
+      <path d="M14.5 3.5V8h5" />
+      <path d="M8 12h8M8 15.5h5.5" />
+    </svg>
+  );
+}
+
+/** Entrega y soporte. */
+export function HandshakeIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M3 11l3-3 4 1 2-1 2 1 4-1 3 3" />
+      <path d="M8 13l2.5 2.5a1.5 1.5 0 0 0 2.1 0L15 13" />
+      <path d="M6 12l3.5 4M18 12l-3.5 4" />
+    </svg>
+  );
+}
+
+export const processIcons = {
+  chat: ChatIcon,
+  note: NoteIcon,
+  hammer: HammerIcon,
+  handshake: HandshakeIcon,
+} as const;
+
 export function HammerIcon(p: IconProps) {
   return (
     <svg {...base} width={20} height={20} {...p}>

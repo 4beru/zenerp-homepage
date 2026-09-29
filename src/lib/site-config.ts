@@ -22,7 +22,7 @@ export const siteConfig = {
 /** Navegación principal. `ready: false` = sección en próximas fases. */
 export const navLinks = [
   { href: "#servicios", label: "Servicios", ready: true },
-  { href: "#proceso", label: "Proceso", ready: false },
+  { href: "#proceso", label: "Proceso", ready: true },
   { href: "#proyectos", label: "Proyectos", ready: false },
   { href: "#contacto", label: "Contacto", ready: true },
 ] as const;

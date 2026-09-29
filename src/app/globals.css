@@ -249,17 +249,55 @@ section[id] {
   text-shadow: 0 0 32px rgba(255, 171, 145, 0.35);
 }
 
+/* ============ Proceso: timeline con paso activo ============ */
+
+/* El activo gana sobre .glass-card (misma propiedad): +specificity */
+.step-card.glass-card[data-active="true"] {
+  border-color: rgba(255, 171, 145, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 171, 145, 0.12), 0 18px 50px -24px rgba(255, 171, 145, 0.25);
+  opacity: 1;
+}
+.step-card.glass-card {
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
+}
+/* Pasos inactivos: apenas atenuados para guiar el foco */
+.step-card.glass-card[data-active="false"] {
+  opacity: 0.72;
+}
+.step-card.glass-card[data-active="false"]:hover {
+  opacity: 1;
+}
+
+/* Nodo del timeline mobile: aro coral + halo suave en el activo */
+@media (max-width: 1023px) {
+  .step-card[data-active="true"] .step-node {
+    border-color: var(--zen-accent);
+    box-shadow: 0 0 0 4px rgba(255, 171, 145, 0.18);
+  }
+}
+/* Chip de ícono desktop: el activo se agranda y suma gradiente coral */
+@media (min-width: 1024px) {
+  .step-card[data-active="true"] .step-node {
+    background: linear-gradient(160deg, rgba(255,171,145,0.22), rgba(255,171,145,0.08));
+    border-color: rgba(255, 171, 145, 0.45);
+    transform: scale(1.06);
+  }
+}
+
 /* Accesibilidad: si el usuario prefiere menos movimiento, nada anima por CSS */
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-primary:hover,
   .btn-secondary, .btn-secondary:hover,
   .glass-card, .glass-card:hover,
   .nav-link::after, .link-accent,
+  .step-card, .step-card[data-active="false"],
+  .step-card .step-node, .step-progress-fill,
   .marquee-track,
   .zen-breathe-el,
   .zen-halo-el {
     transition: none !important;
     transform: none !important;
     animation: none !important;
+    opacity: 1 !important;
   }
 }

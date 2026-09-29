@@ -73,3 +73,33 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Datos reales de contacto (email/WhatsApp placeholders).
 - Integración Resend para notificar leads por email cuando existan credenciales.
 - Riesgo menor: VLM tiende a "reconstruir HTML" en screenshots de cards — validar contenido clave por DOM (ya se hizo).
+
+---
+
+Task ID: 3 (cron webDevReview, ronda 2)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 03: sección Proceso ("Cómo trabajamos") con timeline y paso activo al scrollear. Incluyó debugging real de dos bugs de la nueva sección.
+
+Work Log:
+- QA inicial: 200, 0 errores consola/página, lint OK, secciones [inicio, servicios], sin overflow → fase estable.
+- Estudié el patrón del repo original (usePinnedSteps con GSAP + pin; descarté el pinneo para no secuestrar el scroll, prefiriendo una regla propia sobre scrollY).
+- `src/data/process.ts`: 4 pasos (Diagnóstico, Propuesta, Desarrollo, Entrega y soporte) + campo `kicker` nuevo (chip corto: "Escuchamos primero", "Precio cerrado", "Avances reales", "No desaparecemos").
+- Icons nuevos: ChatIcon, NoteIcon, HandshakeIcon + mapa `processIcons`.
+- `src/components/zen/lotus-divider.tsx`: divisor orgánico loto (SVG estático del repo original).
+- `src/components/zen/process.tsx`: sección `#proceso` — heading "03 · Cómo trabajamos", timeline con línea vertical (mobile: izquierda con nodos por paso; desktop: columna + chips de ícono), relleno coral que crece con el paso activo (scaleY = (active+1)/4), cards glass con número mono, kicker chip y descripción; CTA final "agendá una charla de 15 minutos →" abre dialog con tema "Charla inicial de 15 minutos".
+- **Bug 1 (lógica):** primera versión con IntersectionObserver no cambiaba el paso activo (las 4 cards comparten fila en desktop → mismas intersecciones; además layout thrashing). Reescribí con regla directa sobre getBoundingClientRect en rAF (lecturas agrupadas → escritura única vía setState): transición exacta cuando top del card cruza el 55% del viewport.
+- **Bug 2 (CSS):** `.glass-card` pisaba los estilos del paso activo (misma propiedad, orden posterior) → el activo no mostraba borde coral ni glow. Fix: specificity con `.step-card.glass-card[data-active]` (+ `opacity:1` en activo, dimming 0.72 en inactivos, hover los reaviva).
+- Nav "Proceso" ahora ancla real; page.tsx monta Process entre Services y Footer.
+- Reduced-motion: todos los pasos visibles/activos, sin listener de scroll.
+
+Stage Summary:
+- ✅ Fase 03 completa y verificada: lint 0, 0 errores consola, mobile sin overflow, cards apiladas en 1 col.
+- ✅ QA: transición de activo probada por DOM en 1600→(true primero), 2100/2112 (true/false límite exacto), 2140+ (último activado); computed styles confirman borde coral rgba(255,171,145,0.45) + glow + dimming 0.72; VLM (texto plano) confirma visual: 4 cards numeradas, 4ª destacada, línea coral llena, chips e íconos, sin defectos.
+- Features nuevas: timeline con progreso, paso activo por scroll, kickers, CTA con tema, divisor loto, íconos de proceso.
+- Detalles de estilo: nodos con halo coral (mobile), chip de ícono que escala y gradiente (desktop activo), dimming suave de inactivos, glow radial de sección.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **Fase 04 sugerida: Proyectos/portfolio** (cards con placeholder de loto en data-URI como el repo original) — nav #proyectos sigue con toast.
+- Luego: Filosofía/valores + mid-CTA antes del footer, y sección contacto completa.
+- OG image propia (og.png), sitemap.ts/robots.ts, datos reales de contacto, integración Resend.
+- Nota técnica: si en el futuro se agregan/mudan secciones, verificar que la regla del 55% sigue razonable (es robusta: solo compara tops de cards).
