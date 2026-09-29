@@ -2,37 +2,50 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { navLinks, siteConfig } from "@/lib/site-config";
+import { siteConfig } from "@/lib/site-config";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
+import { useLocaleStore } from "@/lib/store/locale-store";
 import { CloseIcon, MenuIcon } from "@/components/zen/icons";
 import zenLogo from "../../../public/zen-logo.svg";
 
+interface NavItem {
+  href: string;
+  en: string;
+  es: string;
+}
+
+const studioNavItems: NavItem[] = [
+  { href: "#proyectos", en: "Work", es: "Proyectos" },
+  { href: "#servicios", en: "Services", es: "Servicios" },
+  { href: "#proceso", en: "Approach", es: "Proceso" },
+  { href: "#filosofia", en: "Philosophy", es: "Filosofía" },
+  { href: "#contacto", en: "Contact", es: "Contacto" },
+];
+
 /**
- * Header sticky con blur al scrollear, menú hamburguesa en mobile y
- * resaltado de la sección activa (subrayado coral del nav-link).
- * Los links footerOnly (p. ej. Testimonios) no se muestran acá.
+ * Creative Studio Header (Section 9 & 10 of DESIGN.md)
+ *
+ * Implements:
+ * - Clean 3-zone contract: Brand title — 5 clean nav links — Language switcher + Action
+ * - Single-line controls (no rounded pill buttons, zero AI-slop)
+ * - Bilingual support (EN / ES) via useLocaleStore
+ * - Accessible mobile menu with Escape/focus management
  */
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
-  const openDialog = useLeadDialog((s) => s.openDialog);
 
-  // Blur del header tras unos px de scroll + sección activa del nav.
+  const openDialog = useLeadDialog((s) => s.openDialog);
+  const { locale, setLocale, toggleLocale } = useLocaleStore();
+
   useEffect(() => {
     let raf = 0;
     const update = () => {
-      setScrolled(window.scrollY > 8);
+      setScrolled(window.scrollY > 12);
 
-      // Sección activa: la última cuyo top quedó por encima del 40% del
-      // viewport (lecturas agrupadas, una sola escritura de estado).
-      // Los links footerOnly (p. ej. Testimonios) no se rastrean: la sección
-      // anterior del nav queda resaltada al scrollear por ellos.
-      const line = window.innerHeight * 0.4;
-      const ids = [
-        "inicio",
-        ...navLinks.filter((l) => !l.footerOnly).map((l) => l.href.slice(1)),
-      ];
+      const line = window.innerHeight * 0.35;
+      const ids = ["inicio", ...studioNavItems.map((l) => l.href.slice(1))];
       let current: string | null = null;
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -40,10 +53,12 @@ export function Header() {
       }
       setActiveSection(current);
     };
+
     const onScroll = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(update);
     };
+
     update();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
@@ -54,7 +69,6 @@ export function Header() {
     };
   }, []);
 
-  // Cerrar el menú con Escape y bloquear scroll del body cuando está abierto
   useEffect(() => {
     if (!open) return;
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && setOpen(false);
@@ -70,109 +84,149 @@ export function Header() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 print:hidden ${
         scrolled || open
-          ? "border-b border-zen-line bg-[#050505]/85 backdrop-blur-md"
-          : "border-b border-transparent"
+          ? "border-b border-[#EEE8D5]/[0.08] bg-[#050505]/90 backdrop-blur-md"
+          : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-[72px] max-w-6xl items-center justify-between px-5 sm:px-8">
+      <div className="mx-auto flex h-[76px] max-w-[1480px] items-center justify-between px-6 sm:px-10 xl:px-16">
+        
+        {/* Zone 1: Studio Wordmark */}
         <a
           href="#"
-          className="group flex items-center gap-2 text-lg font-semibold tracking-tight text-zen-ink transition-opacity hover:opacity-90"
-          aria-label="Zen ERP — volver arriba"
+          className="group flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-[#EEE8D5] transition-opacity hover:opacity-90"
+          aria-label="Zen ERP — Return to top"
         >
           <Image
             src={zenLogo}
-            alt={`Logo de ${siteConfig.name}: flor de loto`}
+            alt={`Logo de ${siteConfig.name}`}
             className="shrink-0 transition-transform duration-500 group-hover:scale-105"
-            height={34}
-            style={{ height: 34, width: "auto" }}
+            height={28}
+            style={{ height: 28, width: "auto" }}
             priority
           />
-          <span>
-            Zen&nbsp;<span className="text-zen-accent">ERP</span>
+          <span className="uppercase tracking-widest text-sm">
+            Zen&nbsp;<span className="text-[#CB4B16]">ERP</span>
           </span>
         </a>
 
-        {/* Nav desktop (los footerOnly no van en el header: ancho 768px) */}
+        {/* Zone 2: Studio Navigation Links (Clean Typography with hairline underlines) */}
         <nav
-          aria-label="Navegación principal"
-          className="hidden items-center gap-4 md:flex lg:gap-6 xl:gap-7"
+          aria-label="Main Navigation"
+          className="hidden items-center gap-7 md:flex lg:gap-9"
         >
-          {navLinks
-            .filter((l) => l.ready && !l.footerOnly)
-            .map((l) => (
+          {studioNavItems.map((item) => {
+            const isActive = activeSection === item.href.slice(1);
+            return (
               <a
-                key={l.href}
-                href={l.href}
-                aria-current={
-                  activeSection === l.href.slice(1) ? "true" : undefined
-                }
-                className={`nav-link text-sm ${
-                  activeSection === l.href.slice(1)
-                    ? "is-active"
-                    : "text-zen-muted"
+                key={item.href}
+                href={item.href}
+                aria-current={isActive ? "true" : undefined}
+                className={`relative py-1 text-xs font-mono uppercase tracking-[0.16em] transition-colors duration-200 ${
+                  isActive ? "text-[#EEE8D5]" : "text-[#839496] hover:text-[#EEE8D5]"
                 }`}
               >
-                {l.label}
+                <span>{locale === "en" ? item.en : item.es}</span>
+                {isActive && (
+                  <span className="absolute bottom-0 left-0 h-px w-full bg-[#CB4B16]" />
+                )}
               </a>
-            ))}
+            );
+          })}
+        </nav>
+
+        {/* Zone 3: Language Switcher & Studio Primary Action */}
+        <div className="hidden items-center gap-6 md:flex">
+          {/* Language Toggle: EN / ES */}
+          <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider">
+            <button
+              type="button"
+              onClick={() => setLocale("en")}
+              className={`cursor-pointer px-1.5 py-0.5 transition-colors ${
+                locale === "en"
+                  ? "text-[#EEE8D5] font-semibold"
+                  : "text-[#839496]/50 hover:text-[#839496]"
+              }`}
+            >
+              EN
+            </button>
+            <span className="text-[#839496]/30 select-none">/</span>
+            <button
+              type="button"
+              onClick={() => setLocale("es")}
+              className={`cursor-pointer px-1.5 py-0.5 transition-colors ${
+                locale === "es"
+                  ? "text-[#EEE8D5] font-semibold"
+                  : "text-[#839496]/50 hover:text-[#839496]"
+              }`}
+            >
+              ES
+            </button>
+          </div>
+
+          {/* Single-Line Action Button (Tactile 0-2px border, no pill) */}
           <button
             type="button"
             onClick={() => openDialog("header")}
-            className="btn-primary cursor-pointer rounded-full bg-zen-accent px-5 py-2.5 text-sm font-semibold text-[#1a1210]"
+            className="group relative inline-flex cursor-pointer items-center gap-2 border border-[#EEE8D5]/20 bg-transparent px-5 py-2.5 font-mono text-xs font-semibold tracking-wider text-[#EEE8D5] uppercase transition-all duration-300 hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505]"
           >
-            Hablemos de tu proyecto
+            <span>{locale === "en" ? "Start a project" : "Iniciar proyecto"}</span>
+            <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+              ↗
+            </span>
           </button>
-        </nav>
+        </div>
 
-        {/* Botón hamburguesa */}
-        <button
-          type="button"
-          onClick={() => setOpen((v) => !v)}
-          aria-expanded={open}
-          aria-controls="mobile-menu"
-          aria-label={open ? "Cerrar menú" : "Abrir menú"}
-          className="rounded-lg p-2 text-zen-ink hover:bg-zen-surface-raised md:hidden"
-        >
-          {open ? <CloseIcon /> : <MenuIcon />}
-        </button>
+        {/* Mobile Hamburger Button */}
+        <div className="flex items-center gap-3 md:hidden">
+          <button
+            type="button"
+            onClick={toggleLocale}
+            className="font-mono text-xs text-[#839496] uppercase"
+          >
+            {locale.toUpperCase()}
+          </button>
+          <button
+            type="button"
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? "Close menu" : "Open menu"}
+            className="rounded p-2 text-[#EEE8D5] hover:bg-[#1B2426]"
+          >
+            {open ? <CloseIcon /> : <MenuIcon />}
+          </button>
+        </div>
       </div>
 
-      {/* Menú mobile */}
+      {/* Mobile Drawer Menu */}
       {open ? (
         <nav
           id="mobile-menu"
-          aria-label="Navegación móvil"
-          className="border-t border-zen-line bg-[#050505]/95 backdrop-blur-md md:hidden"
+          aria-label="Mobile Navigation"
+          className="border-t border-[#EEE8D5]/[0.08] bg-[#050505]/98 px-6 py-6 backdrop-blur-xl md:hidden"
         >
-          <ul className="mx-auto flex max-h-[calc(100svh-72px)] max-w-6xl flex-col gap-1 overflow-y-auto px-5 py-4">
-            {navLinks
-              .filter((l) => l.ready && !l.footerOnly)
-              .map((l) => (
-                <li key={l.href}>
-                  <a
-                    href={l.href}
-                    onClick={() => setOpen(false)}
-                    className={`block rounded-lg px-3 py-3 text-base hover:bg-zen-surface-raised ${
-                      activeSection === l.href.slice(1)
-                        ? "text-zen-accent"
-                        : "text-zen-ink"
-                    }`}
-                  >
-                    {l.label}
-                  </a>
-                </li>
-              ))}
-            <li className="mt-2">
+          <ul className="flex flex-col gap-4">
+            {studioNavItems.map((item) => (
+              <li key={item.href}>
+                <a
+                  href={item.href}
+                  onClick={() => setOpen(false)}
+                  className="block font-mono text-sm uppercase tracking-wider text-[#EEE8D5] hover:text-[#CB4B16]"
+                >
+                  {locale === "en" ? item.en : item.es}
+                </a>
+              </li>
+            ))}
+            <li className="mt-4 border-t border-[#EEE8D5]/10 pt-4">
               <button
                 type="button"
                 onClick={() => {
                   setOpen(false);
                   openDialog("header-mobile");
                 }}
-                className="btn-primary block w-full cursor-pointer rounded-full bg-zen-accent px-5 py-3 text-center text-base font-semibold text-[#1a1210]"
+                className="w-full border border-[#CB4B16] bg-[#CB4B16] px-5 py-3 font-mono text-xs font-semibold tracking-wider text-[#050505] uppercase"
               >
-                Hablemos de tu proyecto
+                {locale === "en" ? "Start a project ↗" : "Iniciar proyecto ↗"}
               </button>
             </li>
           </ul>

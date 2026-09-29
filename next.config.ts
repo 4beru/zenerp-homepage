@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
   },
   reactStrictMode: false,
   allowedDevOrigins: [
+    "*.run.app",
+    "*.google.com",
     "preview-chat-b2389c5c-1187-48e9-a4e0-5052bbeef483.space-z.ai",
   ],
 };
