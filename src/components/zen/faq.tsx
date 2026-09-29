@@ -2,7 +2,7 @@
 
 import { faqs } from "@/data/faq";
 import { siteConfig } from "@/lib/site-config";
-import { useLeadDialog } from "@/lib/store/lead-dialog";
+import { FaqAssistant } from "@/components/zen/faq-assistant";
 import {
   Accordion,
   AccordionContent,
@@ -11,16 +11,14 @@ import {
 } from "@/components/ui/accordion";
 import { SectionHeading } from "@/components/zen/section-heading";
 import { Reveal } from "@/components/zen/reveal";
-import { ArrowRightIcon, WhatsAppIcon } from "@/components/zen/icons";
+import { WhatsAppIcon } from "@/components/zen/icons";
 
 /**
  * FAQ: acordeón con las dudas previas a un proyecto. A la izquierda el
- * encabezado + tarjeta de ayuda (sticky en desktop), a la derecha las
- * preguntas. La respuesta abierta gana borde coral (ver .faq-item en CSS).
+ * encabezado + asistente de diagnóstico (sticky en desktop), a la derecha
+ * las preguntas. La respuesta abierta gana borde coral (ver .faq-item en CSS).
  */
 export function Faq() {
-  const openDialog = useLeadDialog((s) => s.openDialog);
-
   return (
     <section
       id="faq"
@@ -56,39 +54,20 @@ export function Faq() {
 
             <Reveal delay={0.15} className="lg:sticky lg:top-28 lg:mt-8">
               <div className="glass-card mt-10 rounded-2xl p-6 lg:mt-0">
-                <p className="text-base font-semibold text-zen-ink">
-                  ¿No encontrás tu respuesta?
-                </p>
-                <p className="mt-2 text-sm leading-relaxed text-zen-muted">
-                  Contanos tu caso y te respondemos con una opinión honesta —
-                  aunque la respuesta sea que no necesitás nada de lo que
-                  vendemos.
-                </p>
-                <div className="mt-5 flex flex-col gap-2.5">
-                  <button
-                    type="button"
-                    onClick={() => openDialog("faq")}
-                    className="btn-primary group inline-flex cursor-pointer items-center justify-center gap-2 rounded-full bg-zen-accent px-5 py-2.5 text-sm font-semibold text-[#1a1210]"
-                  >
-                    Hacenos la pregunta
-                    <ArrowRightIcon
-                      className="transition-transform duration-300 group-hover:translate-x-1"
-                      width={16}
-                      height={16}
-                    />
-                  </button>
-                  {siteConfig.whatsapp ? (
+                <FaqAssistant />
+                {siteConfig.whatsapp ? (
+                  <div className="mt-5 border-t border-zen-line pt-4">
                     <a
                       href={siteConfig.whatsapp.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="btn-secondary inline-flex items-center justify-center gap-2.5 rounded-full border border-zen-line bg-zen-surface/60 px-5 py-2.5 text-sm font-medium text-zen-ink"
+                      className="btn-secondary inline-flex w-full items-center justify-center gap-2.5 rounded-full border border-zen-line bg-zen-surface/60 px-5 py-2.5 text-sm font-medium text-zen-ink"
                     >
                       <WhatsAppIcon className="text-zen-accent" width={16} height={16} />
                       Escribir por WhatsApp
                     </a>
-                  ) : null}
-                </div>
+                  </div>
+                ) : null}
               </div>
             </Reveal>
           </div>

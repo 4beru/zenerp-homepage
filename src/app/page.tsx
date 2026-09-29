@@ -3,6 +3,7 @@ import { Hero } from "@/components/zen/hero";
 import { Services } from "@/components/zen/services";
 import { Process } from "@/components/zen/process";
 import { Projects } from "@/components/zen/projects";
+import { Stats } from "@/components/zen/stats";
 import { Testimonials } from "@/components/zen/testimonials";
 import { Team } from "@/components/zen/team";
 import { Philosophy } from "@/components/zen/philosophy";
@@ -34,6 +35,7 @@ const faqJsonLd = {
  * Fase 04: Proyectos, Filosofía y CTA final. Fase 05: FAQ.
  * Fase 06: Testimonios (carrusel sereno). Fase 07: Contacto completo.
  * Fase 08: Equipo + Privacidad + rate limiting.
+ * Fase 09: banda de métricas (count-up) + asistente del FAQ.
  */
 export default function Home() {
   return (
@@ -49,6 +51,7 @@ export default function Home() {
         <Services />
         <Process />
         <Projects />
+        <Stats />
         <Testimonials />
         <Team />
         <Philosophy />

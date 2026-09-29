@@ -37,7 +37,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Zen ERP" }],
   icons: {
-    icon: [{ url: "/zen-logo.svg", type: "image/svg+xml" }],
+    icon: [
+      { url: "/zen-logo.svg", type: "image/svg+xml" },
+      { url: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
     title: `${siteName} — Software simple, hecho a tu medida`,
@@ -102,7 +106,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
         {children}
-        <Toaster />
+        <div className="print:hidden">
+          <Toaster />
+        </div>
       </body>
     </html>
   );

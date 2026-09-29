@@ -68,7 +68,7 @@ export function Header() {
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
+      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 print:hidden ${
         scrolled || open
           ? "border-b border-zen-line bg-[#050505]/85 backdrop-blur-md"
           : "border-b border-transparent"

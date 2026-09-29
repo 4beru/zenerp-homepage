@@ -39,7 +39,10 @@ export function Footer() {
     });
 
   return (
-    <footer className="mt-auto border-t border-zen-line/70 bg-[#080b0c]/80">
+    <footer
+      id="site-footer"
+      className="mt-auto border-t border-zen-line/70 bg-[#080b0c]/80 print:bg-transparent"
+    >
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <LotusDivider />
 

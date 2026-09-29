@@ -161,9 +161,9 @@ export function Hero() {
       </motion.div>
 
       {/* Tira de stack con marquee sutil */}
-      <div className="marquee-mask relative border-t border-zen-line/70 bg-[#0a0f10]/40 py-5 backdrop-blur-[2px]">
-        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#0a0f10] to-transparent sm:w-28" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#0a0f10] to-transparent sm:w-28" />
+      <div className="marquee-mask relative border-t border-zen-line/70 bg-[#0a0f10]/40 py-5 backdrop-blur-[2px] print:bg-transparent">
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#0a0f10] to-transparent print:from-transparent sm:w-28" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#0a0f10] to-transparent print:from-transparent sm:w-28" />
         <div className="overflow-hidden">
           <div className="marquee-track flex w-max items-center gap-10 pr-10">
             {[...stack, ...stack].map((s, i) => (
@@ -190,7 +190,7 @@ export function Hero() {
       <a
         href="#servicios"
         aria-label="Desplazarse a servicios"
-        className="group absolute right-8 bottom-24 hidden items-center gap-2 text-xs tracking-wide text-zen-muted/70 transition-colors hover:text-zen-accent xl:flex"
+        className="group absolute right-8 bottom-24 hidden items-center gap-2 text-xs tracking-wide text-zen-muted/70 transition-colors hover:text-zen-accent print:hidden xl:flex"
       >
         <span className="relative flex h-8 w-5 items-start justify-center rounded-full border border-zen-muted/40 pt-1.5 group-hover:border-zen-accent/60">
           <span

@@ -321,6 +321,103 @@ section[id] {
   transform: translateY(-2px);
 }
 
+/* ============ FAQ: asistente (tarjeta sticky) ============ */
+
+/* Opción del diagnóstico: foco visible coral para navegación por teclado */
+.assistant-option:focus-visible {
+  outline: 2px solid var(--zen-accent);
+  outline-offset: 2px;
+}
+
+/* ============ Print: versión papel serena ============ */
+/* El sitio es dark-first; en papel invertimos la paleta redefiniendo los
+   tokens (cascada a todas las utilidades), sin sombras ni glows, y con las
+   URLs visibles en los puntos de contacto. Los controles no imprimibles
+   (header, progreso, volver arriba, toasts) llevan print:hidden en su JSX. */
+@media print {
+  :root {
+    --zen-bg: #ffffff;
+    --zen-bg-to: #ffffff;
+    --zen-surface: #ffffff;
+    --zen-surface-raised: #ffffff;
+    --zen-ink: #1b2426;
+    --zen-muted: #4b5563;
+    --zen-line: rgba(27, 36, 38, 0.2);
+    /* Terracota del logo: imprime mejor que el coral claro */
+    --zen-accent: #c1614a;
+    --zen-accent-strong: #c1614a;
+    --zen-accent-soft: rgba(193, 97, 74, 0.07);
+  }
+
+  html {
+    scroll-behavior: auto;
+    /* El meta color-scheme es dark (marca); en papel lo invertimos para
+       que Chromium no pinte los márgenes @page con canvas oscuro. */
+    color-scheme: light;
+  }
+
+  body {
+    background: #fff !important;
+    color: #1b2426;
+  }
+
+  ::selection {
+    background: transparent;
+  }
+
+  /* El contenido se revela con whileInView al scrollear; al imprimir sin
+     haber scrolleado, quedaría invisible (opacity 0). En papel, todo
+     visible, sin transforms y con animaciones en reposo. */
+  * {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+    /* Los blur/halo/drop-shadow dejan un velo gris en papel: fuera. */
+    filter: none !important;
+    backdrop-filter: none !important;
+  }
+
+  /* Sin sombras ni glows en papel */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  /* Los fondos degradados de las tarjetas pasan a blanco con borde legible */
+  .glass-card,
+  .faq-item {
+    background: #fff !important;
+    border-color: rgba(27, 36, 38, 0.28) !important;
+  }
+
+  /* Las tarjetas no se parten entre páginas */
+  .glass-card,
+  .faq-item {
+    break-inside: avoid;
+  }
+
+  h2 {
+    break-after: avoid;
+  }
+
+  /* Márgenes de página cómodos para imprimir o guardar en PDF */
+  @page {
+    margin: 14mm 12mm;
+  }
+
+  /* En los puntos de contacto, la URL viaja impresa junto al texto */
+  #contacto a[href^="http"]::after,
+  #site-footer a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.78em;
+    color: #4b5563;
+    word-break: break-all;
+  }
+}
+
 /* Accesibilidad: si el usuario prefiere menos movimiento, nada anima por CSS */
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-primary:hover,

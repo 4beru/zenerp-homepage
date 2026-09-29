@@ -55,7 +55,7 @@ export function Projects() {
               <RevealItem as="li" key={p.id} className="h-full">
                 <article className="glass-card card-hover group relative flex h-full flex-col overflow-hidden rounded-2xl">
                   {/* Tapa decorativa: gradiente + textura + loto como marca de agua */}
-                  <div className="relative h-40 overflow-hidden border-b border-zen-line/70 sm:h-44">
+                  <div className="relative h-40 overflow-hidden border-b border-zen-line/70 print:hidden sm:h-44">
                     <div
                       aria-hidden
                       className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04]"
@@ -90,7 +90,7 @@ export function Projects() {
                       {p.year}
                     </span>
                     {/* Chip de categoría con ícono */}
-                    <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-zen-accent/25 bg-[#0a0f10]/70 px-3 py-1.5 text-xs font-medium text-zen-ink/90 backdrop-blur-sm">
+                    <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-full border border-zen-accent/25 bg-[#0a0f10]/70 px-3 py-1.5 text-xs font-medium text-zen-ink/90 backdrop-blur-sm print:bg-transparent print:border-zen-line">
                       <Icon className="text-zen-accent" width={15} height={15} />
                       {p.category}
                     </span>

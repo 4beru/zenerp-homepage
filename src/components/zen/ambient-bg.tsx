@@ -90,7 +90,10 @@ export function AmbientBg() {
   }, [reduced]);
 
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 overflow-hidden print:hidden"
+    >
       {!reduced && <div style={BLOB_STYLE} className="zen-breathe-el" />}
       {reduced && (
         <div
