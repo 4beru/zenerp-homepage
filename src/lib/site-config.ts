@@ -19,15 +19,27 @@ export const siteConfig = {
   } as { displayNumber: string; link: string } | null,
 } as const;
 
-/** Navegación principal. `ready: false` = sección en próximas fases. */
-export const navLinks = [
+/**
+ * Navegación principal. `ready: false` = sección en próximas fases.
+ * `footerOnly: true` = aparece en el footer pero no en el header
+ * (para no superar el ancho del nav en 768px).
+ */
+export type NavLink = {
+  href: string;
+  label: string;
+  ready: boolean;
+  footerOnly?: boolean;
+};
+
+export const navLinks: readonly NavLink[] = [
   { href: "#servicios", label: "Servicios", ready: true },
   { href: "#proceso", label: "Proceso", ready: true },
   { href: "#proyectos", label: "Proyectos", ready: true },
+  { href: "#testimonios", label: "Testimonios", ready: true, footerOnly: true },
   { href: "#filosofia", label: "Filosofía", ready: true },
   { href: "#faq", label: "FAQ", ready: true },
   { href: "#contacto", label: "Contacto", ready: true },
-] as const;
+];
 
 /** Stack para la tira del hero. */
 export const stack = [

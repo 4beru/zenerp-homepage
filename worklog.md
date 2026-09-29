@@ -178,3 +178,40 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Si se agregan más secciones, revisar ancho del nav en 768px (hoy encaja exacto; un séptimo link largo requeriría achicar el CTA o el gap).
 - OG image: el texto pequeño (chips) puede costar en thumbnails mínimos de redes — aceptable hoy; regenerar con chips más grandes si se comparte mucho.
 - VLM en imágenes full-page muy altas hace timeout — validar por secciones o por DOM (ya hecho).
+
+---
+
+Task ID: 6 (cron webDevReview, ronda 5)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 06: sección Testimonios con carrusel sereno (social proof), sistema de links `footerOnly`, renumeración de secciones y mejora de touch targets. Sin bugs previos: fase 05 estable.
+
+Work Log:
+- QA inicial: 200, 0 errores consola/página, 6 secciones, sin overflow desktop/mobile → fase estable.
+- `src/data/testimonials.ts`: 4 testimonios alineados 1:1 con los proyectos del portfolio (manufactura/Odoo, retail/ERPNext, repartos/Flutter, portal B2B) — nombres abreviados por confidencialidad, cada uno con industria, iniciales para avatar y chip de resultado.
+- `src/components/zen/testimonials.tsx`: sección `#testimonios` "05 · Testimonios" — carrusel de UN testimonio a la vez sobre glass-card: tag de industria (mono), chip de resultado coral, cita grande con comilla decorativa, avatar circular con gradiente coral + iniciales, nombre/rol, dots + flechas.
+  - **Interacción completa:** auto-avance cada 7 s (sereno) que arranca recién al entrar al viewport (IntersectionObserver threshold 0.35 — evita que quien scrollea tarde se pierda los primeros testimonios); pausa al hover Y al foco (onBlur verifica relatedTarget para no despausar entre controles internos); flechas prev/next con wrap-around; dots navegables; swipe táctil (umbral 40 px); indicador "Avanza solo cada 7 s · N de M" / "Pausado" (desktop).
+  - **Accesibilidad:** role="region" + aria-roledescription="carrusel", aria-live="polite" en la cita, dots como role="tab" con aria-selected, aria-labels descriptivos, reduced-motion = sin auto-avance ni animaciones (swap instantáneo).
+  - AnimatePresence mode="wait" con crossfade y desplazamiento sutil (y: ±14, ease calma 0.45 s).
+- **Fix de UX encontrado en QA:** el auto-avance original corría desde el mount → quien llegaba tarde veía el testimonio 3 sin haber visto el 1. Gate de visibilidad con IO + estado `visible` (sin setState síncrono en efecto: initializer SSR-safe `typeof IntersectionObserver === "undefined"`).
+- **Touch targets (feedback VLM):** flechas agrandadas a 44×44 px (h-11 w-11); dots reestructurados a botón con padding (span visual de 8 px dentro de hit area mayor) + hover de grupo (`group/dots`).
+- Nav: nuevo flag **`footerOnly`** en navLinks (tipo `NavLink` explícito) — Testimonios aparece en el footer "Explorá" (7 links) pero NO en el header ni en su tracking (mantiene el ancho exacto de 768 px y deja "Proyectos" resaltado al pasar por la sección). Header simplificado: rama "coming soon" eliminada (todos los links están ready), junto con useToast/HammerIcon muertos.
+- Renumeración: Testimonios=05, Filosofía 05→06, FAQ 06→07 (numeración 02–07 consistente, verificada en fuentes).
+- ArrowLeftIcon nuevo en icons.tsx.
+- QA: auto-avance verificado (7.6 s → avanza; gate de visibilidad probado), flechas paso a paso (2→3→2), dots (Lucía T. → 4), pausa por hover Y por foco ("Pausado"), reduced-motion emulado (sin auto-avance tras 8 s, nav manual instantánea), swipe táctil verificado con TouchEvent sintético (2→3), ancla footer #testimonios OK, footer con 7 links, header desktop/menú mobile sin Testimonios (por diseño), mobile 390 px sin overflow, 7 secciones.
+- VLM: card equilibrado y profesional, sin cortes ni problemas de contraste (detectó correctamente el estado del carrusel — estaba en Lucía T., confirmando el auto-avance).
+- Capturas en `download/qa-fase06/` (desktop, mobile, full-page).
+
+Stage Summary (estado actual):
+- ✅ Fase 06 completa y verificada: lint 0 errores, 0 errores de consola/página, GET 200, mobile sin overflow.
+- ✅ Homepage completo: Hero → Servicios → Proceso → Proyectos → Testimonios → Filosofía → FAQ → CTA → Footer (8 piezas + contacto).
+- ✅ Carrusel accesible y sereno con auto-avance, pausas, swipe y reduced-motion.
+- ✅ VLM sin defectos; numeración 02–07 verificada.
+- Features nuevas: carrusel de testimonios completo, sistema footerOnly de navegación, touch targets conformes.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **Fase 07 sugerida:** sección de contacto completa embebida (form inline convalidación + datos) — hoy contacto = dialog + mid-CTA + footer; o sección Equipo ("quién está detrás") con avatares de iniciales como testimonios.
+- Datos reales de contacto (email/WhatsApp placeholders en `site-config.ts`); dominio zenerp.com placeholder en metadataBase/sitemap/JSON-LD.
+- Integración Resend para notificar leads cuando existan credenciales.
+- Nota técnica: dots tienen hit area de ~20 px (visual 8 px) — aceptable como control terciario (flechas 44 px + swipe son los principales); si se quiere 44 px en dots, envolver en contenedor con padding mayor.
+- Nota técnica: para probar swipe en QA headless, los eventos mouse NO disparan los handlers touch — usar dispatchEvent con TouchEvent sintético (ya documentado arriba).
+- El carrusel reinicia su intervalo en cada cambio manual (dep `index`) — comportamiento deseado (el usuario siempre tiene 7 s completos de lectura).

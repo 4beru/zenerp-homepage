@@ -4,20 +4,19 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { navLinks, siteConfig } from "@/lib/site-config";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
-import { useToast } from "@/hooks/use-toast";
-import { CloseIcon, HammerIcon, MenuIcon } from "@/components/zen/icons";
+import { CloseIcon, MenuIcon } from "@/components/zen/icons";
 import zenLogo from "../../../public/zen-logo.svg";
 
 /**
  * Header sticky con blur al scrollear, menú hamburguesa en mobile y
  * resaltado de la sección activa (subrayado coral del nav-link).
+ * Los links footerOnly (p. ej. Testimonios) no se muestran acá.
  */
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const openDialog = useLeadDialog((s) => s.openDialog);
-  const { toast } = useToast();
 
   // Blur del header tras unos px de scroll + sección activa del nav.
   useEffect(() => {
@@ -27,8 +26,13 @@ export function Header() {
 
       // Sección activa: la última cuyo top quedó por encima del 40% del
       // viewport (lecturas agrupadas, una sola escritura de estado).
+      // Los links footerOnly (p. ej. Testimonios) no se rastrean: la sección
+      // anterior del nav queda resaltada al scrollear por ellos.
       const line = window.innerHeight * 0.4;
-      const ids = ["inicio", ...navLinks.map((l) => l.href.slice(1))];
+      const ids = [
+        "inicio",
+        ...navLinks.filter((l) => !l.footerOnly).map((l) => l.href.slice(1)),
+      ];
       let current: string | null = null;
       for (const id of ids) {
         const el = document.getElementById(id);
@@ -62,12 +66,6 @@ export function Header() {
     };
   }, [open]);
 
-  const comingSoon = (label: string) =>
-    toast({
-      title: "Sección en construcción",
-      description: `“${label}” llega en las próximas fases del sitio.`,
-    });
-
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
@@ -95,13 +93,14 @@ export function Header() {
           </span>
         </a>
 
-        {/* Nav desktop */}
+        {/* Nav desktop (los footerOnly no van en el header: ancho 768px) */}
         <nav
           aria-label="Navegación principal"
           className="hidden items-center gap-4 md:flex lg:gap-6 xl:gap-7"
         >
-          {navLinks.map((l) =>
-            l.ready ? (
+          {navLinks
+            .filter((l) => l.ready && !l.footerOnly)
+            .map((l) => (
               <a
                 key={l.href}
                 href={l.href}
@@ -116,18 +115,7 @@ export function Header() {
               >
                 {l.label}
               </a>
-            ) : (
-              <button
-                key={l.href}
-                type="button"
-                onClick={() => comingSoon(l.label)}
-                className="nav-link cursor-pointer text-sm text-zen-muted"
-                title="Disponible en próximas fases"
-              >
-                {l.label}
-              </button>
-            )
-          )}
+            ))}
           <button
             type="button"
             onClick={() => openDialog("header")}
@@ -158,8 +146,9 @@ export function Header() {
           className="border-t border-zen-line bg-[#050505]/95 backdrop-blur-md md:hidden"
         >
           <ul className="mx-auto flex max-h-[calc(100svh-72px)] max-w-6xl flex-col gap-1 overflow-y-auto px-5 py-4">
-            {navLinks.map((l) =>
-              l.ready ? (
+            {navLinks
+              .filter((l) => l.ready && !l.footerOnly)
+              .map((l) => (
                 <li key={l.href}>
                   <a
                     href={l.href}
@@ -173,22 +162,7 @@ export function Header() {
                     {l.label}
                   </a>
                 </li>
-              ) : (
-                <li key={l.href}>
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setOpen(false);
-                      comingSoon(l.label);
-                    }}
-                    className="flex w-full cursor-pointer items-center justify-between rounded-lg px-3 py-3 text-left text-base text-zen-ink hover:bg-zen-surface-raised"
-                  >
-                    {l.label}
-                    <HammerIcon className="text-zen-muted" width={18} height={18} />
-                  </button>
-                </li>
-              )
-            )}
+              ))}
             <li className="mt-2">
               <button
                 type="button"

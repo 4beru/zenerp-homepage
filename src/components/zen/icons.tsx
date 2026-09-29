@@ -32,6 +32,14 @@ export function ArrowRightIcon(p: IconProps) {
   );
 }
 
+export function ArrowLeftIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M20 12H4m6-6-6 6 6 6" />
+    </svg>
+  );
+}
+
 export function MenuIcon(p: IconProps) {
   return (
     <svg {...base} width={24} height={24} {...p}>
