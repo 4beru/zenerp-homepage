@@ -150,7 +150,7 @@ export function ContactDialog() {
                   onChange={(e) => setField("name", e.target.value)}
                   maxLength={80}
                   required
-                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
+                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/70 focus-visible:ring-zen-accent/50"
                 />
               </div>
 
@@ -167,7 +167,7 @@ export function ContactDialog() {
                   onChange={(e) => setField("email", e.target.value)}
                   maxLength={120}
                   required
-                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
+                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/70 focus-visible:ring-zen-accent/50"
                 />
               </div>
 
@@ -185,7 +185,7 @@ export function ContactDialog() {
                   value={form.company}
                   onChange={(e) => setField("company", e.target.value)}
                   maxLength={80}
-                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
+                  className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/70 focus-visible:ring-zen-accent/50"
                 />
               </div>
 
@@ -201,7 +201,7 @@ export function ContactDialog() {
                   maxLength={2000}
                   required
                   rows={4}
-                  className="resize-none border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
+                  className="resize-none border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/70 focus-visible:ring-zen-accent/50"
                 />
               </div>
 

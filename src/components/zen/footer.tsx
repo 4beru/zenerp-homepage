@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { siteConfig, navLinks } from "@/lib/site-config";
 import {
   LotusIcon,
@@ -9,7 +8,7 @@ import {
   CopyIcon,
   CheckIcon,
 } from "@/components/zen/icons";
-import { useToast } from "@/hooks/use-toast";
+import { useCopyText } from "@/hooks/use-copy-text";
 
 /** Divisor orgánico: línea que se desvanece + loto centrado. */
 function LotusDivider() {
@@ -24,52 +23,20 @@ function LotusDivider() {
 
 /**
  * Footer: marca + navegación rápida + contacto directo (con copiar email).
- * Queda pegado al fondo del documento (mt-auto en el layout).
+ * El ancla #contacto vive en la sección de contacto; acá solo cierre.
  */
 export function Footer() {
   const year = new Date().getFullYear();
-  const { toast } = useToast();
-  const [copied, setCopied] = useState(false);
+  const { copied, copy } = useCopyText();
 
-  const copyEmail = async () => {
-    // Clipboard API primero; fallback síncrono para navegadores/permisos viejos.
-    let ok = false;
-    try {
-      await navigator.clipboard.writeText(siteConfig.email);
-      ok = true;
-    } catch {
-      try {
-        const ta = document.createElement("textarea");
-        ta.value = siteConfig.email;
-        ta.style.position = "fixed";
-        ta.style.opacity = "0";
-        document.body.appendChild(ta);
-        ta.focus();
-        ta.select();
-        ok = document.execCommand("copy");
-        document.body.removeChild(ta);
-      } catch {
-        ok = false;
-      }
-    }
-
-    if (ok) {
-      setCopied(true);
-      toast({
-        title: "Email copiado",
-        description: `${siteConfig.email} quedó en tu portapapeles.`,
-      });
-      window.setTimeout(() => setCopied(false), 2000);
-    } else {
-      toast({
-        title: "No pudimos copiar",
-        description: `Anotá la dirección: ${siteConfig.email}`,
-      });
-    }
-  };
+  const copyEmail = () =>
+    copy(siteConfig.email, {
+      success: "Email copiado",
+      fail: `No pudimos copiar — anotá ${siteConfig.email}`,
+    });
 
   return (
-    <footer id="contacto" className="mt-auto border-t border-zen-line/70 bg-[#080b0c]/80">
+    <footer className="mt-auto border-t border-zen-line/70 bg-[#080b0c]/80">
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <LotusDivider />
 

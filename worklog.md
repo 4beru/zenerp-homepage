@@ -215,3 +215,42 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Nota técnica: dots tienen hit area de ~20 px (visual 8 px) — aceptable como control terciario (flechas 44 px + swipe son los principales); si se quiere 44 px en dots, envolver en contenedor con padding mayor.
 - Nota técnica: para probar swipe en QA headless, los eventos mouse NO disparan los handlers touch — usar dispatchEvent con TouchEvent sintético (ya documentado arriba).
 - El carrusel reinicia su intervalo en cada cambio manual (dep `index`) — comportamiento deseado (el usuario siempre tiene 7 s completos de lectura).
+
+---
+
+Task ID: 7 (cron webDevReview, ronda 6)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 07: sección de contacto completa embebida (canales directos + form inline con calificación por motivo) que reemplaza al mid-CTA como cierre del funnel. Extracción de hook reutilizable. Sin bugs previos: fase 06 estable.
+
+Work Log:
+- QA inicial: 200, 0 errores consola/página, 7 secciones, sin overflow → fase estable.
+- `src/hooks/use-copy-text.ts`: hook reutilizable de clipboard (Clipboard API + fallback execCommand + toast + reset automático con timeout y cleanup). Refactor del footer para usarlo (~40 líneas de lógica duplicada eliminadas).
+- `src/components/zen/contact-section.tsx`: sección `#contacto` "08 · Contacto" — layout dos columnas:
+  - **Izquierda (canales):** card de disponibilidad con punto coral pulsante (animate-ping) "Respondemos en menos de 24 h hábiles"; card de email con botón copiar (usa el hook); card de WhatsApp con flecha que se desliza en hover; card "Argentina · remoto" con loto. Microcopy final: oferta de charla de 15 minutos.
+  - **Derecha (form):** glass-card con glow interno — chips de motivo calificadores ("Proyecto a medida" / "Implementar ERP" / "App mobile / web" / "Una consulta", aria-pressed, estilo coral al activo), nombre+email en grid 2 cols (apila en mobile), empresa opcional, mensaje con contador "N / 2000" tabular-nums, honeypot, estados idle/submitting (spinner)/success (check animado + "Enviar otro mensaje" con reset completo incl. chips)/error (alerta coral-roja). Submit full-width en mobile, auto en desktop. Microcopy anti-spam: "Tus datos viajan solo para responderte. Nada de listas, nada de spam — promesa zen."
+  - **Source tracking calificado:** `contacto-{slug}` (p. ej. `contacto-erp`) — mismo endpoint /api/contact sin cambios de schema.
+- `mid-cta.tsx` eliminado (reemplazado por la sección; sin referencias colgantes). El dialog de contacto SE CONSERVA para los CTA de header/servicios/FAQ/proceso.
+- Footer: quitado `id="contacto"` (evita id duplicado; el ancla ahora vive en la sección real). El link "Contacto" del nav/footer/menú mobile apunta a la sección y el tracking del header la marca activa.
+- JSON-LD: `contactPoint` (ContactPoint: customer support, AR, es) agregado al Organization de layout.tsx.
+- **Fix menor (feedback VLM):** contraste de placeholders subido de `zen-muted/60` a `/70` en los 8 inputs (sección + dialog).
+- QA E2E: chip "Implementar ERP" → aria-pressed + estilo activo; submit con motivo ERP → success inline verificado; lead persistido con source `contacto-erp` → tabla limpiada; "Enviar otro mensaje" resetea form + chips; validación client (nombre corto → alerta visible); copy-email (icono check); contador de caracteres; ancla #contacto del nav (scroll + sección activa "Contacto"); honeypot (ok sin guardar, tabla en 0); mobile 390 px sin overflow, form apilado (300 px); 8 secciones.
+- VLM: layout dos columnas balanceado y profesional, jerarquía clara (canales vs acción primaria), estilos consistentes — única observación (contraste placeholder) corregida al instante.
+- Capturas en `download/qa-fase07/` (desktop, mobile, full-page).
+
+Stage Summary (estado actual):
+- ✅ Fase 07 completa y verificada: lint 0 errores, 0 errores de consola/página, GET/POST OK, honeypot OK, tabla limpia.
+- ✅ Homepage COMPLETO de punta a punta: Hero → Servicios → Proceso → Proyectos → Testimonios → Filosofía → FAQ → Contacto (canales + form) → Footer. Numeración 02–08.
+- ✅ Doble vía de contacto: dialog rápido (CTAs contextuales con tema) + sección completa (form con calificación de motivo).
+- ✅ JSON-LD triple: Organization (con ContactPoint) + FAQPage.
+- Features nuevas: sección de contacto completa, calificación de leads por motivo (source tracking), hook use-copy-text compartido, contador de caracteres, JSON-LD ContactPoint.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **El homepage está funcionalmente completo.** Próximas fases posibles (ordenadas por valor):
+  1. **Sección Equipo** ("quiénes estamos") con avatares de iniciales — humaniza la marca; o
+  2. **Página de privacidad/legal** mínima (link en footer) — el form promete "nada de spam", una mini política lo respalda; o
+  3. **Modo de mantenimiento de contenido**: mover copy a CMS/archivos editables.
+- Datos reales de contacto (email/WhatsApp placeholders en `site-config.ts`); dominio zenerp.com placeholder en metadataBase/sitemap/JSON-LD.
+- Integración Resend para notificar leads cuando existan credenciales (hoy solo SQLite).
+- Considerar rate limiting básico en /api/contact (hoy: honeypot + validación zod; suficiente para volumen bajo).
+- Nota técnica: el form de la sección NO comparte estado con el dialog (intencional: flows distintos); si en el futuro se quiere prefill cruzado, extender el store lead-dialog.
+- OG image y sitemap OK; favicon SVG OK. Falta favicon PNG fallback para clientes viejos (opcional).

@@ -78,6 +78,15 @@ const jsonLd = {
     "Desarrollo de software a medida",
     "Aplicaciones web y mobile",
   ],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      email: siteConfig.email,
+      areaServed: "AR",
+      availableLanguage: ["es"],
+    },
+  ],
 };
 
 export default function RootLayout({

@@ -6,7 +6,7 @@ import { Projects } from "@/components/zen/projects";
 import { Testimonials } from "@/components/zen/testimonials";
 import { Philosophy } from "@/components/zen/philosophy";
 import { Faq } from "@/components/zen/faq";
-import { MidCta } from "@/components/zen/mid-cta";
+import { ContactSection } from "@/components/zen/contact-section";
 import { Footer } from "@/components/zen/footer";
 import { ContactDialog } from "@/components/zen/contact-dialog";
 import { ScrollProgress } from "@/components/zen/scroll-progress";
@@ -31,7 +31,7 @@ const faqJsonLd = {
  * Zen ERP — Homepage.
  * Fase 01: Hero. Fase 02: Servicios. Fase 03: Proceso.
  * Fase 04: Proyectos, Filosofía y CTA final. Fase 05: FAQ.
- * Fase 06: Testimonios (carrusel sereno).
+ * Fase 06: Testimonios (carrusel sereno). Fase 07: Contacto completo.
  */
 export default function Home() {
   return (
@@ -50,7 +50,7 @@ export default function Home() {
         <Testimonials />
         <Philosophy />
         <Faq />
-        <MidCta />
+        <ContactSection />
       </main>
       <Footer />
       <BackToTop />
