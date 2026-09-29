@@ -1,4 +1,4 @@
-import { siteConfig } from "@/lib/site-config";
+import { siteConfig, navLinks } from "@/lib/site-config";
 import { LotusIcon, MailIcon, WhatsAppIcon } from "@/components/zen/icons";
 
 /** Divisor orgánico: línea que se desvanece + loto centrado. */
@@ -13,8 +13,8 @@ function LotusDivider() {
 }
 
 /**
- * Footer — Fase 01: bloque de contacto directo (email + WhatsApp)
- * y cierre de marca. Queda pegado al fondo del documento.
+ * Footer: marca + navegación rápida + contacto directo. Queda pegado al
+ * fondo del documento (mt-auto en el layout).
  */
 export function Footer() {
   const year = new Date().getFullYear();
@@ -24,7 +24,7 @@ export function Footer() {
       <div className="mx-auto max-w-6xl px-5 py-14 sm:px-8">
         <LotusDivider />
 
-        <div className="mt-10 flex flex-col items-start justify-between gap-10 md:flex-row md:items-center">
+        <div className="mt-10 grid gap-10 md:grid-cols-[1.2fr_0.8fr_1fr] md:items-start">
           {/* Marca */}
           <div className="max-w-sm">
             <p className="text-lg font-semibold tracking-tight text-zen-ink">
@@ -36,8 +36,29 @@ export function Footer() {
             </p>
           </div>
 
+          {/* Navegación rápida */}
+          <nav aria-label="Navegación del pie">
+            <p className="text-xs font-semibold tracking-[0.16em] text-zen-muted/70 uppercase">
+              Explorá
+            </p>
+            <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 md:grid-cols-1">
+              {navLinks
+                .filter((l) => l.ready)
+                .map((l) => (
+                  <li key={l.href}>
+                    <a
+                      href={l.href}
+                      className="link-accent text-sm text-zen-muted hover:text-zen-ink"
+                    >
+                      {l.label}
+                    </a>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+
           {/* Contacto directo */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+          <div className="flex flex-col items-start gap-3">
             <a
               href={`mailto:${siteConfig.email}`}
               className="btn-secondary inline-flex items-center gap-2.5 rounded-full border border-zen-line bg-zen-surface/60 px-5 py-2.5 text-sm font-medium text-zen-ink"
@@ -68,7 +89,7 @@ export function Footer() {
               aria-hidden
               className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-zen-accent/80"
             />
-            Fase 01 del sitio — nuevas secciones en construcción.
+            Sitio en evolución — seguimos sumando secciones.
           </p>
         </div>
       </div>

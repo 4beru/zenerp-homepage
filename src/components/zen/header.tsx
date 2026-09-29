@@ -8,18 +8,46 @@ import { useToast } from "@/hooks/use-toast";
 import { CloseIcon, HammerIcon, MenuIcon } from "@/components/zen/icons";
 import zenLogo from "../../../public/zen-logo.svg";
 
-/** Header sticky con blur al scrollear y menú hamburguesa en mobile. */
+/**
+ * Header sticky con blur al scrollear, menú hamburguesa en mobile y
+ * resaltado de la sección activa (subrayado coral del nav-link).
+ */
 export function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState<string | null>(null);
   const openDialog = useLeadDialog((s) => s.openDialog);
   const { toast } = useToast();
 
+  // Blur del header tras unos px de scroll + sección activa del nav.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
-    onScroll();
+    let raf = 0;
+    const update = () => {
+      setScrolled(window.scrollY > 8);
+
+      // Sección activa: la última cuyo top quedó por encima del 40% del
+      // viewport (lecturas agrupadas, una sola escritura de estado).
+      const line = window.innerHeight * 0.4;
+      const ids = ["inicio", ...navLinks.map((l) => l.href.slice(1))];
+      let current: string | null = null;
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top <= line) current = id;
+      }
+      setActiveSection(current);
+    };
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(update);
+    };
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   // Cerrar el menú con Escape y bloquear scroll del body cuando está abierto
@@ -37,7 +65,7 @@ export function Header() {
   const comingSoon = (label: string) =>
     toast({
       title: "Sección en construcción",
-      description: `“${label}” llega en las próximas fases del sitio. Fase 01: hero.`,
+      description: `“${label}” llega en las próximas fases del sitio.`,
     });
 
   return (
@@ -70,14 +98,21 @@ export function Header() {
         {/* Nav desktop */}
         <nav
           aria-label="Navegación principal"
-          className="hidden items-center gap-8 md:flex"
+          className="hidden items-center gap-6 md:flex lg:gap-8"
         >
           {navLinks.map((l) =>
             l.ready ? (
               <a
                 key={l.href}
                 href={l.href}
-                className="nav-link text-sm text-zen-muted"
+                aria-current={
+                  activeSection === l.href.slice(1) ? "true" : undefined
+                }
+                className={`nav-link text-sm ${
+                  activeSection === l.href.slice(1)
+                    ? "is-active"
+                    : "text-zen-muted"
+                }`}
               >
                 {l.label}
               </a>
@@ -122,14 +157,18 @@ export function Header() {
           aria-label="Navegación móvil"
           className="border-t border-zen-line bg-[#050505]/95 backdrop-blur-md md:hidden"
         >
-          <ul className="mx-auto flex max-w-6xl flex-col gap-1 px-5 py-4">
+          <ul className="mx-auto flex max-h-[calc(100svh-72px)] max-w-6xl flex-col gap-1 overflow-y-auto px-5 py-4">
             {navLinks.map((l) =>
               l.ready ? (
                 <li key={l.href}>
                   <a
                     href={l.href}
                     onClick={() => setOpen(false)}
-                    className="block rounded-lg px-3 py-3 text-base text-zen-ink hover:bg-zen-surface-raised"
+                    className={`block rounded-lg px-3 py-3 text-base hover:bg-zen-surface-raised ${
+                      activeSection === l.href.slice(1)
+                        ? "text-zen-accent"
+                        : "text-zen-ink"
+                    }`}
                   >
                     {l.label}
                   </a>

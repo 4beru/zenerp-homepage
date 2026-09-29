@@ -4,7 +4,6 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { stack } from "@/lib/site-config";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
-import { useToast } from "@/hooks/use-toast";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useHydrated } from "@/hooks/use-hydrated";
 import { LotusMark } from "@/components/zen/lotus-mark";
@@ -31,7 +30,6 @@ export function Hero() {
   const reduced = useReducedMotion();
   const hydrated = useHydrated();
   const openDialog = useLeadDialog((s) => s.openDialog);
-  const { toast } = useToast();
   const { value: erpCount } = useCountUp(3, { duration: 1400 });
 
   // Parallax leve: el contenido sube más rápido que el loto (profundidad).
@@ -55,13 +53,6 @@ export function Hero() {
       transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] as const },
     },
   };
-
-  const projectsSoon = () =>
-    toast({
-      title: "Proyectos — próximamente",
-      description:
-        "El portfolio llega en la próxima fase. Hoy: 3 sistemas ERP en producción.",
-    });
 
   return (
     <section
@@ -125,13 +116,12 @@ export function Hero() {
                 height={18}
               />
             </button>
-            <button
-              type="button"
-              onClick={projectsSoon}
-              className="btn-secondary cursor-pointer rounded-full border border-zen-line bg-zen-surface/60 px-7 py-3.5 text-base font-medium text-zen-ink"
+            <a
+              href="#proyectos"
+              className="btn-secondary rounded-full border border-zen-line bg-zen-surface/60 px-7 py-3.5 text-base font-medium text-zen-ink"
             >
               Ver proyectos
-            </button>
+            </a>
           </motion.div>
 
           {/* Dato real destacado, sin hype */}

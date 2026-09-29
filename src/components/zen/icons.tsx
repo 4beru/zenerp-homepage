@@ -194,3 +194,107 @@ export function HammerIcon(p: IconProps) {
     </svg>
   );
 }
+
+/* ============ Proyectos (04) ============ */
+
+/** Manufactura: fábrica con chimenea. */
+export function FactoryIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <path d="M3.5 20.5V9l5 3.5V9l5 3.5V9l5 3.5v8h-15Z" />
+      <path d="M3.5 20.5h17" />
+      <path d="M7.5 16.5h2M12.5 16.5h2M17 16.5h1" />
+    </svg>
+  );
+}
+
+/** Retail: local con toldo. */
+export function StoreIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <path d="M4 9.5 5.5 4h13L20 9.5" />
+      <path d="M4 9.5a2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0 2.5 2.5 0 0 0 5 0" />
+      <path d="M5.5 12v8.5h13V12" />
+      <path d="M9.5 20.5v-5h5v5" />
+    </svg>
+  );
+}
+
+/** Logística: camión de reparto. */
+export function TruckIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <path d="M2.5 6.5h11v10h-11z" />
+      <path d="M13.5 10h4l3 3v3.5h-7z" />
+      <circle cx="6.5" cy="18" r="1.8" />
+      <circle cx="17" cy="18" r="1.8" />
+    </svg>
+  );
+}
+
+/** Portal web B2B: globo. */
+export function GlobeIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M3.5 12h17M12 3.5c2.6 2.4 4 5.2 4 8.5s-1.4 6.1-4 8.5c-2.6-2.4-4-5.2-4-8.5s1.4-6.1 4-8.5Z" />
+    </svg>
+  );
+}
+
+export const projectIcons = {
+  factory: FactoryIcon,
+  store: StoreIcon,
+  truck: TruckIcon,
+  globe: GlobeIcon,
+} as const;
+
+/* ============ Filosofía (05) ============ */
+
+/** Simpleza: hoja. */
+export function LeafIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M5 19C4 13 7 4.5 19 4.5c1 8.5-4.5 13-11 13" />
+      <path d="M5 19c2-5 5.5-8.5 10-10.5" />
+    </svg>
+  );
+}
+
+/** Transparencia: ojo. */
+export function EyeIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  );
+}
+
+/** Cercanía: dos personas. */
+export function UsersIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <circle cx="9" cy="8.5" r="3" />
+      <path d="M3.5 19.5c.6-3 2.7-4.5 5.5-4.5s4.9 1.5 5.5 4.5" />
+      <path d="M15.5 6a3 3 0 0 1 0 5.5M17.5 15.5c1.8.5 3 1.8 3.5 4" />
+    </svg>
+  );
+}
+
+/** Calma: luna creciente. */
+export function MoonIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M20 13.5A8 8 0 0 1 10.5 4a8 8 0 1 0 9.5 9.5Z" />
+      <path d="m16 4.5.7 1.8 1.8.7-1.8.7-.7 1.8-.7-1.8-1.8-.7 1.8-.7.7-1.8Z" />
+    </svg>
+  );
+}
+
+export const philosophyIcons = {
+  leaf: LeafIcon,
+  eye: EyeIcon,
+  users: UsersIcon,
+  moon: MoonIcon,
+} as const;

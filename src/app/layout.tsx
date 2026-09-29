@@ -2,6 +2,7 @@ import type { Viewport, Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
+import { siteConfig } from "@/lib/site-config";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -52,6 +53,23 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+/** Datos estructurados (Organization) para motores de búsqueda. */
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: siteConfig.name,
+  url: siteConfig.url,
+  description: siteDescription,
+  email: siteConfig.email,
+  areaServed: "Argentina",
+  knowsAbout: [
+    "Odoo",
+    "ERPNext",
+    "Desarrollo de software a medida",
+    "Aplicaciones web y mobile",
+  ],
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -60,6 +78,10 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={`${inter.variable} font-sans antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
         {children}
         <Toaster />
       </body>

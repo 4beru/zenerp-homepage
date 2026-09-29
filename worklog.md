@@ -103,3 +103,43 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Luego: Filosofía/valores + mid-CTA antes del footer, y sección contacto completa.
 - OG image propia (og.png), sitemap.ts/robots.ts, datos reales de contacto, integración Resend.
 - Nota técnica: si en el futuro se agregan/mudan secciones, verificar que la regla del 55% sigue razonable (es robusta: solo compara tops de cards).
+
+---
+
+Task ID: 4 (cron webDevReview, ronda 3)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 04: sección Proyectos (04), Filosofía (05), Mid-CTA pre-footer, tracking de sección activa en nav, SEO (sitemap/robots/JSON-LD) y upgrades de estilo (footer 3 columnas). Incluyó fix de un bug real de servidor.
+
+Work Log:
+- QA inicial: 200, 0 errores de consola/página, secciones [inicio, servicios, proceso], sin overflow desktop/mobile → fase estable, sin fixes prioritarios.
+- `src/data/projects.ts`: 4 proyectos realistas alineados con los servicios y el stat del hero (ERP Odoo manufactura, ERPNext retail multi-sucursal, app Flutter de repartos offline, portal B2B Next.js), cada uno con categoría, stack, métrica de resultado y año + disclaimer de confidencialidad.
+- `src/data/philosophy.ts`: quote manifiesto ("El mejor software es el que no se nota.") + 4 principios (Simpleza, Transparencia, Cercanía, Calma).
+- Icons nuevos en `icons.tsx`: FactoryIcon, StoreIcon, TruckIcon, GlobeIcon (+map `projectIcons`) y LeafIcon, EyeIcon, UsersIcon, MoonIcon (+map `philosophyIcons`).
+- `src/components/zen/projects.tsx`: sección `#proyectos` "04 · Proyectos" — grid 2 cols / 1 col mobile, tarjetas con "tapa" decorativa (gradiente coral + textura de puntos + loto marca de agua + zoom sutil en hover), chip de categoría con ícono, año mono, chips de stack y métrica de resultado grande; disclaimer honesto + CTA "Contanos tu idea" → dialog con tema "Un proyecto como los del portfolio".
+- `src/components/zen/philosophy.tsx`: sección `#filosofia` "05 · Filosofía" — layout editorial a dos columnas: quote grande sticky (desktop) + lista de principios con divisores finos, índice mono, chip de ícono y hover coral (distinto del grid de cards: más texto, más aire).
+- `src/components/zen/mid-cta.tsx`: panel glass redondeado pre-footer con glow radial, textura de puntos enmascarada, LotusMark con su halo, heading "¿Tenés un proyecto en mente?", CTA primario (dialog) + WhatsApp directo + microcopy "Respondemos en menos de 24 h hábiles.".
+- Header: **tracking de sección activa** — la clase `.is-active` (ya existía en CSS, no se usaba) ahora se aplica según scroll (regla del 40% del viewport, lecturas agrupadas + rAF, `aria-current`); menú mobile resalta en coral y ganó scroll interno (max-h + overflow-y-auto) por si crece; gaps ajustados (gap-6 lg:gap-8) para 5 links; corregido copy desactualizado del toast ("Fase 01: hero" → genérico).
+- Hero: botón "Ver proyectos" ahora es ancla real a `#proyectos` (antes toast) — se eliminó el handler projectsSoon y el import de useToast.
+- Footer: 3 columnas (marca / navegación rápida "Explorá" con todos los anchors / contacto directo), nota inferior actualizada ("Sitio en evolución — seguimos sumando secciones").
+- SEO: `src/app/sitemap.ts` + `src/app/robots.ts` (App Router metadata routes) + JSON-LD Organization en `layout.tsx` (schema.org: nombre, email, área, knowsAbout).
+- **Bug real corregido (servidor):** `GET /robots.txt` devolvía 500 — conflicto entre el `public/robots.txt` del boilerplate y la nueva ruta `app/robots.ts` ("A conflicting public file and page file was found"). Fix: eliminé `public/robots.txt` (y `public/logo.svg` boilerplate sin uso) → robots.txt 200 con Sitemap referenciado.
+- `site-config.ts`: navLinks con 5 secciones ready (agregada Filosofía).
+
+Stage Summary (estado actual):
+- ✅ Fase 04 completa y verificada: lint 0 errores, 0 errores de consola/página, GET/POST OK.
+- ✅ QA agent-browser desktop 1440px + mobile 390px: 6 secciones [inicio, servicios, proceso, proyectos, filosofia, contacto], sin overflow horizontal (scrollWidth 390 exacto), menú mobile con los 5 links, anclas funcionando con scroll-margin 88px.
+- ✅ Tracking de sección activa probado por DOM: en #proyectos → "Proyectos" resaltado con aria-current; en #filosofia → "Filosofía"; arriba → ninguno (correcto).
+- ✅ VLM (texto plano) sin defectos: tarjetas de proyectos con tapa/categoría/stack/métrica; filosofía con quote + 4 principios legibles; mid-CTA centrado con 2 botones; footer 3 columnas; mobile todo apilado y legible.
+- ✅ E2E form desde Proyectos: dialog con prefill «Un proyecto como los del portfolio» → submit → lead persistido con source `proyectos-cta` → datos de prueba limpiados (tabla vacía y lista para producción).
+- ✅ SEO: /sitemap.xml 200 (XML válido), /robots.txt 200 (con Sitemap), JSON-LD Organization presente en DOM.
+- ✅ Screenshot full-page: ritmo visual consistente (numeración 02-05, glows alternados, acentos coral, loto recurrente).
+- Capturas de QA en `/home/z/my-project/download/qa-fase04/` (desktop, mobile y full-page).
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **Fase 05 sugerida:** sección de contacto completa (form embebido + datos reales) o sección Testimonios/Equipo — hoy contacto = mid-CTA + footer + dialog (funcional pero compacto).
+- OG image propia (og.png) para compartir en redes — metadata ya apunta a summary_large_image pero no hay imagen.
+- Datos reales de contacto (email/WhatsApp siguen siendo placeholders en `site-config.ts`).
+- Integración Resend para notificar leads por email cuando existan credenciales.
+- Nota técnica: el LotusMark del mid-cta anima su reveal al montar (no usa whileInView); si molesta al llegar tarde, cambiar a whileInView. Hoy es aceptable porque el halo sigue latiendo.
+- Nota técnica: VLM en screenshots downscaled puede confundir etiquetas de sección — validar contenido clave por DOM (ya se hizo en esta ronda).
+- URL del sitio (`siteConfig.url`) es placeholder zenerp.com — ajustar al dominio real para sitemap/robots/JSON-LD en producción.
