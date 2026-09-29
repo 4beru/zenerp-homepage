@@ -1,0 +1,265 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/**
+ * ============================================================
+ *  Zen ERP — Sistema de diseño
+ *  Paleta extraída del logo oficial (zen-logo.svg):
+ *  fondo casi negro con dejo verde-azulado, acento coral/terracota.
+ *  No inventar otros colores.
+ * ============================================================
+ */
+@theme inline {
+  /* Mapa a tokens shadcn/ui (dark-first, la marca es oscura) */
+  --color-background: var(--zen-bg);
+  --color-foreground: var(--zen-ink);
+  --color-card: var(--zen-surface);
+  --color-card-foreground: var(--zen-ink);
+  --color-popover: var(--zen-surface-raised);
+  --color-popover-foreground: var(--zen-ink);
+  --color-primary: var(--zen-accent);
+  --color-primary-foreground: #1a1210;
+  --color-secondary: var(--zen-surface-raised);
+  --color-secondary-foreground: var(--zen-ink);
+  --color-muted: var(--zen-surface);
+  --color-muted-foreground: var(--zen-muted);
+  --color-accent: var(--zen-accent-soft);
+  --color-accent-foreground: #1a1210;
+  --color-destructive: #e5484d;
+  --color-border: var(--zen-line);
+  --color-input: var(--zen-line);
+  --color-ring: var(--zen-accent);
+
+  /* Tokens propios de la marca */
+  --color-zen-bg: var(--zen-bg);
+  --color-zen-bg-to: var(--zen-bg-to);
+  --color-zen-surface: var(--zen-surface);
+  --color-zen-surface-raised: var(--zen-surface-raised);
+  --color-zen-accent: var(--zen-accent);
+  --color-zen-accent-strong: var(--zen-accent-strong);
+  --color-zen-accent-soft: var(--zen-accent-soft);
+  --color-zen-ink: var(--zen-ink);
+  --color-zen-muted: var(--zen-muted);
+  --color-zen-line: var(--zen-line);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  /* Paleta Zen ERP */
+  --zen-bg: #050505;
+  --zen-bg-to: #161d1e;
+  --zen-surface: #12181a;
+  --zen-surface-raised: #1b2426;
+  --zen-accent: #ffab91;
+  --zen-accent-strong: #ff8a65;
+  --zen-accent-soft: rgba(255, 171, 145, 0.12);
+  --zen-ink: #f5f1ed;
+  --zen-muted: #9ca3af;
+  --zen-line: rgba(245, 241, 237, 0.08);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  /* Gradiente del logo: arriba casi negro, abajo verde-azulado muy oscuro */
+  background-color: var(--zen-bg);
+  background-image: linear-gradient(to bottom, #050505 0%, #161d1e 100%);
+  background-attachment: fixed;
+  color: var(--zen-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+::selection {
+  background: rgba(255, 171, 145, 0.28);
+  color: #f5f1ed;
+}
+
+/* Scrollbar acorde al fondo oscuro */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0d0e;
+}
+::-webkit-scrollbar-thumb {
+  background: #242e30;
+  border-radius: 8px;
+  border: 2px solid #0a0d0e;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 171, 145, 0.45);
+}
+
+/* Foco visible para navegación por teclado sobre fondo oscuro */
+:focus-visible {
+  outline: 2px solid var(--zen-accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Anclas con espacio para el header sticky */
+section[id] {
+  scroll-margin-top: 88px;
+}
+
+/* ============ Componentes de la marca ============ */
+
+/* Tarjeta glass sutil (borde fino + superficie levemente elevada) */
+.glass-card {
+  background: linear-gradient(
+    165deg,
+    rgba(27, 36, 38, 0.72) 0%,
+    rgba(18, 24, 26, 0.85) 100%
+  );
+  border: 1px solid var(--zen-line);
+  backdrop-filter: blur(8px);
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(255, 171, 145, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px -18px rgba(0, 0, 0, 0.8);
+}
+
+/* ============ Movimiento (calma, no juguete) ============ */
+
+/* Blobs del fondo ambient del hero: "respiración" muy lenta y tenue */
+@keyframes zen-breathe {
+  from { opacity: 0.55; transform: scale(1); }
+  to   { opacity: 1;    transform: scale(1.06); }
+}
+
+@keyframes zen-breathe-logo {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%      { opacity: 0.9; transform: scale(1.08); }
+}
+
+/* Halo del logo oficial en el hero */
+@keyframes zen-halo {
+  0%, 100% { opacity: 0.35; }
+  50%      { opacity: 0.7; }
+}
+
+/* Botones CTA: transición suave de color/escala, sin efectos juguetones */
+.btn-primary {
+  transition: background-color 0.25s ease, transform 0.25s ease,
+    box-shadow 0.25s ease, color 0.25s ease;
+}
+.btn-primary:hover {
+  background-color: var(--zen-accent-strong);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px -12px rgba(255, 138, 101, 0.45);
+}
+.btn-primary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+.btn-secondary {
+  transition: border-color 0.25s ease, background-color 0.25s ease,
+    transform 0.25s ease, color 0.25s ease;
+}
+.btn-secondary:hover {
+  border-color: rgba(255, 171, 145, 0.4);
+  transform: translateY(-1px);
+}
+.btn-secondary:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Underline animado en links del nav (crece desde el centro) */
+.nav-link {
+  position: relative;
+  transition: color 0.25s ease;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--zen-accent);
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  transition: transform 0.3s ease;
+}
+.nav-link:hover { color: var(--zen-ink); }
+.nav-link:hover::after { transform: translateX(-50%) scaleX(0.6); }
+.nav-link.is-active { color: var(--zen-ink); }
+.nav-link.is-active::after { transform: translateX(-50%) scaleX(1); }
+
+/* Link de acento con subrayado progresivo */
+.link-accent {
+  background-image: linear-gradient(var(--zen-accent), var(--zen-accent));
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 0% 1px;
+  transition: background-size 0.3s ease, color 0.25s ease;
+}
+.link-accent:hover {
+  background-size: 100% 1px;
+  color: var(--zen-accent-strong);
+}
+
+/* Anillo de progreso del indicador de scroll */
+@keyframes scroll-dot {
+  0%   { opacity: 0; transform: translateY(0); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translateY(14px); }
+}
+
+/* Marquee del stack tecnológico (pausa al hover) */
+@keyframes zen-marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  animation: zen-marquee 36s linear infinite;
+  will-change: transform;
+}
+.marquee-mask:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Texto con degradado coral muy sutil para acentos tipográficos */
+.text-glow-accent {
+  text-shadow: 0 0 32px rgba(255, 171, 145, 0.35);
+}
+
+/* Accesibilidad: si el usuario prefiere menos movimiento, nada anima por CSS */
+@media (prefers-reduced-motion: reduce) {
+  .btn-primary, .btn-primary:hover,
+  .btn-secondary, .btn-secondary:hover,
+  .glass-card, .glass-card:hover,
+  .nav-link::after, .link-accent,
+  .marquee-track,
+  .zen-breathe-el,
+  .zen-halo-el {
+    transition: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
