@@ -20,37 +20,28 @@ type Status = "idle" | "submitting" | "success" | "error";
 /**
  * Dialog de contacto: formulario mínimo (nombre, email, empresa, mensaje)
  * que guarda el lead vía POST /api/contact. Honeypot incluido.
+ * Los campos viven en el store (prefill por tema sin efectos).
  */
 export function ContactDialog() {
   const open = useLeadDialog((s) => s.open);
   const source = useLeadDialog((s) => s.source);
+  const topic = useLeadDialog((s) => s.topic);
+  const form = useLeadDialog((s) => s.form);
+  const setField = useLeadDialog((s) => s.setField);
   const closeDialog = useLeadDialog((s) => s.closeDialog);
 
   const [status, setStatus] = useState<Status>("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    company: "",
-    message: "",
-    website: "", // honeypot
-  });
 
-  // Reset al cerrar
+  // Reset del estado visual al cerrar (async: no cascada de renders)
   useEffect(() => {
-    if (!open) {
-      const t = setTimeout(() => {
-        setStatus("idle");
-        setErrorMsg(null);
-        setForm({ name: "", email: "", company: "", message: "", website: "" });
-      }, 250);
-      return () => clearTimeout(t);
-    }
+    if (open) return;
+    const t = setTimeout(() => {
+      setStatus("idle");
+      setErrorMsg(null);
+    }, 250);
+    return () => clearTimeout(t);
   }, [open]);
-
-  const set = (k: keyof typeof form) => (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => setForm((f) => ({ ...f, [k]: e.target.value }));
 
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -135,6 +126,12 @@ export function ContactDialog() {
                 Hablemos de tu proyecto
               </DialogTitle>
               <DialogDescription className="text-sm leading-relaxed text-zen-muted">
+                {topic ? (
+                  <span className="mb-2 inline-flex max-w-full items-center gap-1.5 rounded-full border border-zen-accent/30 bg-zen-accent-soft px-3 py-1 text-xs font-medium text-zen-accent">
+                    <LotusIcon width={12} height={12} />
+                    <span className="truncate">{topic}</span>
+                  </span>
+                ) : null}
                 Contanos qué necesitás en dos líneas. Sin compromiso, sin
                 jerga: te contestamos en castellano, claro y al punto.
               </DialogDescription>
@@ -150,7 +147,7 @@ export function ContactDialog() {
                   autoComplete="name"
                   placeholder="Tu nombre"
                   value={form.name}
-                  onChange={set("name")}
+                  onChange={(e) => setField("name", e.target.value)}
                   maxLength={80}
                   required
                   className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
@@ -167,7 +164,7 @@ export function ContactDialog() {
                   autoComplete="email"
                   placeholder="tu@empresa.com"
                   value={form.email}
-                  onChange={set("email")}
+                  onChange={(e) => setField("email", e.target.value)}
                   maxLength={120}
                   required
                   className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
@@ -186,7 +183,7 @@ export function ContactDialog() {
                   autoComplete="organization"
                   placeholder="Nombre de tu negocio"
                   value={form.company}
-                  onChange={set("company")}
+                  onChange={(e) => setField("company", e.target.value)}
                   maxLength={80}
                   className="border-zen-line bg-zen-surface-raised/60 text-zen-ink placeholder:text-zen-muted/60 focus-visible:ring-zen-accent/50"
                 />
@@ -200,7 +197,7 @@ export function ContactDialog() {
                   id="lead-message"
                   placeholder="Ej.: necesitamos ordenar ventas, stock y facturación en un solo sistema…"
                   value={form.message}
-                  onChange={set("message")}
+                  onChange={(e) => setField("message", e.target.value)}
                   maxLength={2000}
                   required
                   rows={4}
@@ -216,7 +213,7 @@ export function ContactDialog() {
                   tabIndex={-1}
                   autoComplete="off"
                   value={form.website}
-                  onChange={set("website")}
+                  onChange={(e) => setField("website", e.target.value)}
                 />
               </div>
 

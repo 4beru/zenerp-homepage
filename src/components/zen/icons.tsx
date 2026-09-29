@@ -73,13 +73,78 @@ export function CheckIcon(p: IconProps) {
   );
 }
 
-export function SparkleIcon(p: IconProps) {
+export function WebIcon(p: IconProps) {
   return (
-    <svg {...base} width={20} height={20} {...p}>
-      <path d="M12 3v4m0 10v4M3 12h4m10 0h4M5.6 5.6l2.8 2.8m7.2 7.2 2.8 2.8m0-12.8-2.8 2.8m-7.2 7.2-2.8 2.8" />
+    <svg {...base} width={24} height={24} {...p}>
+      <rect x="3" y="4" width="18" height="14" rx="2" />
+      <path d="M3 8h18M7 21h10M12 18v3" />
     </svg>
   );
 }
+
+export function MobileIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+      <path d="M11 18.5h2" />
+    </svg>
+  );
+}
+
+export function DesktopIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <rect x="2.5" y="4" width="19" height="12.5" rx="2" />
+      <path d="M9 20.5h6M12 16.5v4" />
+    </svg>
+  );
+}
+
+/** Odoo: anillo característico simplificado. */
+export function OdooIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <circle cx="12" cy="12" r="8.5" />
+      <circle cx="12" cy="12" r="3.5" />
+    </svg>
+  );
+}
+
+/** ERPNext: capas / engranaje simplificado. */
+export function ErpNextIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <path d="M12 3l8 4.5-8 4.5-8-4.5L12 3Z" />
+      <path d="M4 12l8 4.5 8-4.5" />
+      <path d="M4 16.5L12 21l8-4.5" />
+    </svg>
+  );
+}
+
+export function PuzzleIcon(p: IconProps) {
+  return (
+    <svg {...base} width={24} height={24} {...p}>
+      <path d="M10 4a2 2 0 1 1 4 0v1h3a1 1 0 0 1 1 1v3h-1a2 2 0 1 0 0 4h1v3a1 1 0 0 1-1 1h-3v-1a2 2 0 1 0-4 0v1H7a1 1 0 0 1-1-1v-3H5a2 2 0 1 1 0-4h1V6a1 1 0 0 1 1-1h3V4Z" />
+    </svg>
+  );
+}
+
+export function ArrowUpIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M12 20V4m-6 6 6-6 6 6" />
+    </svg>
+  );
+}
+
+export const serviceIcons = {
+  web: WebIcon,
+  mobile: MobileIcon,
+  desktop: DesktopIcon,
+  odoo: OdooIcon,
+  erpnext: ErpNextIcon,
+  puzzle: PuzzleIcon,
+} as const;
 
 export function HammerIcon(p: IconProps) {
   return (

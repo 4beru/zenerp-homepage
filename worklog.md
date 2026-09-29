@@ -42,3 +42,34 @@ Unresolved / riesgos / próximos pasos sugeridos (Fase 02+):
 - OG image: el repo original tiene og.png; acá solo favicon/metadata — generar og.png propio.
 - Considerar: sitemap.ts/robots.ts como en el repo original, view transitions, modo de "prefers-reduced-motion" verificado en QA real.
 - Datos de prueba del form fueron borrados; la tabla Lead está vacía y lista para producción.
+
+---
+
+Task ID: 2 (cron webDevReview, ronda 1)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado actual + Fase 02: sección Servicios, micro-detalles visuales y nuevas features (sin bugs que corregir: Fase 01 estable).
+
+Work Log:
+- QA inicial: página 200, 0 errores de consola/página, DB limpia, lint OK → sin fixes prioritarios.
+- Infraestructura de motion reutilizable: `src/components/zen/reveal.tsx` (`Reveal`, `RevealGroup`, `RevealItem`) con framer-motion `whileInView` (once, margin -80px), stagger 0.09, reduced-motion → render directo.
+- `src/components/zen/section-heading.tsx`: encabezado numerado "02 · Servicios" (índice mono + línea coral + eyebrow).
+- `src/data/services.ts`: 6 servicios con `tag` contextual nuevo (Navegador, iOS·Android, Offline, ERP todo-en-uno, Sin licencias, A medida).
+- `src/components/zen/services.tsx`: sección `#servicios` con glow radial terracota + textura de puntos enmascarada, grid 3/2/1 cols, tarjetas `glass-card card-hover` con: número mono en esquina (01–06), chip de ícono 48px con gradiente coral, título, chip de tag, descripción y CTA "Consultar" → dialog con tema; cierre de sección con CTA "Hablemos y lo descubrimos juntos".
+- Icons nuevos en `icons.tsx`: WebIcon, MobileIcon, DesktopIcon, OdooIcon, ErpNextIcon, PuzzleIcon, ArrowUpIcon + mapa `serviceIcons`.
+- Features: `scroll-progress.tsx` (barra coral fija 2px, useSpring del progreso, gate useHydrated + reduced-motion) y `back-to-top.tsx` (FAB glass 44px, aparece tras 600px, animación entrada/salida, scroll top suave).
+- Dialog con contexto: store `lead-dialog` refactorizado — el formulario vive en zustand (`form`, `setField`, prefill en `openDialog(source, topic)`) para evitar setState síncrono en efectos (regla `react-hooks/set-state-in-effect`); chip de tema coral en el header del dialog + mensaje precargado "Hola, me interesa «{topic}». ".
+- Nav: "Servicios" ahora ancla real (ready: true); indicador "Deslizá" del hero apunta a #servicios; `page.tsx` monta Services + ScrollProgress + BackToTop.
+
+Stage Summary:
+- ✅ Fase 02 completa: lint 0 errores, 0 errores consola/hidratación, GET/POST OK, overflow 0 en mobile (390px).
+- ✅ QA agent-browser: nav "Servicios" scrollea a la sección (hash OK); "Consultar" de tarjeta Odoo abre dialog con chip de tema + prefill verificado en DOM; submit end-to-end → lead guardado con source `servicio-implementacion-odoo` (luego limpiado); back-to-top 1310→0; barra de progreso confirmada visualmente (VLM); grid 3x2 con los 6 títulos exactos verificado por DOM + VLM; mobile apilado 1 columna sin cortes (VLM + DOM).
+- Features nuevas: sección Servicios completa, reveals on-scroll, progreso de lectura, volver arriba, dialog con contexto de tema y prefill, source tracking por servicio.
+- Detalles de estilo: glow + dot-mask por sección, chips de ícono con gradiente, numeración de tarjetas, hover states coral.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **Fase 03 sugerida: sección Proceso** (pasos 01–04 con tarjeta activa al scrollear o versión estática con reveals) — el nav ya tiene el link (#proceso, hoy toast).
+- Luego: Proyectos/portfolio (cards con placeholder de loto), Filosofía/valores, y mid-CTA antes del footer.
+- OG image propia (og.png) + sitemap.ts/robots.ts.
+- Datos reales de contacto (email/WhatsApp placeholders).
+- Integración Resend para notificar leads por email cuando existan credenciales.
+- Riesgo menor: VLM tiende a "reconstruir HTML" en screenshots de cards — validar contenido clave por DOM (ya se hizo).

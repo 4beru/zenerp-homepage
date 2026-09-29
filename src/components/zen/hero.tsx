@@ -198,8 +198,8 @@ export function Hero() {
 
       {/* Indicador de scroll (desktop) */}
       <a
-        href="#contacto"
-        aria-label="Desplazarse a contacto"
+        href="#servicios"
+        aria-label="Desplazarse a servicios"
         className="group absolute right-8 bottom-24 hidden items-center gap-2 text-xs tracking-wide text-zen-muted/70 transition-colors hover:text-zen-accent xl:flex"
       >
         <span className="relative flex h-8 w-5 items-start justify-center rounded-full border border-zen-muted/40 pt-1.5 group-hover:border-zen-accent/60">
