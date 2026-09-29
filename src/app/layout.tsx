@@ -14,7 +14,15 @@ const siteName = "Zen ERP";
 const siteDescription =
   "Desarrollamos aplicaciones web, mobile y desktop e implementamos sistemas de gestión (ERP) como Odoo y ERPNext, adaptados a tu negocio. Simple, sin complicaciones.";
 
+const ogImage = {
+  url: "/og.png",
+  width: 1200,
+  height: 630,
+  alt: "Zen ERP — Software en calma, hecho a tu medida. Logo de loto sobre fondo oscuro con acentos coral.",
+};
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: `${siteName} — Software a medida y sistemas de gestión (ERP)`,
   description: siteDescription,
   keywords: [
@@ -37,11 +45,13 @@ export const metadata: Metadata = {
     siteName,
     type: "website",
     locale: "es_AR",
+    images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
     title: `${siteName} — Software simple, hecho a tu medida`,
     description: siteDescription,
+    images: [ogImage.url],
   },
   robots: { index: true, follow: true },
 };

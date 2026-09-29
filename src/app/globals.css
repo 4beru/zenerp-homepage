@@ -284,6 +284,30 @@ section[id] {
   }
 }
 
+/* ============ FAQ: acordeón ============ */
+
+/* Ítem del acordeón: tarjeta glass; la abierta gana borde coral y halo suave */
+.faq-item {
+  background: linear-gradient(
+    165deg,
+    rgba(27, 36, 38, 0.72) 0%,
+    rgba(18, 24, 26, 0.85) 100%
+  );
+  border: 1px solid var(--zen-line);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+.faq-item:hover {
+  border-color: rgba(255, 171, 145, 0.3);
+}
+.faq-item[data-state="open"] {
+  border-color: rgba(255, 171, 145, 0.45);
+  box-shadow: 0 0 0 1px rgba(255, 171, 145, 0.1), 0 16px 44px -22px rgba(255, 171, 145, 0.22);
+}
+/* Chevron coral del acordeón (rota al abrir, vía data-state del trigger) */
+.faq-item [data-slot="accordion-trigger"] > svg {
+  color: var(--zen-accent);
+}
+
 /* Accesibilidad: si el usuario prefiere menos movimiento, nada anima por CSS */
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-primary:hover,
@@ -294,7 +318,8 @@ section[id] {
   .step-card .step-node, .step-progress-fill,
   .marquee-track,
   .zen-breathe-el,
-  .zen-halo-el {
+  .zen-halo-el,
+  .faq-item, .faq-item[data-state="open"] {
     transition: none !important;
     transform: none !important;
     animation: none !important;

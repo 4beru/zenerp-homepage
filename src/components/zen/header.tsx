@@ -98,7 +98,7 @@ export function Header() {
         {/* Nav desktop */}
         <nav
           aria-label="Navegación principal"
-          className="hidden items-center gap-6 md:flex lg:gap-8"
+          className="hidden items-center gap-4 md:flex lg:gap-6 xl:gap-7"
         >
           {navLinks.map((l) =>
             l.ready ? (

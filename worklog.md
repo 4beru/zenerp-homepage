@@ -143,3 +143,38 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Nota técnica: el LotusMark del mid-cta anima su reveal al montar (no usa whileInView); si molesta al llegar tarde, cambiar a whileInView. Hoy es aceptable porque el halo sigue latiendo.
 - Nota técnica: VLM en screenshots downscaled puede confundir etiquetas de sección — validar contenido clave por DOM (ya se hizo en esta ronda).
 - URL del sitio (`siteConfig.url`) es placeholder zenerp.com — ajustar al dominio real para sitemap/robots/JSON-LD en producción.
+
+---
+
+Task ID: 5 (cron webDevReview, ronda 4)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 05: sección FAQ con acordeón (06), OG image propia, feature de copiar email en footer y fix de un bug real de CSS. Incluyó debugging de un problema de Tailwind 4 que sirvió CSS stale.
+
+Work Log:
+- QA inicial: 200, 0 errores consola/página, 5 secciones, sin overflow desktop/mobile → fase estable, sin fixes prioritarios.
+- `src/data/faq.ts`: 6 preguntas reales de pre-venta (precio, plazos, migración de datos, Odoo vs ERPNext, soporte post-entrega, propiedad del código) con respuestas honestas en es_AR.
+- `src/components/zen/faq.tsx`: sección `#faq` "06 · FAQ" — layout dos columnas: izquierda encabezado + tarjeta de ayuda sticky (CTA dialog + WhatsApp), derecha acordeón shadcn/ui. Ítems `.faq-item` (tarjeta glass propia), número mono 01–06, chevron coral, respuesta con borde-left coral; reveal escalonado por delay (0.05·i) — NOTA: no usar RevealGroup para esto, el Accordion interrumpe la cadena de variants de framer-motion y el stagger se pierde.
+- JSON-LD `FAQPage` en `page.tsx` (server) importando `faqs` — además del `Organization` existente en layout.
+- **Bug real (Tailwind 4 / Turbopack):** tras editar globals.css, los nuevos estilos `.faq-item` NO se servían (CSS stale: @keyframes dentro de `@theme inline` rompía silenciosamente el procesamiento y Turbopack servía la versión anterior del archivo). Diagnóstico: comparé CSS servido vs disco; descubrí además que las animaciones `animate-accordion-*` ya las provee `tw-animate-css` (mi bloque @theme era redundante e innecesario). Fix: eliminé el bloque `@keyframes` de `@theme inline` → al re-guardar, Turbopack reprocesó y `.faq-item` apareció (5 matches). Lección: NO poner @keyframes custom dentro de `@theme inline` en este setup; tw-animate-css ya cubre accordion/collapsible/caret.
+- Nav: link "FAQ" agregado (navLinks, ready) — 6 links totales; gaps del header ajustados a `gap-4 lg:gap-6 xl:gap-7` para que encaje exacto en 768px (verificado: headerW 768 = clientW 768). El tracking de sección activa del header y el footer "Explorá" lo toman de navLinks automáticamente.
+- **OG image (1200×630):** en vez de generación AI (texto ilegible), maqueté HTML con la identidad exacta (logo SVG inline, Inter/JetBrains Mono de Google Fonts, gradiente #050505→#161d1e, halo coral, textura de puntos, chips de stack) → screenshot con agent-browser a viewport 1200×630 → `public/og.png` (224 KB). Fuente del diseño en `download/og-image.html`. VLM aprobó: texto legible y bien escrito, logo limpio, composición equilibrada.
+- Metadata: `openGraph.images` + `twitter.images` con og.png + `metadataBase: new URL(siteConfig.url)` (eliminó warning de Next).
+- **Feature copy-email en footer:** botón ícono junto al email (CopyIcon → CheckIcon 2s) con `navigator.clipboard.writeText` + fallback legacy `document.execCommand('copy')` (textarea temporal) para navegadores sin permiso; toast de éxito/fallback. Footer pasó a client component. Verificado E2E: icono check + toast "Email copiado" (nota: en headless el clipboard API falla por permisos — el fallback execCommand funciona con click real).
+- Estilos FAQ en globals.css: `.faq-item` (glass, hover coral), `.faq-item[data-state="open"]` (borde rgba(255,171,145,0.45) + glow), chevron coral, incluidos en el bloque prefers-reduced-motion.
+- QA completa: acordeón single-collapsible (abrir ítem 4 cierra otros), borde/sombra coral en abierto, contenido visible; dialog desde FAQ (source "faq"); submit E2E → lead persistido con source `faq` → tabla limpiada; menú mobile 6 links + ancla #faq (top 88px, menú autoclose); sección activa "FAQ" en nav desktop; mobile 390px apilado 1 col sin overflow; screenshots en `download/qa-fase05/`.
+
+Stage Summary (estado actual):
+- ✅ Fase 05 completa y verificada: lint 0 errores, 0 errores consola/página, GET/POST OK, og.png 200 + meta tags correctos (metadataBase resuelto a zenerp.com).
+- ✅ 6 secciones ancla + JSON-LD doble (Organization + FAQPage) → 7 secciones contando contacto/footer.
+- ✅ QA agent-browser: desktop 1440px (header 768px verificado también), mobile 390px sin overflow, acordeón interactivo, copy-email con toast, nav activo, menú mobile.
+- ✅ VLM: FAQ section pulida (cards con borde, números mono, chevrons coral, alineación excelente, sin defectos); OG image aprobada.
+- Features nuevas: sección FAQ con acordeón accesible (Radix), FAQPage schema, OG image de marca, copiar email al portapapeles con fallback, link FAQ en nav/footer.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- **Fase 06 sugerida:** sección Testimonios/Equipo (social proof) o sección de contacto completa embebida (hoy: dialog + mid-CTA + footer). Ambas cierran el funnel del homepage.
+- Datos reales de contacto (email/WhatsApp placeholders en `site-config.ts`) — el dominio `zenerp.com` en metadataBase/sitemap/JSON-LD es placeholder.
+- Integración Resend para notificar leads por email cuando existan credenciales.
+- Lección técnica registrada: @keyframes custom NO dentro de `@theme inline` (rompe el CSS silenciosamente en este setup); tw-animate-css ya trae accordion/collapsible/caret-blink.
+- Si se agregan más secciones, revisar ancho del nav en 768px (hoy encaja exacto; un séptimo link largo requeriría achicar el CTA o el gap).
+- OG image: el texto pequeño (chips) puede costar en thumbnails mínimos de redes — aceptable hoy; regenerar con chips más grandes si se comparte mucho.
+- VLM en imágenes full-page muy altas hace timeout — validar por secciones o por DOM (ya hecho).

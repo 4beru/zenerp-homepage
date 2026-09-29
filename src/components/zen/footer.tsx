@@ -1,5 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import { siteConfig, navLinks } from "@/lib/site-config";
-import { LotusIcon, MailIcon, WhatsAppIcon } from "@/components/zen/icons";
+import {
+  LotusIcon,
+  MailIcon,
+  WhatsAppIcon,
+  CopyIcon,
+  CheckIcon,
+} from "@/components/zen/icons";
+import { useToast } from "@/hooks/use-toast";
 
 /** Divisor orgánico: línea que se desvanece + loto centrado. */
 function LotusDivider() {
@@ -13,11 +23,50 @@ function LotusDivider() {
 }
 
 /**
- * Footer: marca + navegación rápida + contacto directo. Queda pegado al
- * fondo del documento (mt-auto en el layout).
+ * Footer: marca + navegación rápida + contacto directo (con copiar email).
+ * Queda pegado al fondo del documento (mt-auto en el layout).
  */
 export function Footer() {
   const year = new Date().getFullYear();
+  const { toast } = useToast();
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    // Clipboard API primero; fallback síncrono para navegadores/permisos viejos.
+    let ok = false;
+    try {
+      await navigator.clipboard.writeText(siteConfig.email);
+      ok = true;
+    } catch {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = siteConfig.email;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+      } catch {
+        ok = false;
+      }
+    }
+
+    if (ok) {
+      setCopied(true);
+      toast({
+        title: "Email copiado",
+        description: `${siteConfig.email} quedó en tu portapapeles.`,
+      });
+      window.setTimeout(() => setCopied(false), 2000);
+    } else {
+      toast({
+        title: "No pudimos copiar",
+        description: `Anotá la dirección: ${siteConfig.email}`,
+      });
+    }
+  };
 
   return (
     <footer id="contacto" className="mt-auto border-t border-zen-line/70 bg-[#080b0c]/80">
@@ -59,13 +108,28 @@ export function Footer() {
 
           {/* Contacto directo */}
           <div className="flex flex-col items-start gap-3">
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="btn-secondary inline-flex items-center gap-2.5 rounded-full border border-zen-line bg-zen-surface/60 px-5 py-2.5 text-sm font-medium text-zen-ink"
-            >
-              <MailIcon className="text-zen-accent" width={17} height={17} />
-              {siteConfig.email}
-            </a>
+            <div className="flex items-center gap-2">
+              <a
+                href={`mailto:${siteConfig.email}`}
+                className="btn-secondary inline-flex items-center gap-2.5 rounded-full border border-zen-line bg-zen-surface/60 px-5 py-2.5 text-sm font-medium text-zen-ink"
+              >
+                <MailIcon className="text-zen-accent" width={17} height={17} />
+                {siteConfig.email}
+              </a>
+              <button
+                type="button"
+                onClick={copyEmail}
+                aria-label={`Copiar ${siteConfig.email} al portapapeles`}
+                title="Copiar email"
+                className="btn-secondary inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-zen-line bg-zen-surface/60 text-zen-muted hover:text-zen-accent"
+              >
+                {copied ? (
+                  <CheckIcon className="text-zen-accent" width={16} height={16} />
+                ) : (
+                  <CopyIcon width={16} height={16} />
+                )}
+              </button>
+            </div>
             {siteConfig.whatsapp ? (
               <a
                 href={siteConfig.whatsapp.link}
