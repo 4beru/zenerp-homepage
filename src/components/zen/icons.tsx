@@ -310,6 +310,16 @@ export function MoonIcon(p: IconProps) {
   );
 }
 
+/** Privacidad: escudo con check. */
+export function ShieldIcon(p: IconProps) {
+  return (
+    <svg {...base} width={20} height={20} {...p}>
+      <path d="M12 3l7.5 3v5.5c0 4.6-3 8-7.5 9.5-4.5-1.5-7.5-4.9-7.5-9.5V6L12 3Z" />
+      <path d="m9 12 2 2 4-4" />
+    </svg>
+  );
+}
+
 export const philosophyIcons = {
   leaf: LeafIcon,
   eye: EyeIcon,

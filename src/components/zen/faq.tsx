@@ -43,7 +43,7 @@ export function Faq() {
           <div>
             <Reveal>
               <SectionHeading
-                index="07"
+                index="08"
                 eyebrow="FAQ"
                 title={
                   <span id="faq-title">

@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/lib/db";
+import { rateLimit } from "@/lib/rate-limit";
 
 /**
- * POST /api/contact — recibe un lead del dialog "Hablemos de tu proyecto".
- * Validación server-side + honeypot antispam. Guarda en SQLite (Prisma).
+ * POST /api/contact — recibe un lead del dialog "Hablemos de tu proyecto"
+ * y de la sección de contacto. Validación server-side + honeypot antispam
+ * + rate limiting (5 envíos / IP / minuto). Guarda en SQLite (Prisma).
  */
 const leadSchema = z.object({
   name: z.string().trim().min(2, "Contanos tu nombre (mínimo 2 caracteres).").max(80),
@@ -21,6 +23,23 @@ const leadSchema = z.object({
 });
 
 export async function POST(req: Request) {
+  // Rate limit: 5 envíos por IP por minuto (ventana deslizante en memoria).
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip")?.trim() ||
+    "local";
+  const rl = rateLimit(`contact:${ip}`, 5, 60_000);
+  if (!rl.ok) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Recibimos varios mensajes tuyos en poco tiempo. Esperá un minuto y probá de nuevo.",
+      },
+      { status: 429, headers: { "Retry-After": String(rl.retryAfter) } }
+    );
+  }
+
   let body: unknown;
   try {
     body = await req.json();

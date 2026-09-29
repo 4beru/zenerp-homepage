@@ -254,3 +254,38 @@ Unresolved / riesgos / próxima fase (recomendado):
 - Considerar rate limiting básico en /api/contact (hoy: honeypot + validación zod; suficiente para volumen bajo).
 - Nota técnica: el form de la sección NO comparte estado con el dialog (intencional: flows distintos); si en el futuro se quiere prefill cruzado, extender el store lead-dialog.
 - OG image y sitemap OK; favicon SVG OK. Falta favicon PNG fallback para clientes viejos (opcional).
+
+---
+
+Task ID: 8 (cron webDevReview, ronda 7)
+Agent: main-agent (Z.ai Code)
+Task: QA del estado + Fase 08: sección Equipo (quiénes están del otro lado), dialog de Privacidad en el footer y rate limiting en /api/contact. Sin bugs previos: fase 07 estable.
+
+Work Log:
+- QA inicial: 200, 0 errores consola/página, 8 secciones, sin overflow desktop/mobile → fase estable.
+- `src/data/team.ts`: 3 perfiles (placeholder, como email/WhatsApp — reemplazar con datos reales) alineados con la oferta del sitio: fundador/implementaciones ERP (Odoo·ERPNext), full-stack (Next.js/React), mobile/automatización (Flutter/offline-first). Iniciales para avatar (misma honestidad que testimonios), chips de especialidades y nota diferencial "equipo chico a propósito".
+- `src/components/zen/team.tsx`: sección `#equipo` "06 · Equipo" — grid de 3 cards glass centradas (avatar de iniciales h-16 con gradiente coral, nombre, rol, divisor coral fino, bio, chips mono), RevealGroup stagger 0.1; nota diferencial en strip con LotusIcon debajo.
+- CSS `.team-card .team-avatar`: halo coral (ring 6px + shadow + lift -2px) al hover de la tarjeta; agregado a la lista de prefers-reduced-motion. Verificado en CSS servido (2 apariciones de team-card — lección de Tailwind 4 de la fase 05 aplicada).
+- Nav: `#equipo` como footerOnly (mismo patrón que Testimonios) → footer "Explorá" con 8 links, header intacto con 6 (sin riesgo de overflow en 768px).
+- Renumeración: Equipo=06 (nueva), Filosofía 06→07, FAQ 07→08, Contacto 08→09 (numeración 02–09 verificada en DOM).
+- `src/components/zen/privacy-dialog.tsx` + integración en footer: link "Privacidad" junto al copyright abre Dialog controlado. Contenido "Privacidad, en criollo": lo que guardamos / para qué / lo que NO hacemos (sin cookies de tracking, sin listas, sin newsletters) / cómo pedir el borrado. Respalda la promesa anti-spam del form. ShieldIcon nuevo en icons.tsx; cierre con Escape verificado.
+- `src/lib/rate-limit.ts`: ventana deslizante en memoria (Map<key, timestamps[]>, prune si >500 keys) — 5 envíos/IP/minuto en POST /api/contact, antes de parsear el body. 429 con mensaje criollo + header `Retry-After` estándar.
+- QA E2E completo: rate limit (5×200 → 6º 429 "esperá un minuto" → Retry-After: 57 → ventana expira → 200 otra vez); leads de prueba limpiados (tabla en 0); form de contacto E2E final (submit → success → source `contacto-proyecto` en SQLite → limpieza); DOM de las 3 cards verificado (iniciales/nombres/roles/chips correctos); hover del avatar computa el halo coral; dialog Privacidad abre/cierra; numeración 02–09; footer 8 links; header 6 links; mobile 390 px sin overflow (cards full-width 350 px); desktop 1440 px sin overflow.
+- VLM: sección Equipo "alta calidad, sin cortes ni problemas de contraste, spacing consistente" (3 cards + strip con loto detectados); dialog Privacidad "excellent, no visual defects". Nota: en un chequeo el VLM alucinó una card "Ana G" leyendo un viewport parcial — el DOM confirmó los datos reales; usar DOM para verificación de contenido.
+- Capturas en `download/qa-fase08/` (baseline, equipo desktop + final, dialog privacidad, equipo mobile, footer mobile, full-page).
+
+Stage Summary (estado actual):
+- ✅ Fase 08 completa y verificada: lint 0 errores, 0 errores de consola/página, GET/POST/429 OK, tabla limpia, CSS custom en build.
+- ✅ Homepage: Hero → Servicios (02) → Proceso (03) → Proyectos (04) → Testimonios (05) → Equipo (06) → Filosofía (07) → FAQ (08) → Contacto (09) → Footer — 9 secciones + dialog de contacto + dialog de privacidad.
+- ✅ Funnel completo con prueba social (testimonios) y humanización (equipo), respaldo legal mínimo (privacidad) y protección del endpoint (rate limit).
+- Features nuevas: sección Equipo con avatares de iniciales y hover halo, nota diferencial del estudio, mini política de privacidad en dialog, rate limiting 5/min con Retry-After.
+
+Unresolved / riesgos / próxima fase (recomendado):
+- El homepage está funcional y narrativamente completo. Próximas fases posibles (valor decreciente):
+  1. **Pulido de contenido**: textos del equipo/placeholders reales (nombres, email, WhatsApp, dominio zenerp.com) cuando existan datos reales del cliente;
+  2. ** favicon PNG fallback** para clientes viejos (solo SVG hoy);
+  3. **Integración Resend** para notificar leads por email cuando existan credenciales;
+  4. **Microinteracciones extra**: p. ej. count-up de métricas en Hero/Proyectos si se definen KPIs reales.
+- Rate limiting en memoria: por proceso — si el sitio escala a múltiples instancias, mover a Redis.
+- Si se suma una 3ª sección footerOnly más, revisar altura del footer en mobile (hoy 8 links en 2 columnas, ok).
+- Nota técnica: `agent-browser screenshot` full-page usa flag `--full` (no `--full-page`); VLM en viewports parciales puede alucinar contenido fuera de encuadre — verificación de contenido siempre por DOM.

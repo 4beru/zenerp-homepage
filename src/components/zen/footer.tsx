@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { siteConfig, navLinks } from "@/lib/site-config";
 import {
   LotusIcon,
@@ -9,6 +10,7 @@ import {
   CheckIcon,
 } from "@/components/zen/icons";
 import { useCopyText } from "@/hooks/use-copy-text";
+import { PrivacyDialog } from "@/components/zen/privacy-dialog";
 
 /** Divisor orgánico: línea que se desvanece + loto centrado. */
 function LotusDivider() {
@@ -28,6 +30,7 @@ function LotusDivider() {
 export function Footer() {
   const year = new Date().getFullYear();
   const { copied, copy } = useCopyText();
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const copyEmail = () =>
     copy(siteConfig.email, {
@@ -112,8 +115,20 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-zen-line/60 pt-6 text-xs text-zen-muted/70 sm:flex-row sm:items-center">
-          <p>
-            © {year} {siteConfig.name} — hecho con calma en Argentina.
+          <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span>
+              © {year} {siteConfig.name} — hecho con calma en Argentina.
+            </span>
+            <span aria-hidden className="text-zen-muted/40">
+              ·
+            </span>
+            <button
+              type="button"
+              onClick={() => setPrivacyOpen(true)}
+              className="link-accent cursor-pointer text-zen-muted/80 hover:text-zen-ink"
+            >
+              Privacidad
+            </button>
           </p>
           <p className="flex items-center gap-1.5">
             <span
@@ -124,6 +139,8 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      <PrivacyDialog open={privacyOpen} onOpenChange={setPrivacyOpen} />
     </footer>
   );
 }

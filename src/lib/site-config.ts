@@ -36,6 +36,7 @@ export const navLinks: readonly NavLink[] = [
   { href: "#proceso", label: "Proceso", ready: true },
   { href: "#proyectos", label: "Proyectos", ready: true },
   { href: "#testimonios", label: "Testimonios", ready: true, footerOnly: true },
+  { href: "#equipo", label: "Equipo", ready: true, footerOnly: true },
   { href: "#filosofia", label: "Filosofía", ready: true },
   { href: "#faq", label: "FAQ", ready: true },
   { href: "#contacto", label: "Contacto", ready: true },

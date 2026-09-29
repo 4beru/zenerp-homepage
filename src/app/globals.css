@@ -308,6 +308,19 @@ section[id] {
   color: var(--zen-accent);
 }
 
+/* ============ Equipo: avatar con halo coral ============ */
+
+/* El avatar gana halo y aro coral cuando la tarjeta se hovera (grupo) */
+.team-card .team-avatar {
+  transition: box-shadow 0.35s ease, border-color 0.35s ease, transform 0.35s ease;
+}
+.team-card:hover .team-avatar {
+  border-color: rgba(255, 171, 145, 0.55);
+  box-shadow: 0 0 0 6px rgba(255, 171, 145, 0.1),
+    0 10px 30px -12px rgba(255, 171, 145, 0.35);
+  transform: translateY(-2px);
+}
+
 /* Accesibilidad: si el usuario prefiere menos movimiento, nada anima por CSS */
 @media (prefers-reduced-motion: reduce) {
   .btn-primary, .btn-primary:hover,
@@ -319,7 +332,8 @@ section[id] {
   .marquee-track,
   .zen-breathe-el,
   .zen-halo-el,
-  .faq-item, .faq-item[data-state="open"] {
+  .faq-item, .faq-item[data-state="open"],
+  .team-card .team-avatar, .team-card:hover .team-avatar {
     transition: none !important;
     transform: none !important;
     animation: none !important;

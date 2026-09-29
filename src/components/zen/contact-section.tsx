@@ -127,7 +127,7 @@ export function ContactSection() {
       <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal>
           <SectionHeading
-            index="08"
+            index="09"
             eyebrow="Contacto"
             title={
               <span id="contacto-title">
