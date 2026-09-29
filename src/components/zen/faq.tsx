@@ -23,7 +23,7 @@ export function Faq() {
     <section
       id="faq"
       aria-labelledby="faq-title"
-      className="relative overflow-hidden py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
       {/* Glow superior tenue, alternando con las secciones vecinas */}
       <div
@@ -74,8 +74,7 @@ export function Faq() {
 
           {/* Columna derecha: acordeón de preguntas (reveal escalonado por delay) */}
           <Accordion
-            type="single"
-            collapsible
+            type="multiple"
             className="mt-12 flex flex-col gap-3 lg:mt-0"
           >
             {faqs.map((f, i) => (

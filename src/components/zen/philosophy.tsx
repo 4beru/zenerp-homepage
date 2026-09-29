@@ -15,7 +15,7 @@ export function Philosophy() {
     <section
       id="filosofia"
       aria-labelledby="filosofia-title"
-      className="relative overflow-hidden py-24 sm:py-32"
+      className="relative py-24 sm:py-32"
     >
       {/* Glow inferior tenue, distinto de las demás secciones */}
       <div

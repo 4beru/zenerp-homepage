@@ -30,7 +30,7 @@ interface LeadDialogState {
   topic: string | null;
   form: LeadForm;
   setField: (key: keyof LeadForm, value: string) => void;
-  openDialog: (source?: string, topic?: string) => void;
+  openDialog: (source?: string, topic?: string, message?: string) => void;
   closeDialog: () => void;
 }
 
@@ -41,16 +41,17 @@ export const useLeadDialog = create<LeadDialogState>((set) => ({
   form: EMPTY_FORM,
   setField: (key, value) =>
     set((s) => ({ form: { ...s.form, [key]: value } })),
-  openDialog: (source = "generic", topic?: string) =>
+  openDialog: (source = "generic", topic?: string, message?: string) =>
     set({
       open: true,
       source,
       topic: topic ?? null,
       // Formulario fresco en cada apertura; si viene un tema (ej.: tarjeta
-      // de servicio), el mensaje arranca encaminado.
+      // de servicio) el mensaje arranca encaminado. `message` permite un
+      // prefill más rico (ej.: armador de sistema con la lista de módulos).
       form: {
         ...EMPTY_FORM,
-        message: topic ? `Hola, me interesa «${topic}». ` : "",
+        message: message ?? (topic ? `Hola, me interesa «${topic}». ` : ""),
       },
     }),
   closeDialog: () => set({ open: false }),

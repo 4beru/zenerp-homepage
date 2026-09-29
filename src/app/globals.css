@@ -375,6 +375,46 @@ section[id] {
   outline-offset: 2px;
 }
 
+/* ============ Armá tu sistema: módulos y resumen ============ */
+
+/* Tarjeta-módulo: plana (no se eleva: es un toggle, no un link). El estado
+   seleccionado se expresa con borde coral + tinte cálido + glow suave. */
+.module-card {
+  background: linear-gradient(
+    165deg,
+    rgba(27, 36, 38, 0.6) 0%,
+    rgba(18, 24, 26, 0.8) 100%
+  );
+  border: 1px solid var(--zen-line);
+  transition: border-color 0.25s ease, background-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.module-card:hover {
+  border-color: rgba(255, 171, 145, 0.35);
+}
+.module-card[aria-pressed="true"] {
+  border-color: rgba(255, 171, 145, 0.55);
+  background: linear-gradient(
+    165deg,
+    rgba(255, 171, 145, 0.08) 0%,
+    rgba(18, 24, 26, 0.88) 100%
+  );
+  box-shadow: 0 0 0 1px rgba(255, 171, 145, 0.12),
+    0 14px 40px -22px rgba(255, 171, 145, 0.28);
+}
+.module-card:focus-visible {
+  outline: 2px solid var(--zen-accent);
+  outline-offset: 2px;
+}
+/* Aro de selección: escala apenas (confirmación táctil sutil) */
+.module-card .module-check {
+  transition: background-color 0.25s ease, border-color 0.25s ease,
+    color 0.25s ease, transform 0.25s ease;
+}
+.module-card[aria-pressed="true"] .module-check {
+  transform: scale(1.06);
+}
+
 /* ============ Print: versión papel serena ============ */
 /* El sitio es dark-first; en papel invertimos la paleta redefiniendo los
    tokens (cascada a todas las utilidades), sin sombras ni glows, y con las
@@ -434,19 +474,26 @@ section[id] {
 
   /* Los fondos degradados de las tarjetas pasan a blanco con borde legible */
   .glass-card,
-  .faq-item {
+  .faq-item,
+  .module-card {
     background: #fff !important;
     border-color: rgba(27, 36, 38, 0.28) !important;
   }
 
   /* Las tarjetas no se parten entre páginas */
   .glass-card,
-  .faq-item {
+  .faq-item,
+  .module-card {
     break-inside: avoid;
   }
 
   h2 {
     break-after: avoid;
+  }
+
+  /* Los tooltips son interactivos: nada que imprimir */
+  [data-slot="tooltip-content"] {
+    display: none !important;
   }
 
   /* Márgenes de página cómodos para imprimir o guardar en PDF */
@@ -476,7 +523,10 @@ section[id] {
   .zen-breathe-el,
   .zen-halo-el,
   .faq-item, .faq-item[data-state="open"],
-  .team-card .team-avatar, .team-card:hover .team-avatar {
+  .team-card .team-avatar, .team-card:hover .team-avatar,
+  .module-card, .module-card[aria-pressed="true"],
+  .module-card .module-check,
+  .module-card[aria-pressed="true"] .module-check {
     transition: none !important;
     transform: none !important;
     animation: none !important;

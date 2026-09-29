@@ -8,6 +8,7 @@ import { Testimonials } from "@/components/zen/testimonials";
 import { Team } from "@/components/zen/team";
 import { Philosophy } from "@/components/zen/philosophy";
 import { Faq } from "@/components/zen/faq";
+import { ScopeBuilder } from "@/components/zen/scope-builder";
 import { ContactSection } from "@/components/zen/contact-section";
 import { Footer } from "@/components/zen/footer";
 import { ContactDialog } from "@/components/zen/contact-dialog";
@@ -36,6 +37,8 @@ const faqJsonLd = {
  * Fase 06: Testimonios (carrusel sereno). Fase 07: Contacto completo.
  * Fase 08: Equipo + Privacidad + rate limiting.
  * Fase 09: banda de métricas (count-up) + asistente del FAQ.
+ * Fase 10: PWA + a11y (skip-link, teclado, noscript) + sheen.
+ * Fase 11: "Armá tu sistema" (armador de alcance) entre FAQ y Contacto.
  */
 export default function Home() {
   return (
@@ -56,6 +59,7 @@ export default function Home() {
         <Team />
         <Philosophy />
         <Faq />
+        <ScopeBuilder />
         <ContactSection />
       </main>
       <Footer />

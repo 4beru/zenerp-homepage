@@ -1,10 +1,15 @@
 "use client";
 
-import { projects, projectsDisclaimer } from "@/data/projects";
+import { projects, projectsDisclaimer, techGlossary } from "@/data/projects";
 import { projectIcons, LotusIcon, ArrowRightIcon } from "@/components/zen/icons";
 import { SectionHeading } from "@/components/zen/section-heading";
 import { Reveal, RevealGroup, RevealItem } from "@/components/zen/reveal";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 /**
  * Proyectos: grid 2x1 de casos reales. Cada tarjeta tiene una "tapa"
@@ -105,16 +110,44 @@ export function Projects() {
                       {p.description}
                     </p>
 
-                    {/* Stack */}
+                    {/* Stack (chips con tooltip: qué aporta cada tecnología) */}
                     <ul className="mt-4 flex flex-wrap gap-1.5" aria-label="Tecnologías">
-                      {p.stack.map((tech) => (
-                        <li
-                          key={tech}
-                          className="rounded-full border border-zen-line bg-zen-surface-raised/70 px-2.5 py-1 text-[11px] font-medium tracking-wide text-zen-muted"
-                        >
-                          {tech}
-                        </li>
-                      ))}
+                      {p.stack.map((tech) => {
+                        const note = techGlossary[tech];
+                        const chip = (
+                          <span
+                            className={
+                              "inline-block rounded-full border border-zen-line bg-zen-surface-raised/70 px-2.5 py-1 text-[11px] font-medium tracking-wide text-zen-muted transition-colors duration-300 group-hover/chip:border-zen-accent/40 group-hover/chip:text-zen-ink/90" +
+                              (note ? " cursor-help" : "")
+                            }
+                          >
+                            {tech}
+                          </span>
+                        );
+                        return (
+                          <li key={tech} className="group/chip">
+                            {note ? (
+                              <Tooltip delayDuration={220}>
+                                <TooltipTrigger asChild>
+                                  <span tabIndex={-1} className="inline-flex rounded-full">
+                                    {chip}
+                                  </span>
+                                </TooltipTrigger>
+                                <TooltipContent
+                                  side="top"
+                                  sideOffset={6}
+                                  className="max-w-[220px] border border-[#1a1210]/10 text-center leading-relaxed"
+                                >
+                                  <span className="font-semibold">{tech}:</span>{" "
+                                  }{note}
+                                </TooltipContent>
+                              </Tooltip>
+                            ) : (
+                              chip
+                            )}
+                          </li>
+                        );
+                      })}
                     </ul>
 
                     {/* Métrica de resultado */}

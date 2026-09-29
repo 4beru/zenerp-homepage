@@ -61,6 +61,25 @@ export function Testimonials() {
     return () => window.clearInterval(id);
   }, [index, visible, paused, reduced, total]);
 
+  // Pestaña oculta: el auto-avance se pausa (nadie mira el carrusel mientras
+  // está en otra pestaña). Al volver, solo reanuda si el mouse/foco NO está
+  // sobre la región (los eventos hover no se redisparan solos).
+  useEffect(() => {
+    const onVisibility = () => {
+      const el = regionRef.current;
+      if (document.hidden) {
+        setPaused(true);
+      } else if (el) {
+        const stillEngaged =
+          el.matches(":hover") || el.matches(":focus-within");
+        setPaused(stillEngaged);
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+    return () =>
+      document.removeEventListener("visibilitychange", onVisibility);
+  }, []);
+
   // Swipe táctil (mobile): umbral de 40px.
   const onTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0]?.clientX ?? null;
@@ -215,7 +234,7 @@ export function Testimonials() {
                           className={`block h-2 rounded-full transition-all duration-300 ${
                             i === index
                               ? "w-6 bg-zen-accent"
-                              : "w-2 bg-zen-line group-hover/dots:bg-zen-muted/60"
+                              : "w-2 bg-zen-line hover:bg-zen-muted/70 group-hover/dots:bg-zen-muted/60"
                           }`}
                         />
                       </button>

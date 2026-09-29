@@ -69,3 +69,19 @@ export const projects: Project[] = [
 /** Nota de honestidad sobre los nombres de los casos. */
 export const projectsDisclaimer =
   "Casos reales de producción; usamos nombres ilustrativos por acuerdos de confidencialidad con cada cliente.";
+
+/**
+ * Glosario de tecnologías para los chips del stack: una línea honesta
+ * sobre qué aporta cada una (se muestra como tooltip al pasar el mouse).
+ */
+export const techGlossary: Record<string, string> = {
+  Odoo: "ERP open source todo-en-uno: de ventas a contabilidad.",
+  ERPNext: "ERP flexible y sin licencias por módulo.",
+  Frappe: "El framework sobre el que corre ERPNext (y sus apps).",
+  Python: "Automatizaciones y reglas de negocio a medida.",
+  PostgreSQL: "Base de datos confiable y open source.",
+  Flutter: "Apps iOS y Android desde una sola base de código.",
+  "Node.js": "Servidor y APIs en JavaScript, rápido de extender.",
+  "Next.js": "Web rápida y escalable, render híbrido con React.",
+  React: "Interfaces web modernas y mantenibles.",
+};
