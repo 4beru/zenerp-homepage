@@ -7,9 +7,9 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
 /**
  * Single source of truth for the Hero Video asset path.
- * When the MP4 is supplied, it is expected at public/video/zen-erp-hero.mp4.
+ * Uses the uploaded asset 15465338_1920_1080_30fps.mp4 (or standard zen-erp-hero.mp4).
  */
-export const HERO_VIDEO_SRC = "/video/zen-erp-hero.mp4";
+export const HERO_VIDEO_SRC = "/video/15465338_1920_1080_30fps.mp4";
 
 export interface HeroVideoSceneProps {
   containerRef?: React.RefObject<HTMLElement | null>;
