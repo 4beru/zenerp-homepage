@@ -7,7 +7,7 @@ import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { useLocaleStore } from "@/lib/store/locale-store";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { heroContent } from "@/data/hero-content";
-import { HeroVisual } from "@/components/effects/HeroVisual";
+import { HeroVideoScene } from "@/components/effects/HeroVideoScene";
 import { ArrowRightIcon } from "@/components/zen/icons";
 
 if (typeof window !== "undefined") {
@@ -181,12 +181,12 @@ export function Hero() {
         <div className="absolute right-0 bottom-[14%] left-0 h-px bg-gradient-to-r from-transparent via-[#EEE8D5]/[0.035] to-transparent" />
       </div>
 
-      {/* Decorative Visual Mount — Orbit-inspired Canvas 2D Morph Reveal Behind Headline */}
+      {/* Decorative Visual Mount — Production Video-driven WebGL Scene Behind Headline */}
       <div
         ref={visualMountRef}
-        className="hero-visual-mount pointer-events-none absolute right-[-8%] top-[40%] z-0 -translate-y-1/2 opacity-100 transition-opacity duration-700 select-none sm:right-[-2%] sm:top-[42%] md:right-[2%] lg:right-[5%] lg:top-[40%] xl:right-[8%]"
+        className="hero-visual-mount pointer-events-none absolute inset-0 z-0 h-full w-full opacity-100 transition-opacity duration-700 select-none"
       >
-        <HeroVisual containerRef={sectionRef} />
+        <HeroVideoScene containerRef={sectionRef} />
       </div>
 
       {/* Main Foreground Content: Title spans across the full width with visual visible underneath */}
