@@ -7,7 +7,6 @@ import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { useLocaleStore } from "@/lib/store/locale-store";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { heroContent } from "@/data/hero-content";
-import { ParticleBackground } from "@/components/zen/particle-background";
 import { ArrowRightIcon } from "@/components/zen/icons";
 
 if (typeof window !== "undefined") {
@@ -16,21 +15,21 @@ if (typeof window !== "undefined") {
 
 /**
  * Zen ERP — Creative Software Studio Opening Scene
- * Unicorn Studio Particle Logo Integration
  *
- * Implements:
- * - 3-Line editorial headline spanning across the viewport as the dominant focal point
- * - Dedicated Unicorn Studio WebGL particle logo layer behind the headline (4:3 aspect ratio)
- * - Layered spatial depth: Text in front (z-10), particle logo behind (z-0), CTAs in front (z-20)
- * - Interactive pointer response enabled for the WebGL canvas while keeping CTAs/links safe
- * - GSAP-choreographed line-mask entrance sequence & desktop ScrollTrigger parallax
+ * Responsibilities:
+ * - 3-line editorial headline spanning the viewport as the dominant focal point
+ * - Foreground content choreography driven by GSAP
+ * - Desktop ScrollTrigger parallax for the Hero content
  * - Full prefers-reduced-motion & bilingual EN / ES support
+ *
+ * The Hero's decorative visual is intentionally decoupled from this component.
+ * A future visual system (e.g. the planned video/shader layer) can occupy the
+ * z-0 stage without coupling rendering logic to the content choreography.
  */
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const mainContentRef = useRef<HTMLDivElement>(null);
-  const particleLayerRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const openDialog = useLeadDialog((s) => s.openDialog);
@@ -41,7 +40,6 @@ export function Hero() {
   useEffect(() => {
     if (!sectionRef.current) return;
 
-    // Reduced motion: bypass animations, lock final layout immediately
     if (reduced) {
       gsap.set(
         [
@@ -50,7 +48,6 @@ export function Hero() {
           ".hero-desc",
           ".hero-actions",
           ".hero-signature",
-          ".hero-particle-layer",
           ".hero-scroll-cue",
           ".hero-context-label",
         ],
@@ -60,21 +57,17 @@ export function Hero() {
     }
 
     const ctx = gsap.context(() => {
-      // 1. Entrance timeline
       const tl = gsap.timeline({
         defaults: { ease: "power4.out" },
       });
 
-      // Initial clean states
       gsap.set(".hero-eyebrow", { opacity: 0, y: -10 });
       gsap.set(".hero-line-inner", { yPercent: 105, opacity: 0 });
       gsap.set(".hero-desc", { opacity: 0, y: 16 });
       gsap.set(".hero-actions", { opacity: 0, y: 14 });
       gsap.set(".hero-signature", { opacity: 0, y: 10 });
-      gsap.set(".hero-particle-layer", { opacity: 0, scale: 0.94 });
       gsap.set([".hero-scroll-cue", ".hero-context-label"], { opacity: 0, y: 8 });
 
-      // Orchestrated sequence with editorial rhythm
       tl.to(".hero-eyebrow", {
         opacity: 1,
         y: 0,
@@ -91,16 +84,6 @@ export function Hero() {
             ease: "power4.out",
           },
           "-=0.5"
-        )
-        .to(
-          ".hero-particle-layer",
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1.25,
-            ease: "power3.out",
-          },
-          "-=0.8"
         )
         .to(
           ".hero-desc",
@@ -131,36 +114,22 @@ export function Hero() {
           "-=0.45"
         );
 
-      // 2. Responsive ScrollTrigger Parallax (desktop-focused to preserve touch scrolling)
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        if (mainContentRef.current && particleLayerRef.current) {
-          gsap.to(mainContentRef.current, {
-            yPercent: -8,
-            opacity: 0.88,
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: 0.6,
-            },
-          });
+        if (!mainContentRef.current) return;
 
-          gsap.to(particleLayerRef.current, {
-            yPercent: 10,
-            scale: 0.96,
-            opacity: 0.5,
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: 0.6,
-            },
-          });
-        }
+        gsap.to(mainContentRef.current, {
+          yPercent: -8,
+          opacity: 0.88,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom top",
+            scrub: 0.6,
+          },
+        });
       });
     }, sectionRef);
 
@@ -181,19 +150,14 @@ export function Hero() {
         <div className="absolute right-0 bottom-[14%] left-0 h-px bg-gradient-to-r from-transparent via-[#EEE8D5]/[0.035] to-transparent" />
       </div>
 
-      {/* Particle Logo Layer — Unicorn Studio Interactive WebGL Asset Behind Main Headline */}
+      {/* Reserved z-0 visual stage. Keep decorative rendering decoupled from Hero content. */}
       <div
-        ref={particleLayerRef}
-        className="hero-particle-layer absolute right-[-8%] top-[40%] z-0 -translate-y-1/2 opacity-100 transition-opacity duration-700 sm:right-[-2%] sm:top-[42%] md:right-[2%] lg:right-[5%] lg:top-[40%] xl:right-[8%]"
-      >
-        <ParticleBackground
-          projectId="QDQaQFzBZdNVzpTTpmQU"
-          scale={1}
-          dpi={1.5}
-        />
-      </div>
+        aria-hidden="true"
+        data-hero-visual-stage="true"
+        className="pointer-events-none absolute inset-0 z-0 select-none"
+      />
 
-      {/* Main Foreground Content: Title spans across the full width with particles visible underneath */}
+      {/* Main Foreground Content */}
       <div
         ref={mainContentRef}
         className="relative z-10 mx-auto flex w-full max-w-[1480px] flex-1 flex-col justify-center px-5 sm:px-10 xl:px-16"
@@ -212,7 +176,7 @@ export function Hero() {
           </span>
         </div>
 
-        {/* 3-Line Oversized Headline: Dominant visual element in front of the particle field */}
+        {/* 3-Line Oversized Headline */}
         <h1
           ref={headlineRef}
           className="mt-5 flex flex-col font-display font-bold tracking-[-0.035em] text-[#EEE8D5] uppercase select-none pointer-events-none text-[clamp(1.95rem,7.5vw,3.25rem)] leading-[0.9] sm:mt-6 sm:text-[clamp(3.2rem,7.8vw,5.5rem)] sm:leading-[0.88] lg:text-[clamp(5rem,8.2vw,9.25rem)]"
@@ -233,17 +197,14 @@ export function Hero() {
           </span>
         </h1>
 
-        {/* Supporting Row: Description & CTAs (Left) + Studio Signature (Right) */}
+        {/* Supporting Row: Description & CTAs + Studio Signature */}
         <div className="mt-7 flex flex-col justify-between gap-7 sm:mt-9 lg:mt-11 lg:flex-row lg:items-end">
-          
-          {/* Left: Description + Interactive CTAs */}
           <div className="max-w-2xl">
             <p className="hero-desc text-sm leading-relaxed text-[#839496] sm:text-base sm:leading-relaxed lg:text-lg">
               {content.description}
             </p>
 
-            {/* Editorial CTAs (Explicitly z-20 pointer-events-auto for interactive protection) */}
-            <div className="hero-actions relative z-20 mt-6 flex flex-wrap items-center gap-5 sm:mt-8 sm:gap-7 pointer-events-auto">
+            <div className="hero-actions relative z-20 mt-6 flex flex-wrap items-center gap-5 pointer-events-auto sm:mt-8 sm:gap-7">
               <button
                 type="button"
                 onClick={() => openDialog("hero-primary")}
@@ -270,7 +231,6 @@ export function Hero() {
             </div>
           </div>
 
-          {/* Right: Studio Identity Signature Lockup */}
           <div className="hero-signature border-t border-[#EEE8D5]/[0.08] pt-5 lg:border-t-0 lg:pt-0 lg:text-right">
             <span className="block font-display text-xs font-bold tracking-widest text-[#EEE8D5] uppercase sm:text-sm">
               {content.signature.brand}
@@ -285,22 +245,19 @@ export function Hero() {
         </div>
       </div>
 
-      {/* Atmospheric Bottom Scene Bar (Contextual labels & scroll cue) */}
+      {/* Atmospheric Bottom Scene Bar */}
       <div
         ref={footerRef}
         className="relative z-10 mx-auto mt-4 flex w-full max-w-[1480px] items-center justify-between border-t border-[#EEE8D5]/[0.06] px-5 pt-4 text-xs text-[#839496] select-none sm:px-10 sm:pt-5 xl:px-16"
       >
-        {/* Contextual Label 01 */}
         <span className="hero-context-label font-mono text-[10px] tracking-widest text-[#839496]/70 uppercase sm:text-[11px]">
           {content.contextualLabels.arch}
         </span>
 
-        {/* Contextual Label 02 (Center) */}
         <span className="hero-context-label hidden font-mono text-[11px] tracking-widest text-[#839496]/50 uppercase md:inline">
           {content.contextualLabels.eng}
         </span>
 
-        {/* Contextual Label 03 / Scroll Cue */}
         <div className="flex items-center gap-5 sm:gap-6">
           <span className="hero-context-label hidden font-mono text-[11px] tracking-widest text-[#839496]/50 uppercase lg:inline">
             {content.contextualLabels.systems}
