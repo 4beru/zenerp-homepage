@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, memo } from "react";
 
-export const HERO_VIDEO_SRC = "/video/15465338_1920_1080_30fps.mp4";
+export const HERO_VIDEO_WEBM_SRC = "/video/15465338_1920_1080_30fps.webm";
+export const HERO_VIDEO_MP4_SRC = "/video/15465338_1920_1080_30fps.mp4";
+export const HERO_VIDEO_SRC = HERO_VIDEO_WEBM_SRC;
 
 export interface HeroVideoBackgroundProps {
   className?: string;
@@ -46,17 +48,19 @@ export const HeroVideoBackground = memo(function HeroVideoBackground({
       className={`absolute inset-0 h-full w-full overflow-hidden pointer-events-none select-none z-0 ${className}`}
       aria-hidden="true"
     >
-      {/* 1. Direct High-Performance Video Background */}
+      {/* 1. Direct High-Performance Video Background with WebM and MP4 Sources */}
       <video
         ref={videoRef}
-        src={HERO_VIDEO_SRC}
         autoPlay
         loop
         muted
         playsInline
         preload="auto"
         className="absolute inset-0 h-full w-full object-cover object-center opacity-85 transition-opacity duration-1000"
-      />
+      >
+        <source src={HERO_VIDEO_WEBM_SRC} type="video/webm" />
+        <source src={HERO_VIDEO_MP4_SRC} type="video/mp4" />
+      </video>
 
       {/* 2. Soft Architectural Gradient Overlays for Guaranteed Text Legibility */}
       {/* Left-to-right fade for editorial headline and description */}

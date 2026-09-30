@@ -9,7 +9,9 @@ import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
  * Single source of truth for the Hero Video asset path.
  * Uses the uploaded asset 15465338_1920_1080_30fps.mp4 (or standard zen-erp-hero.mp4).
  */
-export const HERO_VIDEO_SRC = "/video/15465338_1920_1080_30fps.mp4";
+export const HERO_VIDEO_WEBM_SRC = "/video/15465338_1920_1080_30fps.webm";
+export const HERO_VIDEO_MP4_SRC = "/video/15465338_1920_1080_30fps.mp4";
+export const HERO_VIDEO_SRC = HERO_VIDEO_WEBM_SRC;
 
 export interface HeroVideoSceneProps {
   containerRef?: React.RefObject<HTMLElement | null>;
