@@ -7,7 +7,7 @@ import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { useLocaleStore } from "@/lib/store/locale-store";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { heroContent } from "@/data/hero-content";
-import { HeroVideoScene } from "@/components/effects/HeroVideoScene";
+import { HeroVideoBackground } from "@/components/effects/HeroVideoBackground";
 import { ArrowRightIcon } from "@/components/zen/icons";
 
 if (typeof window !== "undefined") {
@@ -30,7 +30,6 @@ export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
   const mainContentRef = useRef<HTMLDivElement>(null);
-  const visualMountRef = useRef<HTMLDivElement>(null);
   const footerRef = useRef<HTMLDivElement>(null);
 
   const openDialog = useLeadDialog((s) => s.openDialog);
@@ -71,7 +70,6 @@ export function Hero() {
       gsap.set(".hero-desc", { opacity: 0, y: 16 });
       gsap.set(".hero-actions", { opacity: 0, y: 14 });
       gsap.set(".hero-signature", { opacity: 0, y: 10 });
-      gsap.set(".hero-visual-mount", { opacity: 0, scale: 0.96 });
       gsap.set([".hero-scroll-cue", ".hero-context-label"], { opacity: 0, y: 8 });
 
       // Orchestrated sequence with editorial rhythm
@@ -91,16 +89,6 @@ export function Hero() {
             ease: "power4.out",
           },
           "-=0.5"
-        )
-        .to(
-          ".hero-visual-mount",
-          {
-            opacity: 1,
-            scale: 1,
-            duration: 1.25,
-            ease: "power3.out",
-          },
-          "-=0.8"
         )
         .to(
           ".hero-desc",
@@ -135,23 +123,10 @@ export function Hero() {
       const mm = gsap.matchMedia();
 
       mm.add("(min-width: 768px)", () => {
-        if (mainContentRef.current && visualMountRef.current) {
+        if (mainContentRef.current) {
           gsap.to(mainContentRef.current, {
             yPercent: -8,
             opacity: 0.88,
-            ease: "none",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: 0.6,
-            },
-          });
-
-          gsap.to(visualMountRef.current, {
-            yPercent: 10,
-            scale: 0.96,
-            opacity: 0.5,
             ease: "none",
             scrollTrigger: {
               trigger: sectionRef.current,
@@ -174,19 +149,14 @@ export function Hero() {
       aria-label="Zen ERP Opening Scene"
       className="relative flex min-h-screen min-h-[100dvh] w-full flex-col justify-between overflow-hidden bg-[#050505] isolate pt-24 pb-6 sm:pt-28 md:pt-32"
     >
-      {/* Restrained architectural background grid lines */}
+      {/* 1. Direct Background Video Asset */}
+      <HeroVideoBackground />
+
+      {/* 2. Restrained architectural background grid lines */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-40 select-none">
         <div className="absolute top-0 right-[35%] bottom-0 hidden w-px bg-gradient-to-b from-transparent via-[#EEE8D5]/[0.04] to-transparent lg:block" />
         <div className="absolute top-[28%] right-0 left-0 h-px bg-gradient-to-r from-transparent via-[#EEE8D5]/[0.035] to-transparent" />
         <div className="absolute right-0 bottom-[14%] left-0 h-px bg-gradient-to-r from-transparent via-[#EEE8D5]/[0.035] to-transparent" />
-      </div>
-
-      {/* Decorative Visual Mount — Production Video-driven WebGL Scene Behind Headline */}
-      <div
-        ref={visualMountRef}
-        className="hero-visual-mount pointer-events-none absolute inset-0 z-0 h-full w-full opacity-100 transition-opacity duration-700 select-none"
-      >
-        <HeroVideoScene containerRef={sectionRef} />
       </div>
 
       {/* Main Foreground Content: Title spans across the full width with visual visible underneath */}
