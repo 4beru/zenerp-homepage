@@ -138,7 +138,7 @@ export function Footer() {
               aria-hidden
               className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-zen-accent/80"
             />
-            Sitio en evolución — seguimos sumando secciones.
+            Core studio: Services · Approach · Contact
           </p>
         </div>
       </div>
