@@ -132,7 +132,7 @@ export function HeroContent() {
             opacity: 0.88,
             ease: "none",
             scrollTrigger: {
-              trigger: "#inicio",
+              trigger: scope,
               start: "top top",
               end: "bottom top",
               scrub: 0.6,
@@ -144,7 +144,7 @@ export function HeroContent() {
             yPercent: 40,
             ease: "none",
             scrollTrigger: {
-              trigger: "#inicio",
+              trigger: scope,
               start: "top top",
               end: "bottom top",
               scrub: 0.6,
