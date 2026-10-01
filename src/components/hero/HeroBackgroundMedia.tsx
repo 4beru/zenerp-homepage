@@ -10,10 +10,8 @@ export interface HeroBackgroundMediaProps {
 /**
  * Capa de media del Hero — Server Component.
  *
- * Punto de extensión para la futura capa WebGL: hoy delega en `VideoLayer`
- * (`<video>` nativo); mañana podrá conmutarse a un `WebGLLayer` que tome el
- * mismo HTMLVideoElement como textura, sin tocar `HeroContent`, layout, SEO
- * ni la estructura responsive.
+ * La media se delega directamente en VideoLayer (<video> nativo),
+ * manteniendo el fondo aislado del contenido semántico y del layout.
  *
  * Renderiza en el servidor: el navegador pide el video directamente al
  * origen (dev server o CDN) sin esperar al JS de React.
