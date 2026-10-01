@@ -1,44 +1,9 @@
-import { Header } from "@/components/zen/header";
-import { Hero } from "@/components/hero/Hero";
-import { Services } from "@/components/zen/services";
-import { Process } from "@/components/zen/process";
-import { Projects } from "@/components/zen/projects";
-import { Stats } from "@/components/zen/stats";
-import { Testimonials } from "@/components/zen/testimonials";
-import { Team } from "@/components/zen/team";
-import { Philosophy } from "@/components/zen/philosophy";
-import { Faq } from "@/components/zen/faq";
-import { ScopeBuilder } from "@/components/zen/scope-builder";
-import { ContactSection } from "@/components/zen/contact-section";
-import { Footer } from "@/components/zen/footer";
-import { ContactDialog } from "@/components/zen/contact-dialog";
-import { ScrollProgress } from "@/components/zen/scroll-progress";
-import { BackToTop } from "@/components/zen/back-to-top";
-import { faqs } from "@/data/faq";
-
-/** Datos estructurados (FAQPage) para resultados enriquecidos en buscadores. */
-const faqJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  mainEntity: faqs.map((f) => ({
-    "@type": "Question",
-    name: f.question,
-    acceptedAnswer: {
-      "@type": "Answer",
-      text: f.answer,
-    },
-  })),
-};
-
 /**
  * Zen ERP — Homepage.
- * Fase 01: Hero. Fase 02: Servicios. Fase 03: Proceso.
- * Fase 04: Proyectos, Filosofía y CTA final. Fase 05: FAQ.
- * Fase 06: Testimonios (carrusel sereno). Fase 07: Contacto completo.
- * Fase 08: Equipo + Privacidad + rate limiting.
- * Fase 09: banda de métricas (count-up) + asistente del FAQ.
- * Fase 10: PWA + a11y (skip-link, teclado, noscript) + sheen.
- * Fase 11: "Armá tu sistema" (armador de alcance) entre FAQ y Contacto.
+ * Hero → Services → Approach → Contact.
+ *
+ * The homepage is intentionally focused: one opening statement followed by
+ * the service catalog, working approach, and final contact action.
  */
 export default function Home() {
   return (
@@ -53,13 +18,6 @@ export default function Home() {
         <Hero />
         <Services />
         <Process />
-        <Projects />
-        <Stats />
-        <Testimonials />
-        <Team />
-        <Philosophy />
-        <Faq />
-        <ScopeBuilder />
         <ContactSection />
       </main>
       <Footer />
