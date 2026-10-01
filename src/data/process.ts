@@ -2,43 +2,38 @@ import type { processIcons } from "@/components/zen/icons";
 
 export type Step = {
   title: string;
-  /** Nombre del ícono — debe existir en processIcons. */
   icon: keyof typeof processIcons;
-  /** Línea corta que resume el paso (se muestra como chip). */
   kicker: string;
   description: string;
 };
 
-/**
- * Proceso de trabajo (sección numerada). 4 pasos.
- */
 export const steps: Step[] = [
   {
-    title: "Diagnóstico",
+    title: "Diagnosis",
     icon: "chat",
-    kicker: "Escuchamos primero",
+    kicker: "Start with the operation",
     description:
-      "Charlamos con vos para entender cómo funciona tu negocio hoy y dónde se traba. Sin tecnicismos: nos contás tu problema, nosotros lo traducimos a un plan.",
+      "We map how the business works today, where information gets stuck, and what the system actually needs to change.",
   },
   {
-    title: "Propuesta",
+    title: "Scope",
     icon: "note",
-    kicker: "Precio cerrado",
+    kicker: "Make the work explicit",
     description:
-      "Te dejamos por escrito qué vamos a construir, en cuánto tiempo y con qué alcance. Precio cerrado y sin sorpresas después.",
+      "The proposal defines what is included, what is not, what gets built first, and which decisions still need input.",
   },
   {
-    title: "Desarrollo",
+    title: "Build",
     icon: "hammer",
-    kicker: "Avances reales",
+    kicker: "Show working software",
     description:
-      "Construimos por etapas y te mostramos avances reales para que pruebes el sistema mientras se desarrolla. Ajustamos sobre la marcha.",
+      "Implementation happens in understandable stages so the people who will use the result can react to real software, not abstract promises.",
   },
   {
-    title: "Entrega y soporte",
+    title: "Launch & support",
     icon: "handshake",
-    kicker: "No desaparecemos",
+    kicker: "Stay close to production",
     description:
-      "Capacitamos a tu equipo, ponemos todo en producción y quedamos cerca para dar soporte. No desaparecemos después de la entrega.",
+      "We prepare the release, hand over the system clearly, and keep the path open for support, maintenance, and future improvements.",
   },
 ];

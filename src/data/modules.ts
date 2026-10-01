@@ -1,12 +1,7 @@
-/**
- * Scope Builder — define the problem before the project.
- */
-
 export type ScopeCategory = {
   id: string;
   label: string;
   description: string;
-  image: string;
 };
 
 export type ScopeNeed = {
@@ -25,37 +20,29 @@ export const scopeCategories: ScopeCategory[] = [
   {
     id: "digital-product",
     label: "Digital Product",
-    description: "A web or mobile application for customers or internal teams.",
-    image:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop&q=80",
+    description: "A web product, client portal, or customer-facing application.",
   },
   {
     id: "business-system",
     label: "Business System",
-    description: "An operational system to run your business: ERP, CRM, inventory.",
-    image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&h=600&fit=crop&q=80",
+    description: "A system for sales, stock, purchasing, operations, or administration.",
   },
   {
     id: "mobile-app",
     label: "Mobile Application",
-    description: "A field, logistics, or customer-facing mobile app.",
-    image:
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop&q=80",
+    description: "A field, logistics, delivery, or customer-facing mobile workflow.",
   },
   {
     id: "custom-engineering",
     label: "Custom Engineering",
-    description: "A specialized tool, integration, or internal platform.",
-    image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=800&h=600&fit=crop&q=80",
+    description: "A focused tool, integration, automation, or specialized platform.",
   },
 ];
 
 export const scopeNeeds: ScopeNeed[] = [
   { id: "crm", categoryId: "business-system", label: "CRM & sales pipeline" },
   { id: "inventory", categoryId: "business-system", label: "Inventory & stock" },
-  { id: "invoicing", categoryId: "business-system", label: "Invoicing & accounting" },
+  { id: "invoicing", categoryId: "business-system", label: "Invoicing & administration" },
   { id: "ecommerce", categoryId: "digital-product", label: "E-commerce storefront" },
   { id: "portal", categoryId: "digital-product", label: "Client portal" },
   { id: "delivery", categoryId: "mobile-app", label: "Delivery & logistics" },
@@ -68,38 +55,39 @@ export const scopeNeeds: ScopeNeed[] = [
 export const scopeSituations: ScopeSituation[] = [
   {
     id: "spreadsheets",
-    label: "Spreadsheets and memory",
-    hint: "No system yet",
+    label: "Spreadsheets and manual work",
+    hint: "No system or too much work outside one",
   },
   {
     id: "outgrown",
     label: "A system that no longer fits",
-    hint: "Something exists, but it's not enough",
+    hint: "Useful core, important gaps",
   },
   {
     id: "complex",
-    label: "A complex system nobody understands",
-    hint: "Too much complexity",
+    label: "Too much complexity",
+    hint: "The system has become hard to operate",
   },
   {
     id: "none",
     label: "Starting from scratch",
-    hint: "Clean slate",
+    hint: "A clean starting point",
   },
 ];
 
 export const scopeBuilderCopy = {
-  eyebrow: "09 / DEFINE THE SCOPE",
-  eyebrowSub: "LET'S SHAPE THE PROBLEM TOGETHER",
+  eyebrow: "DEFINE THE SCOPE",
+  eyebrowSub: "A PRODUCTIVE STARTING POINT",
   title: ["WHAT ARE YOU", "BUILDING?"],
   description:
-    "Three questions to define a starting point. Not a budget—an honest first opinion about where to begin.",
+    "Answer three short questions, then turn the result into a real project brief. The form stays on this page so the context is not lost.",
   steps: [
-    "What type of project?",
-    "What does it need to do?",
-    "What's the current situation?",
+    "Project type",
+    "Core needs",
+    "Current situation",
   ],
-  resultHeading: "SUGGESTED STARTING POINT",
-  ctaLabel: "Continue to contact",
+  resultHeading: "PROJECT BRIEF",
+  formHeading: "SEND THE BRIEF",
+  ctaLabel: "Build the brief",
   resetLabel: "Start over",
 };

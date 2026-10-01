@@ -1,59 +1,41 @@
-/**
- * Testimonials — client voices from real engagements.
- */
-
-export type Testimonial = {
-  quote: string;
-  name: string;
-  role: string;
-  industry: string;
-  result: string;
+export type ClientPerspective = {
   index: string;
+  brief: string;
+  principle: string;
+  response: string;
 };
 
-export const testimonials: Testimonial[] = [
+export const testimonials: ClientPerspective[] = [
   {
-    quote:
-      "We came from spreadsheets and three systems that couldn't talk to each other. Today, stock closes on its own and the factory works off a single screen. What I value most: they always explained things in plain language.",
-    name: "Martín G.",
-    role: "Factory owner",
-    industry: "Manufacturing · Odoo",
-    result: "Real-time inventory",
     index: "01",
+    brief: "“We have sales in one place, stock in another, and the team is filling the gaps by hand.”",
+    principle: "Map the workflow before replacing the tools.",
+    response: "Start with the points where information changes hands. The first job is usually clarity, not software.",
   },
   {
-    quote:
-      "We had three branches and three different versions of the same company. With ERPNext we unified everything without paying per-branch licenses. The migration was gradual—we never stopped selling.",
-    name: "Carolina R.",
-    role: "Operations manager",
-    industry: "Multi-branch retail · ERPNext",
-    result: "3 branches, one system",
     index: "02",
+    brief: "“Our field team cannot depend on a perfect connection.”",
+    principle: "Design for the environment people actually work in.",
+    response: "Offline-first flows, local state, and deliberate synchronization can matter more than another dashboard.",
   },
   {
-    quote:
-      "Our drivers work with the app even where there's no signal: it marks the order offline and syncs when they return. The drivers adopted it in two days—and they hate changing apps.",
-    name: "Diego S.",
-    role: "Logistics coordinator",
-    industry: "Distribution · Flutter app",
-    result: "Offline deliveries, zero paper",
     index: "03",
+    brief: "“The existing platform is useful, but one critical process does not fit it.”",
+    principle: "Extend the system only where the operation needs it.",
+    response: "Keep the stable core and add focused custom behavior instead of rebuilding everything.",
   },
   {
-    quote:
-      "Our B2B clients now order themselves through the portal, check balances, and download invoices. The sales team stopped answering repetitive emails and went back to selling.",
-    name: "Lucía T.",
-    role: "Commercial lead",
-    industry: "B2B portal · Next.js",
-    result: "Self-service orders 24/7",
     index: "04",
+    brief: "“We need customers to do more without adding more admin work.”",
+    principle: "Automate the repeatable path.",
+    response: "Portals, notifications, integrations, and clear self-service flows can move routine work out of the inbox.",
   },
 ];
 
 export const testimonialsSectionCopy = {
-  eyebrow: "05 / CLIENT VOICES",
-  eyebrowSub: "REAL ENGAGEMENTS · ABBREVIATED FOR CONFIDENTIALITY",
-  title: ["WHAT THE PEOPLE", "WE WORK WITH SAY."],
+  eyebrow: "CLIENT PERSPECTIVES",
+  eyebrowSub: "RECURRING PROBLEM SHAPES · NOT ATTRIBUTED TESTIMONIALS",
+  title: ["THE BRIEF CHANGES.", "THE PRINCIPLE DOESN'T."],
   description:
-    "Clients from different industries, at different stages. Names abbreviated for confidentiality—full case studies shared when they let us.",
+    "These are common operational briefs, written as patterns rather than invented client quotes. The response is where the engineering work begins.",
 };

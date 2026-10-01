@@ -3,45 +3,33 @@
 import { useEffect, useRef, useState } from "react";
 import { steps } from "@/data/process";
 import { processIcons } from "@/components/zen/icons";
-import { SectionHeading } from "@/components/zen/section-heading";
-import { Reveal } from "@/components/zen/reveal";
-import { LotusDivider } from "@/components/zen/lotus-divider";
+import { SectionHeader } from "@/components/zen/section-header";
+import { Reveal, RevealGroup, RevealItem } from "@/components/zen/reveal";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 
-/**
- * Scroll storytelling para "Cómo trabajamos": resalta el paso activo según la
- * posición del scroll (regla CSS-only sobre scrollY: robusta en cualquier
- * layout, sin pinneo). Con prefers-reduced-motion todo queda activo.
- * La línea de progreso del timeline crece con el índice activo.
- */
 export function Process() {
   const sectionRef = useRef<HTMLElement>(null);
   const [active, setActive] = useState(0);
   const reduced = usePrefersReducedMotion();
-  const openDialog = useLeadDialog((s) => s.openDialog);
+  const openDialog = useLeadDialog((state) => state.openDialog);
 
   useEffect(() => {
     if (reduced) return;
     const root = sectionRef.current;
     if (!root) return;
-    const stepEls = Array.from(
-      root.querySelectorAll<HTMLElement>("[data-step]")
-    );
-    if (stepEls.length === 0) return;
+    const stepEls = Array.from(root.querySelectorAll<HTMLElement>("[data-step]"));
+    if (!stepEls.length) return;
 
     let raf = 0;
     const update = () => {
-      // Leer TODA la geometría primero (una pasada), escribir después:
-      // evita intercalar lecturas de layout con renders que mutan estilos
-      // (read-write-read = thrashing + estados rezagados).
       const center = window.innerHeight * 0.55;
-      const tops = stepEls.map((s) => s.getBoundingClientRect().top);
-      let current = 0;
-      tops.forEach((top, i) => {
-        if (top <= center) current = i;
+      const tops = stepEls.map((item) => item.getBoundingClientRect().top);
+      let next = 0;
+      tops.forEach((top, index) => {
+        if (top <= center) next = index;
       });
-      setActive(current);
+      setActive(next);
     };
 
     const onScroll = () => {
@@ -59,116 +47,98 @@ export function Process() {
     };
   }, [reduced]);
 
-  const isActive = (i: number) => (reduced ? true : i === active);
+  const current = reduced ? steps.length - 1 : active;
   const progress = reduced ? 1 : (active + 1) / steps.length;
 
   return (
     <section
       ref={sectionRef}
       id="proceso"
-      aria-labelledby="proceso-title"
-      className="relative overflow-hidden py-20 sm:py-28"
+      aria-labelledby="approach-heading"
+      className="relative w-full overflow-hidden bg-zen-bg-to px-0 pb-24 pt-20 text-zen-ink sm:pb-28 sm:pt-24 lg:pb-36 lg:pt-28"
     >
-      {/* Glow decorativo (esquina opuesta a Servicios) */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "radial-gradient(38% 34% at 12% 78%, rgba(255,171,145,0.06), transparent 70%)",
-        }}
-      />
+      <div className="mx-auto w-full max-w-[1480px] px-5 sm:px-10 xl:px-16">
+        <SectionHeader
+          index="03"
+          eyebrow="APPROACH"
+          eyebrowSub="A CLEAR PATH FROM PROBLEM TO PRODUCTION"
+          title={
+            <>
+              <span className="block">A CLEAR PROCESS,</span>
+              <span className="block">WITHOUT THE MYSTERY.</span>
+            </>
+          }
+          titleId="approach-heading"
+          description="From the first conversation to a working system. The important decisions stay visible as the project moves."
+        />
 
-      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
-        <Reveal>
-          <SectionHeading
-            index="03"
-            eyebrow="Cómo trabajamos"
-            title={
-              <span id="proceso-title">
-                Un proceso claro, <span className="text-zen-accent">sin sorpresas.</span>
-              </span>
-            }
-            description="Del primer diálogo al sistema funcionando. Sabés en qué etapa estás y qué viene después."
-          />
-        </Reveal>
-
-        {/* Timeline con línea de progreso */}
-        <div className="relative mt-14 lg:flex lg:items-stretch lg:gap-10">
-          {/* Línea vertical: base + relleno coral según el paso activo */}
-          <div
-            aria-hidden
-            className="absolute top-0 bottom-0 left-[15px] w-px bg-zen-line lg:relative lg:left-auto lg:block lg:w-px lg:shrink-0 lg:self-stretch"
-          >
-            <div
-              className="h-full w-full origin-top bg-zen-accent/80 transition-transform duration-700 ease-out"
-              style={{ transform: `scaleY(${progress})` }}
-            />
-          </div>
-
-          <ol className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            {steps.map((step, i) => {
-              const Icon = processIcons[step.icon];
-              return (
-                <li
-                  key={step.title}
+        <RevealGroup
+          as="ul"
+          className="relative mt-12 grid gap-0 border-t border-l border-zen-line sm:mt-14 lg:grid-cols-4"
+          stagger={0.08}
+        >
+          {steps.map((step, index) => {
+            const Icon = processIcons[step.icon];
+            const isActive = reduced || index === current;
+            return (
+              <RevealItem as="li" key={step.title} className="h-full border-b border-r border-zen-line">
+                <div
                   data-step
-                  data-active={isActive(i) ? "true" : "false"}
-                  className="step-card glass-card relative h-full rounded-2xl p-6 pt-12 pl-14 lg:pt-14 lg:pl-6"
+                  data-active={isActive}
+                  className="group relative flex h-full min-h-80 flex-col p-6 transition-colors duration-300 hover:bg-zen-surface sm:p-8"
                 >
-                  {/* Nodo del timeline (mobile: sobre la línea; desktop: chip de ícono) */}
-                  <span
-                    aria-hidden
-                    className="step-node absolute top-5 left-[9px] flex h-3.5 w-3.5 items-center justify-center rounded-full border-2 border-zen-accent/50 bg-zen-surface transition-all duration-500 lg:static lg:mb-5 lg:h-12 lg:w-12 lg:border-zen-accent/25"
-                  >
-                    <Icon
-                      className="hidden text-zen-accent transition-transform duration-500 lg:block"
-                      width={20}
-                      height={20}
-                    />
-                  </span>
-
-                  <span
-                    aria-hidden
-                    className="absolute top-5 right-6 font-mono text-xs text-zen-muted/50"
-                  >
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-
-                  <h3 className="text-lg font-semibold text-zen-ink">
-                    {step.title}
-                  </h3>
-                  <p className="mt-1.5">
-                    <span className="inline-flex items-center rounded-full border border-zen-accent/20 bg-zen-accent-soft px-2.5 py-0.5 text-[11px] font-medium text-zen-accent/90">
-                      {step.kicker}
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-[10px] tracking-[0.16em] text-zen-muted/60">
+                      {String(index + 1).padStart(2, "0")}
                     </span>
-                  </p>
-                  <p className="mt-3 text-sm leading-relaxed text-zen-muted">
-                    {step.description}
-                  </p>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+                    <span
+                      className={`flex h-10 w-10 items-center justify-center border transition-colors duration-300 ${
+                        isActive ? "border-zen-accent/50 text-zen-accent" : "border-zen-line text-zen-muted/50"
+                      }`}
+                      aria-hidden="true"
+                    >
+                      <Icon width={18} height={18} />
+                    </span>
+                  </div>
 
-        <Reveal>
-          <p className="mt-10 text-sm text-zen-muted">
-            El primer paso es gratis y sin compromiso:{" "}
+                  <div className="mt-auto">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.14em] text-zen-accent">
+                      {step.kicker}
+                    </p>
+                    <h3 className="mt-3 font-display text-2xl font-semibold uppercase tracking-tight text-zen-ink">
+                      {step.title}
+                    </h3>
+                    <p className="mt-4 text-sm leading-relaxed text-zen-muted sm:text-base">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  <div className="absolute inset-x-6 bottom-0 h-px origin-left bg-zen-accent transition-transform duration-500 sm:inset-x-8" style={{ transform: `scaleX(${isActive ? 1 : 0})` }} />
+                </div>
+              </RevealItem>
+            );
+          })}
+        </RevealGroup>
+
+        <Reveal delay={0.16}>
+          <div className="mt-10 flex flex-col gap-4 border-t border-zen-line pt-5 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-2xl text-sm leading-relaxed text-zen-muted">
+              The first useful output is clarity about the problem and the shape of the work.
+            </p>
             <button
               type="button"
-              onClick={() =>
-                openDialog("proceso-agenda", "Charla inicial de 15 minutos")
-              }
-              className="link-accent cursor-pointer font-medium text-zen-accent"
+              onClick={() => openDialog("approach")}
+              className="inline-flex w-fit cursor-pointer items-center gap-2 border-b border-zen-accent/50 pb-1 text-sm font-medium text-zen-ink transition-colors hover:text-zen-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zen-accent"
             >
-              agendá una charla de 15 minutos →
+              Start a conversation →
             </button>
-          </p>
+          </div>
         </Reveal>
-      </div>
 
-      <LotusDivider />
+        <div className="mt-7 h-px w-full bg-zen-line" aria-hidden="true">
+          <div className="h-px origin-left bg-zen-accent/60 transition-transform duration-700" style={{ transform: `scaleX(${progress})` }} />
+        </div>
+      </div>
     </section>
   );
 }

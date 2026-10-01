@@ -1,264 +1,133 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { testimonials, testimonialsSectionCopy } from "@/data/testimonials";
+import { SectionHeader } from "@/components/zen/section-header";
 import { Reveal } from "@/components/zen/reveal";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/zen/icons";
 
 export function Testimonials() {
-  const total = testimonials.length;
   const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
-  const [visible, setVisible] = useState(
-    () => typeof IntersectionObserver === "undefined"
-  );
-  const regionRef = useRef<HTMLDivElement | null>(null);
-  const touchStartX = useRef<number | null>(null);
+  const current = testimonials[index];
+  const total = testimonials.length;
 
-  const go = useCallback(
-    (dir: 1 | -1) => setIndex((i) => (i + dir + total) % total),
-    [total]
-  );
-
-  useEffect(() => {
-    const el = regionRef.current;
-    if (!el || visible) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            setVisible(true);
-            io.disconnect();
-          }
-        }
-      },
-      { threshold: 0.35 }
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [visible]);
-
-  useEffect(() => {
-    if (!visible || paused || reduced) return;
-    const id = window.setInterval(() => {
-      setIndex((i) => (i + 1) % total);
-    }, 8000);
-    return () => window.clearInterval(id);
-  }, [index, visible, paused, reduced, total]);
-
-  useEffect(() => {
-    const onVisibility = () => {
-      const el = regionRef.current;
-      if (document.hidden) {
-        setPaused(true);
-      } else if (el) {
-        const stillEngaged =
-          el.matches(":hover") || el.matches(":focus-within");
-        setPaused(stillEngaged);
-      }
-    };
-    document.addEventListener("visibilitychange", onVisibility);
-    return () =>
-      document.removeEventListener("visibilitychange", onVisibility);
-  }, []);
-
-  const onTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0]?.clientX ?? null;
+  const go = (direction: -1 | 1) => {
+    setIndex((value) => (value + direction + total) % total);
   };
-  const onTouchEnd = (e: React.TouchEvent) => {
-    const start = touchStartX.current;
-    touchStartX.current = null;
-    if (start === null) return;
-    const delta = (e.changedTouches[0]?.clientX ?? 0) - start;
-    if (Math.abs(delta) > 40) go(delta < 0 ? 1 : -1);
-  };
-
-  const onKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowLeft") {
-      e.preventDefault();
-      go(-1);
-    } else if (e.key === "ArrowRight") {
-      e.preventDefault();
-      go(1);
-    }
-  };
-
-  const t = testimonials[index];
 
   return (
     <section
-      id="testimonials"
+      id="client-perspectives"
       aria-labelledby="testimonials-heading"
-      className="relative w-full overflow-hidden bg-[#0C1011] px-0 pb-24 pt-20 text-[#EEE8D5] sm:pb-28 sm:pt-24 lg:pb-36 lg:pt-28"
+      className="relative w-full overflow-hidden bg-zen-bg-to px-0 pb-24 pt-20 text-zen-ink sm:pb-28 sm:pt-24 lg:pb-36 lg:pt-28"
     >
-      <div className="relative mx-auto w-full max-w-[1480px] px-5 sm:px-10 xl:px-16">
-        <header className="border-b border-[#EEE8D5]/[0.08] pb-10 sm:pb-14">
-          <Reveal>
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-              <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#839496] sm:text-xs">
-                {testimonialsSectionCopy.eyebrow}
-              </p>
-              <span
-                className="hidden font-mono text-xs text-[#839496]/40 sm:inline"
-                aria-hidden="true"
-              >
-                ·
-              </span>
-              <span className="hidden font-mono text-xs tracking-wider text-[#839496]/70 sm:inline">
-                {testimonialsSectionCopy.eyebrowSub}
-              </span>
-            </div>
-          </Reveal>
+      <div className="mx-auto w-full max-w-[1480px] px-5 sm:px-10 xl:px-16">
+        <SectionHeader
+          index="05"
+          eyebrow={testimonialsSectionCopy.eyebrow}
+          eyebrowSub={testimonialsSectionCopy.eyebrowSub}
+          title={
+            <>
+              <span className="block">THE BRIEF CHANGES.</span>
+              <span className="block">THE PRINCIPLE DOESN&apos;T.</span>
+            </>
+          }
+          titleId="testimonials-heading"
+          description={testimonialsSectionCopy.description}
+        />
 
-          <Reveal delay={0.08}>
-            <h2
-              id="testimonials-heading"
-              className="mt-6 font-display text-[clamp(2rem,4.5vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.03em] text-[#EEE8D5] text-balance"
-            >
-              {testimonialsSectionCopy.title.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </h2>
-          </Reveal>
+        <Reveal delay={0.12}>
+          <div className="mt-12 border-y border-zen-line sm:mt-14" aria-label="Project perspective carousel">
+            <div className="grid lg:grid-cols-[minmax(0,1fr)_18rem]">
+              <div className="min-h-[21rem] border-b border-zen-line px-0 py-9 sm:min-h-[23rem] sm:py-12 lg:border-b-0 lg:border-r lg:px-10 lg:py-14">
+                <div aria-live="polite">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.18em] text-zen-accent">
+                    {current.index} / {String(total).padStart(2, "0")} · COMMON BRIEF
+                  </p>
 
-          <Reveal delay={0.14}>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#839496] sm:text-lg">
-              {testimonialsSectionCopy.description}
-            </p>
-          </Reveal>
-        </header>
-
-        <Reveal delay={0.2}>
-          <div
-            ref={regionRef}
-            role="region"
-            aria-roledescription="carousel"
-            aria-label="Client testimonials"
-            tabIndex={0}
-            className="relative mt-12 outline-none focus-visible:ring-2 focus-visible:ring-[#CB4B16]/50 focus-visible:ring-offset-4 focus-visible:ring-offset-[#0C1011] sm:mt-14"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            onFocus={() => setPaused(true)}
-            onBlur={(e) => {
-              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                setPaused(false);
-              }
-            }}
-            onTouchStart={onTouchStart}
-            onTouchEnd={onTouchEnd}
-            onKeyDown={onKeyDown}
-          >
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_auto] lg:gap-16">
-              <div className="relative">
-                <span
-                  aria-hidden="true"
-                  className="absolute -top-2 -left-1 select-none font-display text-8xl leading-none text-[#CB4B16]/15 lg:text-9xl"
-                >
-                  &ldquo;
-                </span>
-
-                <div
-                  aria-live="polite"
-                  className="relative min-h-[200px] pl-8 sm:min-h-[180px] lg:pl-12"
-                >
-                  <AnimatePresence mode="wait" initial={false}>
-                    <motion.blockquote
-                      key={index}
-                      initial={reduced ? false : { opacity: 0, y: 14 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={reduced ? undefined : { opacity: 0, y: -14 }}
-                      transition={{
-                        duration: 0.5,
-                        ease: [0.22, 1, 0.36, 1],
-                      }}
-                      className="text-xl leading-relaxed text-pretty text-[#EEE8D5]/90 sm:text-2xl lg:text-[1.75rem]"
-                    >
-                      {t.quote}
-                    </motion.blockquote>
-                  </AnimatePresence>
-                </div>
-
-                <AnimatePresence mode="wait" initial={false}>
-                  <motion.div
-                    key={index}
-                    initial={reduced ? false : { opacity: 0, y: 10 }}
+                  <motion.p
+                    key={current.index}
+                    initial={reduced ? false : { opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={reduced ? undefined : { opacity: 0, y: -10 }}
-                    transition={{
-                      duration: 0.45,
-                      ease: [0.22, 1, 0.36, 1],
-                      delay: 0.1,
-                    }}
-                    className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 border-t border-[#EEE8D5]/[0.08] pt-6 pl-8 lg:pl-12"
+                    transition={{ duration: reduced ? 0 : 0.45, ease: [0.22, 1, 0.36, 1] }}
+                    className="mt-8 max-w-4xl font-display text-2xl font-medium leading-[1.1] tracking-tight text-zen-ink sm:text-4xl lg:text-5xl"
                   >
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-[#839496]">
-                      {t.industry}
-                    </span>
-                    <span
-                      aria-hidden="true"
-                      className="h-1 w-1 rounded-full bg-[#839496]/40"
-                    />
-                    <span className="text-sm font-medium text-[#EEE8D5]">
-                      {t.name}
-                    </span>
-                    <span className="text-sm text-[#839496]">· {t.role}</span>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
+                    {current.brief}
+                  </motion.p>
 
-              <div className="flex flex-row items-end justify-between gap-6 lg:flex-col lg:items-end lg:justify-between lg:gap-8">
-                <div className="flex flex-col items-end gap-4 text-right lg:items-end">
-                  <span className="font-mono text-xs tracking-[0.14em] text-[#839496]">
-                    {t.index}
-                    <span className="text-[#839496]/40">/{String(total).padStart(2, "0")}</span>
-                  </span>
-                  <span className="inline-flex items-center rounded-sm border border-[#CB4B16]/30 bg-[#CB4B16]/10 px-3 py-1.5 font-mono text-[11px] uppercase tracking-wider text-[#CB4B16]">
-                    {t.result}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    aria-label="Previous testimonial"
-                    onClick={() => go(-1)}
-                    className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-[#EEE8D5]/[0.08] text-[#839496] transition-colors duration-200 hover:border-[#CB4B16]/40 hover:text-[#EEE8D5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#CB4B16]"
-                  >
-                    <ArrowLeftIcon width={18} height={18} />
-                  </button>
-                  <button
-                    type="button"
-                    aria-label="Next testimonial"
-                    onClick={() => go(1)}
-                    className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-[#EEE8D5]/[0.08] text-[#839496] transition-colors duration-200 hover:border-[#CB4B16]/40 hover:text-[#EEE8D5] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#CB4B16]"
-                  >
-                    <ArrowRightIcon width={18} height={18} />
-                  </button>
+                  <div className="mt-10 grid gap-7 sm:grid-cols-2">
+                    <div className="border-t border-zen-line pt-4">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-zen-muted">
+                        PRINCIPLE
+                      </p>
+                      <p className="mt-2 max-w-sm text-sm leading-relaxed text-zen-ink/90 sm:text-base">
+                        {current.principle}
+                      </p>
+                    </div>
+                    <div className="border-t border-zen-line pt-4">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-zen-muted">
+                        RESPONSE
+                      </p>
+                      <p className="mt-2 max-w-sm text-sm leading-relaxed text-zen-muted sm:text-base">
+                        {current.response}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
+
+              <aside className="flex flex-col justify-between p-6 sm:p-8">
+                <div>
+                  <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-zen-muted">
+                    FIELD NOTE
+                  </p>
+                  <div className="mt-5 h-px w-12 bg-zen-accent" aria-hidden="true" />
+                </div>
+                <div className="mt-10 flex items-center justify-between gap-5 lg:mt-0">
+                  <div className="flex gap-2">
+                    <button
+                      type="button"
+                      aria-label="Previous perspective"
+                      onClick={() => go(-1)}
+                      className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-zen-line text-zen-muted transition-colors hover:border-zen-accent/40 hover:text-zen-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zen-accent"
+                    >
+                      <ArrowLeftIcon width={17} height={17} />
+                    </button>
+                    <button
+                      type="button"
+                      aria-label="Next perspective"
+                      onClick={() => go(1)}
+                      className="inline-flex h-11 w-11 cursor-pointer items-center justify-center border border-zen-line text-zen-muted transition-colors hover:border-zen-accent/40 hover:text-zen-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zen-accent"
+                    >
+                      <ArrowRightIcon width={17} height={17} />
+                    </button>
+                  </div>
+
+                  <div className="text-right font-mono text-[10px] uppercase tracking-[0.16em] text-zen-muted/70">
+                    Manual · no auto-play
+                  </div>
+                </div>
+              </aside>
             </div>
 
-            <div
-              role="tablist"
-              aria-label="Testimonial indicators"
-              className="mt-10 flex items-center gap-3"
-            >
+            <div className="grid grid-cols-4 border-t border-zen-line sm:grid-cols-4" aria-label="Perspective selector">
               {testimonials.map((item, i) => (
-                <span
+                <button
                   key={item.index}
-                  className={`h-px transition-all duration-500 ${
-                    i === index
-                      ? "w-10 bg-[#CB4B16]"
-                      : "w-6 bg-[#EEE8D5]/[0.15]"
-                  }`}
-                  aria-hidden="true"
-                />
+                  type="button"
+                  onClick={() => setIndex(i)}
+                  aria-label={`Show perspective ${item.index}`}
+                  aria-current={i === index}
+                  className="border-r border-zen-line px-4 py-4 text-left last:border-r-0 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-zen-accent sm:px-6"
+                >
+                  <span className={`block h-1 w-full ${i === index ? "bg-zen-accent" : "bg-zen-line"}`} />
+                  <span className={`mt-3 block font-mono text-[10px] tracking-[0.14em] ${i === index ? "text-zen-accent" : "text-zen-muted/60"}`}>
+                    {item.index}
+                  </span>
+                </button>
               ))}
             </div>
           </div>

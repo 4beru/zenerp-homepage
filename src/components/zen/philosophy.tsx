@@ -1,10 +1,9 @@
-"use client";
-
 import {
   philosophyQuote,
   principles,
   philosophySectionCopy,
 } from "@/data/philosophy";
+import { SectionHeader } from "@/components/zen/section-header";
 import { Reveal, RevealGroup, RevealItem } from "@/components/zen/reveal";
 
 export function Philosophy() {
@@ -12,86 +11,54 @@ export function Philosophy() {
     <section
       id="principles"
       aria-labelledby="principles-heading"
-      className="relative w-full overflow-hidden bg-[#0C1011] px-0 pb-24 pt-20 text-[#EEE8D5] sm:pb-28 sm:pt-24 lg:pb-36 lg:pt-28"
+      className="relative w-full overflow-hidden bg-zen-bg-to px-0 pb-24 pt-20 text-zen-ink sm:pb-28 sm:pt-24 lg:pb-36 lg:pt-28"
     >
-      <div className="relative mx-auto w-full max-w-[1480px] px-5 sm:px-10 xl:px-16">
-        <header className="border-b border-[#EEE8D5]/[0.08] pb-10 sm:pb-14">
-          <Reveal>
-            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-              <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
-              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-[#839496] sm:text-xs">
-                {philosophySectionCopy.eyebrow}
-              </p>
-              <span
-                className="hidden font-mono text-xs text-[#839496]/40 sm:inline"
-                aria-hidden="true"
-              >
-                ·
-              </span>
-              <span className="hidden font-mono text-xs tracking-wider text-[#839496]/70 sm:inline">
-                {philosophySectionCopy.eyebrowSub}
-              </span>
-            </div>
-          </Reveal>
+      <div className="mx-auto w-full max-w-[1480px] px-5 sm:px-10 xl:px-16">
+        <SectionHeader
+          index="07"
+          eyebrow={philosophySectionCopy.eyebrow}
+          eyebrowSub={philosophySectionCopy.eyebrowSub}
+          title={
+            <>
+              <span className="block">SOFTWARE SHOULD FIT</span>
+              <span className="block">THE WAY PEOPLE WORK.</span>
+            </>
+          }
+          titleId="principles-heading"
+          description={philosophySectionCopy.description}
+        />
 
-          <Reveal delay={0.08}>
-            <h2
-              id="principles-heading"
-              className="mt-6 font-display text-[clamp(2rem,4.5vw,3.5rem)] font-bold uppercase leading-[0.95] tracking-[-0.03em] text-[#EEE8D5] text-balance"
-            >
-              {philosophySectionCopy.title.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
-            </h2>
-          </Reveal>
-
-          <Reveal delay={0.14}>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-[#839496] sm:text-lg">
-              {philosophySectionCopy.description}
-            </p>
-          </Reveal>
-        </header>
-
-        <div className="mt-14 lg:mt-20 lg:grid lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
-          <Reveal className="lg:sticky lg:top-32 lg:self-start">
-            <figure className="relative">
-              <span
-                aria-hidden="true"
-                className="block h-px w-16 bg-[#CB4B16]"
-              />
-              <blockquote className="mt-8 text-3xl font-medium leading-snug tracking-tight text-balance text-[#EEE8D5] sm:text-4xl lg:text-[2.75rem]">
-                &ldquo;{philosophyQuote}&rdquo;
-              </blockquote>
-              <figcaption className="mt-6 max-w-md text-sm leading-relaxed text-[#839496]">
-                That is the standard: when a system actually works, people
-                stop thinking about it. Stock closes, invoices go out,
-                deliveries arrive—and you get back to running your business.
+        <div className="mt-12 grid gap-0 border-t border-l border-zen-line lg:grid-cols-[0.82fr_1.18fr] sm:mt-14">
+          <Reveal className="border-b border-r border-zen-line p-6 sm:p-8 lg:p-10">
+            <figure className="flex min-h-72 flex-col justify-between lg:min-h-[34rem]">
+              <div>
+                <span className="block h-px w-14 bg-zen-accent" aria-hidden="true" />
+                <blockquote className="mt-8 max-w-xl font-display text-3xl font-medium leading-[1.05] tracking-[-0.03em] text-balance text-zen-ink sm:text-4xl lg:text-[3.25rem]">
+                  &ldquo;{philosophyQuote}&rdquo;
+                </blockquote>
+              </div>
+              <figcaption className="max-w-md border-t border-zen-line pt-5 text-sm leading-relaxed text-zen-muted sm:text-base">
+                The goal is not to make software disappear from the product
+                story. It is to make unnecessary friction disappear from the
+                work.
               </figcaption>
             </figure>
           </Reveal>
 
-          <RevealGroup as="ul" className="mt-14 lg:mt-0" stagger={0.08}>
-            {principles.map((p) => (
-              <RevealItem as="li" key={p.title}>
-                <div className="group border-t border-[#EEE8D5]/[0.08] py-8 transition-colors duration-300 first:border-t-0 first:pt-0 hover:border-[#CB4B16]/20 sm:py-10">
-                  <div className="flex gap-6 sm:gap-8">
-                    <span
-                      aria-hidden="true"
-                      className="mt-1 font-mono text-xs tracking-[0.14em] text-[#839496]/50"
-                    >
-                      {p.index}
-                    </span>
-
-                    <div className="flex-1">
-                      <h3 className="font-display text-xl font-semibold tracking-tight text-[#EEE8D5] sm:text-2xl">
-                        {p.title}
-                      </h3>
-                      <p className="mt-3 max-w-lg text-sm leading-relaxed text-[#839496] sm:text-base">
-                        {p.description}
-                      </p>
-                    </div>
+          <RevealGroup as="ul" className="grid" stagger={0.08}>
+            {principles.map((principle) => (
+              <RevealItem as="li" key={principle.index} className="border-b border-r border-zen-line p-6 sm:p-8 lg:p-10 last:border-b-0">
+                <div className="flex h-full gap-5 sm:gap-7">
+                  <span className="mt-1 font-mono text-[10px] tracking-[0.16em] text-zen-muted/60">
+                    {principle.index}
+                  </span>
+                  <div>
+                    <h3 className="font-display text-xl font-semibold uppercase tracking-tight text-zen-ink sm:text-2xl">
+                      {principle.title}
+                    </h3>
+                    <p className="mt-4 max-w-xl text-sm leading-relaxed text-zen-muted sm:text-base">
+                      {principle.description}
+                    </p>
                   </div>
                 </div>
               </RevealItem>

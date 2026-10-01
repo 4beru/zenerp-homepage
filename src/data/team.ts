@@ -1,56 +1,41 @@
-/**
- * Team / Studio — the people behind the software.
- */
-
-export type TeamMember = {
-  name: string;
-  role: string;
-  bio: string;
-  initials: string;
-  specialties: readonly string[];
-  portrait: string;
+export type StudioPractice = {
+  index: string;
+  title: string;
+  description: string;
+  capabilities: readonly string[];
 };
 
-export const team: readonly TeamMember[] = [
+export const team: readonly StudioPractice[] = [
   {
-    name: "Matías Z.",
-    role: "Founder · ERP Implementation",
-    bio:
-      "Fifteen years inside factories and shops watching where money disappears: stock that doesn't close, spreadsheets that crash. Today he leads every Odoo and ERPNext implementation—and writes a good part of the code.",
-    initials: "MZ",
-    specialties: ["Odoo", "ERPNext", "Python", "PostgreSQL"],
-    portrait:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=750&fit=crop&crop=faces&q=80",
+    index: "01",
+    title: "Product & Interface",
+    description:
+      "Turn business requirements into clear web and mobile experiences that people can operate without fighting the software.",
+    capabilities: ["Web platforms", "Mobile apps", "UX architecture", "Design systems"],
   },
   {
-    name: "Camila R.",
-    role: "Full-stack Developer",
-    bio:
-      "Turns business processes into screens people use without a manual. B2B portals, custom dashboards, odd integrations nobody wants to inherit—and she leaves them clean.",
-    initials: "CR",
-    specialties: ["Next.js", "React", "Node.js", "APIs"],
-    portrait:
-      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&h=750&fit=crop&crop=faces&q=80",
+    index: "02",
+    title: "Business Systems",
+    description:
+      "Map the operation, shape the records and permissions, then configure or extend the system around the real workflow.",
+    capabilities: ["Odoo", "ERPNext", "Data migration", "Operational workflows"],
   },
   {
-    name: "Joaquín P.",
-    role: "Mobile & Automation",
-    bio:
-      "Delivery apps that last a full day without signal and drivers who adopt them without training. If a process can be automated, he's already thinking how.",
-    initials: "JP",
-    specialties: ["Flutter", "Offline-first", "Sync", "Firebase"],
-    portrait:
-      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&h=750&fit=crop&crop=faces&q=80",
+    index: "03",
+    title: "Engineering & Integration",
+    description:
+      "Build the pieces that connect everything: APIs, automation, local stations, integrations, synchronization, and the infrastructure underneath.",
+    capabilities: ["APIs", "Automation", "Offline-first", "Deployment"],
   },
 ];
 
 export const teamNote =
-  "Small team by design: the person who estimates your project is the one who codes it. No management layers, no account managers, no hold music.";
+  "Small by design. The studio stays close to the problem, the code, and the people who will use the result.";
 
 export const teamSectionCopy = {
-  eyebrow: "06 / THE STUDIO",
+  eyebrow: "THE STUDIO",
   eyebrowSub: "SMALL TEAM · DIRECT ACCESS",
-  title: ["THE PEOPLE BEHIND", "THE SOFTWARE."],
+  title: ["THREE PRACTICES.", "ONE SYSTEM MINDSET."],
   description:
-    "A small studio on purpose. Whoever listens to your problem, scopes the work, and writes the code is the same person—from first call to launch.",
+    "We do not need a large org chart to do complex work. Product, systems, and engineering stay in the same conversation.",
 };

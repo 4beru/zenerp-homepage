@@ -1,7 +1,3 @@
-/**
- * Philosophy / Principles — the operating principles behind calm software.
- */
-
 export type Principle = {
   index: string;
   title: string;
@@ -16,32 +12,32 @@ export const principles: Principle[] = [
     index: "01",
     title: "Clarity",
     description:
-      "Fewer screens, more legibility. If software needs a manual to operate, something is wrong with the design.",
+      "Interfaces should make the next action obvious. Complexity belongs in the system, not in the user's head.",
   },
   {
     index: "02",
     title: "Ownership",
     description:
-      "Fixed price in writing, progress you can test with your hands, and decisions explained in plain language.",
+      "We document decisions, keep architecture legible, and avoid unnecessary dependence on a single platform.",
   },
   {
     index: "03",
     title: "Direct access",
     description:
-      "You talk to the person writing the code. No intermediaries, no tickets that nobody reads, no call centers.",
+      "The people close to the problem stay close to the implementation. Questions should move through the same channel as the work.",
   },
   {
     index: "04",
     title: "Restraint",
     description:
-      "Systems that work in silence. When everything functions properly, the software disappears from your day.",
+      "Use technology when it improves the operation. Skip the effect, dependency, or abstraction that only makes the system harder to carry.",
   },
 ];
 
 export const philosophySectionCopy = {
-  eyebrow: "07 / PRINCIPLES",
+  eyebrow: "PRINCIPLES",
   eyebrowSub: "HOW WE BUILD",
-  title: ["WE BELIEVE SOFTWARE", "SHOULD DISAPPEAR INTO", "THE WAY PEOPLE WORK."],
+  title: ["SOFTWARE SHOULD FIT", "THE WAY PEOPLE WORK."],
   description:
-    "Zen is not a pose—it's the way we build. Four principles we hold in every decision.",
+    "Zen is a working standard, not a visual pose. These four principles shape what we build and what we leave out.",
 };

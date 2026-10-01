@@ -14,17 +14,6 @@ import { ContactDialog } from "@/components/zen/contact-dialog";
 import { ScrollProgress } from "@/components/zen/scroll-progress";
 import { BackToTop } from "@/components/zen/back-to-top";
 
-/**
- * Zen ERP — Homepage.
- *
- * Hero → Services → Approach → Stats → Testimonials → Studio → Principles →
- * FAQ → Scope Builder → Contact.
- *
- * The primary navigation intentionally contains only:
- * Services · Approach · Contact.
- *
- * Remaining sections are discovered naturally through scrolling and internal CTAs.
- */
 export default function Home() {
   return (
     <div className="flex min-h-svh flex-col">

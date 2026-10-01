@@ -1,50 +1,41 @@
-/**
- * Stats / Proof — editorial metric field.
- */
-
 export type Stat = {
-  value: number;
-  suffix: string;
-  full: string;
+  value: string;
+  unit: string;
   label: string;
   detail: string;
 };
 
 export const stats: Stat[] = [
   {
-    value: 15,
-    suffix: "min",
-    full: "15 minutes",
-    label: "First conversation",
-    detail: "No charge, no commitment",
+    value: "06",
+    unit: "capabilities",
+    label: "Services",
+    detail: "Digital products, business systems, and custom engineering.",
   },
   {
-    value: 3,
-    suffix: "paths",
-    full: "3 possible paths",
-    label: "For every project",
-    detail: "Odoo, ERPNext, or custom engineering",
+    value: "04",
+    unit: "stages",
+    label: "Approach",
+    detail: "From diagnosis and scope through build, launch, and support.",
   },
   {
-    value: 24,
-    suffix: "h",
-    full: "24 hours maximum",
-    label: "Response time",
-    detail: "On business days",
+    value: "03",
+    unit: "anchors",
+    label: "Primary navigation",
+    detail: "Services, Approach, and Contact keep the public story focused.",
   },
   {
-    value: 100,
-    suffix: "%",
-    full: "100 percent yours",
-    label: "Your code and your data",
-    detail: "Always yours, no hostages",
+    value: "01",
+    unit: "intake",
+    label: "Direct project brief",
+    detail: "The site can move from exploration to a concrete project request.",
   },
 ];
 
 export const statsSectionCopy = {
-  eyebrow: "04 / PROOF",
-  eyebrowSub: "VERIFIABLE STUDIO CLAIMS",
-  title: ["WHAT THE WORK", "PRODUCES."],
+  eyebrow: "AT A GLANCE",
+  eyebrowSub: "THE SYSTEM IS DELIBERATELY SMALL",
+  title: ["A FEW FACTS", "ABOUT THE SYSTEM."],
   description:
-    "Numbers that describe how we operate—not how we wish we did. Each metric reflects a real commitment we keep.",
+    "No performance theater. Just a compact architecture for explaining what Zen ERP does, how it works, and how a project starts.",
 };
