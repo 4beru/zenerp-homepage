@@ -193,6 +193,13 @@ section[id] {
 
 /* ============ Movimiento (calma, no juguete) ============ */
 
+/* Grain decorativo del fondo del Hero: tile SVG inline (data URI), coste de
+   red cero. Desactivado bajo prefers-reduced-motion más abajo. */
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+}
+
 /* Blobs del fondo ambient del hero: "respiración" muy lenta y tenue */
 @keyframes zen-breathe {
   from { opacity: 0.55; transform: scale(1); }
@@ -536,6 +543,12 @@ section[id] {
 
   /* El sheen es puramente decorativo y en movimiento: fuera. */
   .card-hover::after {
+    display: none !important;
+  }
+
+  /* Hero: el grain es decorativo; el video no se inicia (VideoLayer) y queda
+     el poster estático. Aquí solo se apaga el grain por CSS. */
+  .hero-grain {
     display: none !important;
   }
 }

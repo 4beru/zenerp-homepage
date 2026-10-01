@@ -1,5 +1,5 @@
 import { Header } from "@/components/zen/header";
-import { Hero } from "@/components/zen/hero";
+import { Hero } from "@/components/hero/Hero";
 import { Services } from "@/components/zen/services";
 import { Process } from "@/components/zen/process";
 import { Projects } from "@/components/zen/projects";

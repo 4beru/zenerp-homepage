@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,49660,o=>{o.q("/_next/static/media/zen-logo.27mnsg-svrwaa.svg")}]);
