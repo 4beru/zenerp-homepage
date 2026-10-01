@@ -50,6 +50,11 @@ export function HeroContent() {
       return;
     }
 
+    // The animation scope is the Hero <section>, not only the main content
+    // wrapper. The context bar (scroll cue + labels) is a sibling of the
+    // main wrapper and therefore must be included in the GSAP scope.
+    const scope = contentRef.current.parentElement ?? contentRef.current;
+
     const ctx = gsap.context(() => {
       // 1. Entrance timeline
       const tl = gsap.timeline({
@@ -147,7 +152,7 @@ export function HeroContent() {
           });
         });
       });
-    }, contentRef);
+    }, scope);
 
     return () => ctx.revert();
   }, [reduced, locale]);
