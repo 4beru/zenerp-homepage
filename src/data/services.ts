@@ -1,65 +1,201 @@
 import type { serviceIcons } from "@/components/zen/icons";
 
-export type Service = {
+export type ServiceCategory = "all" | "products" | "systems" | "bespoke";
+
+export interface Service {
   id: string;
-  /** Nombre del ícono — debe existir en serviceIcons. */
+  category: Exclude<ServiceCategory, "all">;
+  /** Name of the icon in the shared service icon registry. */
   icon: keyof typeof serviceIcons;
   title: string;
   description: string;
-  /** Palabra corta para el chip "de qué se trata". */
   tag: string;
+  categoryLabel: string;
+  deliverables: string[];
+  operationalScope: string;
+}
+
+export interface ServicesSectionCopy {
+  eyebrow: string;
+  eyebrowSub: string;
+  headline: string[];
+  description: string;
+  filterLabels: Record<ServiceCategory, string>;
+  deliverablesHeading: string;
+  ctaAction: string;
+  commitmentsHeading: string;
+  commitments: Array<{
+    number: string;
+    title: string;
+    desc: string;
+  }>;
+  bottomBanner: {
+    tag: string;
+    headline: string;
+    subtext: string;
+    primaryCta: string;
+    secondaryCta: string;
+  };
+}
+
+export const servicesSectionCopy: ServicesSectionCopy = {
+  eyebrow: "02 / SERVICES",
+  eyebrowSub: "DIGITAL PRODUCTS · BUSINESS SYSTEMS · CUSTOM ENGINEERING",
+  headline: [
+    "SOFTWARE BUILT",
+    "FOR HOW YOUR BUSINESS",
+    "ACTUALLY OPERATES.",
+  ],
+  description:
+    "We design digital products and business systems around real workflows, constraints, and teams—not around the limitations of generic software.",
+  filterLabels: {
+    all: "All services",
+    products: "Digital products",
+    systems: "Business systems",
+    bespoke: "Custom engineering",
+  },
+  deliverablesHeading: "Deliverables",
+  ctaAction: "Discuss scope",
+  commitmentsHeading: "ENGINEERING PRINCIPLES",
+  commitments: [
+    {
+      number: "01",
+      title: "Ownership",
+      desc: "Source code, documentation, and deployment assets stay under your control.",
+    },
+    {
+      number: "02",
+      title: "Open architecture",
+      desc: "Prefer portable, maintainable systems over unnecessary platform dependence.",
+    },
+    {
+      number: "03",
+      title: "Workflow-first",
+      desc: "Interfaces and business rules are shaped around the way your team actually operates.",
+    },
+    {
+      number: "04",
+      title: "Operational resilience",
+      desc: "Performance, observability, backups, and graceful failure are part of the build.",
+    },
+  ],
+  bottomBanner: {
+    tag: "BEYOND THE CATALOG",
+    headline: "Need something outside these service lines?",
+    subtext:
+      "We can scope a custom system, integration, internal tool, or operational platform around the problem you need to solve.",
+    primaryCta: "Start a conversation",
+    secondaryCta: "Explore our process",
+  },
 };
 
-/**
- * Servicios ofrecidos. Editá libremente: se renderizan como grid en la home.
- */
 export const services: Service[] = [
   {
     id: "desarrollo-web",
+    category: "products",
     icon: "web",
-    tag: "Navegador",
-    title: "Desarrollo Web",
+    title: "Web Platforms & Applications",
     description:
-      "Sitios y plataformas que tus clientes y tu equipo usan desde el navegador, sin instalar nada.",
+      "Client portals, operational consoles, internal tools, and public-facing platforms built for the browser.",
+    tag: "Browser-native · Cloud",
+    categoryLabel: "Digital Products",
+    deliverables: [
+      "Frontend & backend architecture",
+      "Secure client and admin portals",
+      "REST & GraphQL APIs",
+      "Continuous delivery & cloud deployment",
+    ],
+    operationalScope:
+      "Designed for clear onboarding, maintainable code, and dependable access across distributed teams.",
   },
   {
     id: "apps-mobile",
+    category: "products",
     icon: "mobile",
-    tag: "iOS · Android",
-    title: "Apps Mobile",
+    title: "Mobile Field & Operational Apps",
     description:
-      "Aplicaciones para celular pensadas para el día a día de tu negocio, en tu bolsillo.",
+      "Mobile applications for logistics, field teams, warehouse operations, and direct customer workflows.",
+    tag: "iOS · Android · Offline-first",
+    categoryLabel: "Digital Products",
+    deliverables: [
+      "Cross-platform mobile applications",
+      "Offline storage & synchronization",
+      "Camera, barcode & GPS integrations",
+      "Push notifications & background tasks",
+    ],
+    operationalScope:
+      "Built for fast-moving environments where connectivity, battery life, and response time matter.",
   },
   {
     id: "apps-desktop",
+    category: "products",
     icon: "desktop",
-    tag: "Offline",
-    title: "Apps Desktop",
+    title: "Desktop Systems & Local Stations",
     description:
-      "Programas para PC que funcionan incluso sin conexión, ideales para depósitos, mostradores o fábricas.",
+      "Desktop software for fixed workstations, point of sale, warehouses, production floors, and connected peripherals.",
+    tag: "Windows · macOS · Linux · Local-first",
+    categoryLabel: "Digital Products",
+    deliverables: [
+      "Standalone desktop applications",
+      "USB / Serial peripheral integrations",
+      "Local transactional storage",
+      "Background synchronization & recovery",
+    ],
+    operationalScope:
+      "Keeps critical work moving when local speed and network independence are more important than cloud-only workflows.",
   },
   {
     id: "implementacion-odoo",
+    category: "systems",
     icon: "odoo",
-    tag: "ERP todo-en-uno",
-    title: "Implementación de Odoo",
+    title: "Odoo Implementation",
     description:
-      "Odoo es un sistema todo-en-uno para administrar ventas, stock, facturación y más. Lo configuramos a tu medida.",
+      "Configuration, customization, integrations, and rollout of Odoo around your sales, inventory, operations, and invoicing workflows.",
+    tag: "ERP · Open architecture",
+    categoryLabel: "Business Systems",
+    deliverables: [
+      "Process mapping & data preparation",
+      "Localization & electronic invoicing",
+      "Custom Python modules & reports",
+      "Migration, rollout & team training",
+    ],
+    operationalScope:
+      "Creates a coherent operational system while reducing duplicate work across sales, stock, purchasing, and administration.",
   },
   {
     id: "implementacion-erpnext",
+    category: "systems",
     icon: "erpnext",
-    tag: "Sin licencias",
-    title: "Implementación de ERPNext",
+    title: "ERPNext & Frappe Systems",
     description:
-      "ERPNext es un sistema de gestión flexible y sin costos de licencia. Lo adaptamos a tus procesos reales.",
+      "Open-source business systems tailored to workflows, permissions, records, reporting, and integrations.",
+    tag: "Open source · Frappe",
+    categoryLabel: "Business Systems",
+    deliverables: [
+      "Production infrastructure & hardening",
+      "Custom DocTypes & workflows",
+      "External service & payment integrations",
+      "Backups, monitoring & maintenance",
+    ],
+    operationalScope:
+      "A practical option for organizations that value control of their application and data without unnecessary licensing complexity.",
   },
   {
     id: "desarrollos-a-medida",
+    category: "bespoke",
     icon: "puzzle",
-    tag: "A medida",
-    title: "Desarrollos a medida",
+    title: "Bespoke Software & Custom Engines",
     description:
-      "¿Nada del mercado encaja con lo que necesitás? Diseñamos y construimos exactamente lo que tu operación pide.",
+      "Specialized software for business rules, calculations, pricing, integrations, and operational workflows that standard products cannot fit.",
+    tag: "Custom core · Proprietary logic",
+    categoryLabel: "Custom Engineering",
+    deliverables: [
+      "Domain-focused architecture & data models",
+      "Custom calculation and rules engines",
+      "APIs, webhooks & legacy integrations",
+      "Technical documentation & handover",
+    ],
+    operationalScope:
+      "Turns a specific operational requirement or competitive advantage into maintainable software you control.",
   },
 ];
