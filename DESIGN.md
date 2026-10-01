@@ -604,14 +604,10 @@ Reuse:
 
 Each major section should have one memorable visual behavior.
 
-Examples:
-
-- Services → system map
-- Process → architectural timeline
-- Projects → editorial case-study field
-- Stats → typographic metric field
-- Testimonials → calm quote composition
-- Team → human editorial profiles
+Current homepage:
+- Services → architectural capability register
+- Approach → working-method timeline
+- Contact → direct project intake
 
 ### Step 5 — Validate against the Hero
 
@@ -683,7 +679,7 @@ When a new visual principle is introduced:
 
 The Hero established the language.
 
-The rest of the homepage now has to become one coherent system.
+The focused homepage now has to become one coherent system around Hero, Services, Approach and Contact.
 
 ---
 
