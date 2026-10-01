@@ -19,8 +19,8 @@ if (typeof window !== "undefined") {
  * parallax + stores.
  *
  * No conoce el video ni los overlays: la media vive en `HeroBackground`,
- * de modo que una futura capa WebGL puede sustituirlos sin tocar este
- * componente, el layout, el SEO ni la estructura responsive.
+ * de modo que la capa visual puede cambiar sin tocar este componente,
+ * el layout, el SEO ni la estructura responsive.
  */
 export function HeroContent() {
   const contentRef = useRef<HTMLDivElement>(null);
