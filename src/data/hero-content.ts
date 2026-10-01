@@ -50,8 +50,8 @@ export const heroContent: Record<"en" | "es", HeroLocaleContent> = {
       action: "contact",
     },
     secondaryCta: {
-      label: "Explore our work",
-      href: "#proyectos",
+      label: "Explore our services",
+      href: "#servicios",
     },
     signature: {
       brand: "ZEN ERP",
@@ -84,8 +84,8 @@ export const heroContent: Record<"en" | "es", HeroLocaleContent> = {
       action: "contact",
     },
     secondaryCta: {
-      label: "Ver nuestros proyectos",
-      href: "#proyectos",
+      label: "Ver nuestros servicios",
+      href: "#servicios",
     },
     signature: {
       brand: "ZEN ERP",
