@@ -32,15 +32,9 @@ export type NavLink = {
 };
 
 export const navLinks: readonly NavLink[] = [
-  { href: "#servicios", label: "Servicios", ready: true },
-  { href: "#proceso", label: "Proceso", ready: true },
-  { href: "#proyectos", label: "Proyectos", ready: true },
-  { href: "#testimonios", label: "Testimonios", ready: true, footerOnly: true },
-  { href: "#equipo", label: "Equipo", ready: true, footerOnly: true },
-  { href: "#filosofia", label: "Filosofía", ready: true },
-  { href: "#faq", label: "FAQ", ready: true },
-  { href: "#tu-sistema", label: "Armá tu sistema", ready: true, footerOnly: true },
-  { href: "#contacto", label: "Contacto", ready: true },
+  { href: "#servicios", label: "Services", ready: true },
+  { href: "#proceso", label: "Approach", ready: true },
+  { href: "#contacto", label: "Contact", ready: true },
 ];
 
 /** Stack para la tira del hero. */
