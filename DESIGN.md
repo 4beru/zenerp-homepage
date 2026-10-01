@@ -684,3 +684,17 @@ When a new visual principle is introduced:
 The Hero established the language.
 
 The rest of the homepage now has to become one coherent system.
+
+---
+
+## 24. Architectural Service Register
+
+Services uses an editorial capability register rather than a generic card grid.
+
+- Full-width 1480px studio grid aligned with the Hero.
+- Hairlines establish horizontal rhythm and content grouping.
+- Service rows combine index, classification, capability, deliverables and action.
+- Filters are functional controls, not decorative tabs.
+- Terracotta is reserved for active states, CTAs and directional signals.
+- Dark surfaces use tonal separation instead of heavy glass or glow effects.
+- English is the working copy language for the current homepage redesign.
