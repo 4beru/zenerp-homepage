@@ -24,7 +24,7 @@ const studioNavItems: NavItem[] = [
  * Creative Studio Header (Section 9 & 10 of DESIGN.md)
  *
  * Implements:
- * - Clean 3-zone contract: Brand title — 5 clean nav links — Language switcher + Action
+ * - Clean 3-zone contract: Brand title — 3 core nav links — Language switcher + Action
  * - Single-line controls (no rounded pill buttons, zero AI-slop)
  * - Bilingual support (EN / ES) via useLocaleStore
  * - Accessible mobile menu with Escape/focus management
