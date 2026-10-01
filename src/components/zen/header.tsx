@@ -15,10 +15,8 @@ interface NavItem {
 }
 
 const studioNavItems: NavItem[] = [
-  { href: "#proyectos", en: "Work", es: "Proyectos" },
   { href: "#servicios", en: "Services", es: "Servicios" },
   { href: "#proceso", en: "Approach", es: "Proceso" },
-  { href: "#filosofia", en: "Philosophy", es: "Filosofía" },
   { href: "#contacto", en: "Contact", es: "Contacto" },
 ];
 
