@@ -274,19 +274,31 @@ export function Services() {
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => handleScrollStep("prev")}
-              disabled={activeCardIndex === 0}
+              onClick={() => {
+                if (activeCardIndex > 0) handleScrollStep("prev");
+              }}
+              aria-disabled={activeCardIndex === 0}
               aria-label="Previous service"
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className={`flex h-9 w-9 items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors ${
+                activeCardIndex === 0
+                  ? "cursor-not-allowed opacity-30"
+                  : "cursor-pointer hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505]"
+              }`}
             >
               <ArrowLeftIcon width={15} height={15} />
             </button>
             <button
               type="button"
-              onClick={() => handleScrollStep("next")}
-              disabled={activeCardIndex === services.length - 1}
+              onClick={() => {
+                if (activeCardIndex < services.length - 1) handleScrollStep("next");
+              }}
+              aria-disabled={activeCardIndex === services.length - 1}
               aria-label="Next service"
-              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className={`flex h-9 w-9 items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors ${
+                activeCardIndex === services.length - 1
+                  ? "cursor-not-allowed opacity-30"
+                  : "cursor-pointer hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505]"
+              }`}
             >
               <ArrowRightIcon width={15} height={15} />
             </button>
