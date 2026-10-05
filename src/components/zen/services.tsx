@@ -17,12 +17,14 @@ if (typeof window !== "undefined") {
  * Zen ERP — Creative Studio Services & Capabilities
  *
  * Implements the Splyt Awwwards GSAP Scroll Architecture:
- * - Unified Document Scroll Flow: Zero event-trapping, zero artificial locks.
- * - Pinned Horizontal Movement: As the user scrolls naturally down the page,
- *   the section pins at "top top" and the horizontal discipline cards glide smoothly (scrub: 1.2).
- * - Multi-layer Parallax: The left headline and tilted badge subtly shift with scroll.
- * - Once all cards have traversed, the pin unlocks seamlessly into the next section (#works).
- * - High-Craft Cards: Architectural layout with smooth image hover reveal & dark scrim (Khanh Nguyen folio style).
+ * - Unified Document Scroll Flow: Single timeline with pinSpacing: true.
+ * - Full-Viewport Pinning: Section guarantees 100vh coverage, preventing subsequent
+ *   sections from peeking or overlapping prematurely.
+ * - Accurate Width Measurement: Travel distance is computed from track width minus
+ *   visible slider width (track.scrollWidth - slider.clientWidth + padding), ensuring
+ *   all 6 disciplines (01..06) fully traverse into view before unpinning.
+ * - Single Unified Timeline: Both track movement and title parallax run in one timeline,
+ *   preventing dual-trigger rendering glitches.
  */
 export function Services() {
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -43,21 +45,22 @@ export function Services() {
 
     // Use gsap.context for complete cleanup and scoped timelines
     const ctx = gsap.context(() => {
-      // Dynamic computation of scroll width
+      // Dynamic computation of scroll width based on slider viewport
       const getScrollAmount = () => {
-        return Math.max(0, track.scrollWidth - window.innerWidth + 120);
+        const visibleWidth = slider.clientWidth || window.innerWidth * 0.65;
+        const totalWidth = track.scrollWidth;
+        return Math.max(0, totalWidth - visibleWidth + 80);
       };
 
-      const scrollAmount = getScrollAmount();
-
-      // Main Horizontal Pinning Timeline (Splyt Awwwards Pattern)
+      // Single Unified Timeline for both horizontal track and title parallax
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
           start: "top top",
-          end: () => `+=${Math.max(getScrollAmount() + 900, 1500)}px`,
+          end: () => `+=${Math.max(getScrollAmount() * 1.5, 2000)}px`,
           scrub: 1.2,
           pin: true,
+          pinSpacing: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
           onUpdate: (self) => {
@@ -74,34 +77,33 @@ export function Services() {
         },
       });
 
-      tl.to(track, {
-        x: () => -getScrollAmount(),
-        ease: "power1.inOut",
-      });
-
-      // Synchronized Parallax for Title & Badge
-      const titleTl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: () => `+=${Math.max(getScrollAmount() + 900, 1500)}px`,
-          scrub: true,
-        },
-      });
-
-      titleTl
-        .to(".service-title-part-1", {
-          xPercent: -15,
+      // Track translation along horizontal axis
+      tl.to(
+        track,
+        {
+          x: () => -getScrollAmount(),
           ease: "power1.inOut",
-        })
+        },
+        0
+      );
+
+      // Subtle parallax on the title elements synced with the same scroll
+      tl.to(
+        ".service-title-part-1",
+        {
+          xPercent: -12,
+          ease: "power1.inOut",
+        },
+        0
+      )
         .to(
           ".service-title-badge",
           {
-            xPercent: -10,
-            rotate: -4,
+            xPercent: -8,
+            rotate: -3,
             ease: "power1.inOut",
           },
-          "<"
+          0
         )
         .to(
           ".service-title-part-2",
@@ -109,7 +111,7 @@ export function Services() {
             xPercent: -5,
             ease: "power1.inOut",
           },
-          "<"
+          0
         );
 
       // Refresh on resize and layout settlement
@@ -121,13 +123,12 @@ export function Services() {
 
       const timer = setTimeout(() => {
         ScrollTrigger.refresh();
-      }, 300);
+      }, 350);
 
       return () => {
         window.removeEventListener("resize", handleResize);
         clearTimeout(timer);
         tl.kill();
-        titleTl.kill();
       };
     }, section);
 
@@ -152,10 +153,10 @@ export function Services() {
       ref={sectionRef}
       id="servicios"
       aria-labelledby="services-heading"
-      className="services-section relative w-full overflow-hidden bg-[#F0EBE6] text-[#201D1D]"
+      className="services-section relative flex h-screen min-h-screen w-full flex-col justify-between overflow-hidden bg-[#F0EBE6] text-[#201D1D]"
     >
       {/* 1. Architectural Transition Boundary (Dark Hero to Warm Light Scene) */}
-      <div className="w-full border-b border-[#201D1D]/15 bg-[#050505] px-6 py-4 text-[#839496] sm:px-10 lg:px-16">
+      <div className="w-full flex-none border-b border-[#201D1D]/15 bg-[#050505] px-6 py-3.5 text-[#839496] sm:px-10 lg:px-16">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
           <div className="flex items-center gap-2.5">
             <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
@@ -165,11 +166,11 @@ export function Services() {
         </div>
       </div>
 
-      {/* 2. Main Pinned Stage (Full Viewport Height) */}
-      <div className="relative mx-auto flex h-[calc(100vh-45px)] min-h-[620px] flex-col justify-between px-6 pt-6 pb-6 sm:px-10 lg:px-16 lg:pt-8">
+      {/* 2. Main Pinned Stage (Covers Full Available Height) */}
+      <div className="relative mx-auto flex w-full max-w-[1480px] flex-1 flex-col justify-between px-6 pt-5 pb-6 sm:px-10 lg:px-16 lg:pt-6">
         
         {/* Top Header & Metadata */}
-        <div className="flex items-center justify-between border-b border-[#201D1D]/15 pb-4 font-mono text-xs uppercase tracking-[0.2em] text-[#59524C]">
+        <div className="flex flex-none items-center justify-between border-b border-[#201D1D]/15 pb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#59524C]">
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
             <span>{servicesSectionCopy.eyebrow}</span>
@@ -187,37 +188,37 @@ export function Services() {
         </div>
 
         {/* Center Arena: Split Layout (Left Editorial Title + Right Sliding Track) */}
-        <div className="relative my-auto flex flex-1 flex-col justify-center gap-8 overflow-hidden py-4 lg:flex-row lg:items-center lg:gap-14">
+        <div className="relative my-auto flex w-full flex-1 flex-col justify-center gap-6 overflow-hidden py-2 lg:flex-row lg:items-center lg:gap-12">
           
           {/* Left Column: Bold Display Title (Splyt Awwwards Style) */}
           <div className="flex-none lg:w-[32%] xl:w-[30%]">
             <div className="service-title-part-1 overflow-hidden">
               <h2
                 id="services-heading"
-                className="font-display text-[clamp(2.5rem,5.5vw,4.8rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]"
+                className="font-display text-[clamp(2.4rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]"
               >
                 WE ENGINEER
               </h2>
             </div>
 
             {/* Tilted Terracotta Badge (Image Reference) */}
-            <div className="service-title-badge my-3 inline-block rotate-[-2deg] border border-[#201D1D]/20 bg-[#CB4B16] px-4 py-1.5 shadow-sm transition-transform">
+            <div className="service-title-badge my-2.5 inline-block rotate-[-2deg] border border-[#201D1D]/20 bg-[#CB4B16] px-4 py-1.5 shadow-sm transition-transform">
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#050505] sm:text-sm">
                 06 CORE DISCIPLINES
               </span>
             </div>
 
             <div className="service-title-part-2 overflow-hidden">
-              <h2 className="font-display text-[clamp(2.5rem,5.5vw,4.8rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]">
+              <h2 className="font-display text-[clamp(2.4rem,5vw,4.5rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]">
                 CALM SYSTEMS
               </h2>
             </div>
 
-            <p className="mt-4 max-w-sm text-xs leading-relaxed text-[#59524C] sm:text-sm">
+            <p className="mt-3.5 max-w-sm text-xs leading-relaxed text-[#59524C] sm:text-sm">
               {servicesSectionCopy.description}
             </p>
 
-            <div className="mt-5 hidden items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-[#59524C]/70 lg:flex">
+            <div className="mt-4 hidden items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-[#59524C]/70 lg:flex">
               <span className="h-1 w-1 rounded-full bg-[#CB4B16]" />
               <span>Scroll down to glide horizontally</span>
             </div>
@@ -248,7 +249,7 @@ export function Services() {
         </div>
 
         {/* 3. Bottom Controls & Progress Bar */}
-        <footer className="flex items-center justify-between border-t border-[#201D1D]/15 pt-4">
+        <footer className="flex flex-none items-center justify-between border-t border-[#201D1D]/15 pt-3">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#59524C]">
             <span className="text-[#201D1D] font-bold">
               0{activeCardIndex + 1}
@@ -276,18 +277,18 @@ export function Services() {
               onClick={() => handleScrollStep("prev")}
               disabled={activeCardIndex === 0}
               aria-label="Previous service"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
             >
-              <ArrowLeftIcon width={16} height={16} />
+              <ArrowLeftIcon width={15} height={15} />
             </button>
             <button
               type="button"
               onClick={() => handleScrollStep("next")}
               disabled={activeCardIndex === services.length - 1}
               aria-label="Next service"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
             >
-              <ArrowRightIcon width={16} height={16} />
+              <ArrowRightIcon width={15} height={15} />
             </button>
           </div>
         </footer>
@@ -323,7 +324,7 @@ function ServiceCard({
   return (
     <article
       onClick={() => onSelect(service.title)}
-      className="group relative flex h-[50vh] min-h-[380px] max-h-[500px] w-[280px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-[#201D1D]/15 bg-[#E8E1D9] p-6 shadow-sm transition-all duration-500 sm:w-[330px] sm:p-7 md:w-[360px] lg:w-[390px]"
+      className="group relative flex h-[48vh] min-h-[360px] max-h-[480px] w-[280px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-[#201D1D]/15 bg-[#E8E1D9] p-6 shadow-sm transition-all duration-500 sm:w-[320px] sm:p-7 md:w-[350px] lg:w-[380px]"
     >
       {/* Hover Background Image Layer (Smooth Reveal on Card Hover) */}
       <div
@@ -334,7 +335,7 @@ function ServiceCard({
           src={service.image}
           alt={service.imageAlt}
           fill
-          sizes="(max-width: 768px) 280px, 390px"
+          sizes="(max-width: 768px) 280px, 380px"
           className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
         />
         {/* Contrast Scrim / Tint to ensure foreground text is pristine and legible */}
@@ -352,7 +353,7 @@ function ServiceCard({
       </div>
 
       {/* Middle Section: Service Title & Subtitle */}
-      <div className="relative z-10 my-auto py-3">
+      <div className="relative z-10 my-auto py-2">
         <h3 className="font-display text-xl font-bold uppercase tracking-tight text-[#201D1D] transition-colors duration-500 sm:text-2xl group-hover:text-white">
           {service.title}
         </h3>
@@ -362,13 +363,13 @@ function ServiceCard({
       </div>
 
       {/* Bottom Section: Concise Editorial Summary & Action */}
-      <div className="relative z-10 border-t border-[#201D1D]/15 pt-4 transition-colors duration-500 group-hover:border-white/20">
+      <div className="relative z-10 border-t border-[#201D1D]/15 pt-3.5 transition-colors duration-500 group-hover:border-white/20">
         <p className="text-xs leading-relaxed text-[#59524C] transition-colors duration-500 group-hover:text-white/90">
           {service.description}
         </p>
 
         {/* Unboxed Metadata Tag & Interactive Action */}
-        <div className="mt-3.5 flex items-center justify-between font-mono text-[11px]">
+        <div className="mt-3 flex items-center justify-between font-mono text-[11px]">
           <span className="text-[#59524C] transition-colors duration-500 group-hover:text-white/70">
             {service.tag}
           </span>
