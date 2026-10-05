@@ -1,28 +1,25 @@
 /**
- * Configuración del sitio Zen ERP: marca, contacto y navegación.
- * Cambiá acá el email / WhatsApp reales cuando los definas.
+ * Site configuration for Zen ERP: branding, contact channels, and navigation.
  */
 export const siteConfig = {
   name: "Zen ERP",
-  tagline: "Software simple, hecho a tu medida.",
+  tagline: "Calm software, built to your measure.",
   description:
-    "Desarrollamos aplicaciones web, mobile y desktop e implementamos sistemas de gestión (ERP) como Odoo y ERPNext, adaptados a tu negocio. Simple, sin complicaciones.",
+    "We develop web, mobile, and desktop applications and implement management systems (ERP) like Odoo and ERPNext, tailored to your business operations. Calm, precise, reliable.",
   url: "https://zenerp.com",
 
-  /** Email donde llegan los leads. */
+  /** Inbound lead mailbox. */
   email: "contacto@zenerp.com",
 
-  /** WhatsApp para contacto directo. Dejá null para ocultar el botón. */
+  /** Direct WhatsApp channel. Set to null to hide. */
   whatsapp: {
     displayNumber: "+54 9 11 0000-0000",
-    link: "https://wa.me/5491100000000?text=Hola%2C%20quiero%20hablar%20sobre%20un%20proyecto",
+    link: "https://wa.me/5491100000000?text=Hello%2C%20I%20would%20like%20to%20discuss%20a%20project",
   } as { displayNumber: string; link: string } | null,
 } as const;
 
 /**
- * Navegación principal. `ready: false` = sección en próximas fases.
- * `footerOnly: true` = aparece en el footer pero no en el header
- * (para no superar el ancho del nav en 768px).
+ * Primary navigation links.
  */
 export type NavLink = {
   href: string;
@@ -33,18 +30,19 @@ export type NavLink = {
 
 export const navLinks: readonly NavLink[] = [
   { href: "#servicios", label: "Services", ready: true },
+  { href: "#works", label: "Works", ready: true },
   { href: "#proceso", label: "Approach", ready: true },
   { href: "#contacto", label: "Contact", ready: true },
 ];
 
-/** Stack para la tira del hero. */
+/** Technology stack ticker for hero and capabilities. */
 export const stack = [
-  { name: "Odoo", note: "ERP open source todo-en-uno" },
-  { name: "ERPNext", note: "ERP flexible, sin licencias" },
-  { name: "React", note: "Interfaces web modernas" },
-  { name: "Next.js", note: "Web rápida y escalable" },
-  { name: "Node.js", note: "Servidor y APIs" },
-  { name: "Flutter", note: "Apps iOS y Android" },
-  { name: "PostgreSQL", note: "Base de datos confiable" },
-  { name: "Python", note: "Automatizaciones y reglas de negocio" },
+  { name: "Odoo", note: "All-in-one open source ERP" },
+  { name: "ERPNext", note: "Flexible open enterprise core" },
+  { name: "React", note: "Modern responsive web interfaces" },
+  { name: "Next.js", note: "Fast scalable server-driven web" },
+  { name: "Node.js", note: "High-throughput APIs & backends" },
+  { name: "Flutter", note: "Cross-platform iOS and Android apps" },
+  { name: "PostgreSQL", note: "Mission-critical relational data" },
+  { name: "Python", note: "Automation workflows & business logic" },
 ] as const;

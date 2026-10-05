@@ -25,7 +25,7 @@ export function BackToTop() {
     <motion.button
       type="button"
       onClick={() => window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" })}
-      aria-label="Volver arriba"
+      aria-label="Back to top"
       className="glass-card fixed right-5 bottom-5 z-50 flex h-11 w-11 cursor-pointer items-center justify-center rounded-full text-zen-muted hover:text-zen-accent print:hidden sm:right-8 sm:bottom-8"
       style={{ pointerEvents: visible ? "auto" : "none" }}
       initial={false}

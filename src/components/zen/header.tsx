@@ -4,29 +4,27 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { siteConfig } from "@/lib/site-config";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
-import { useLocaleStore } from "@/lib/store/locale-store";
 import { CloseIcon, MenuIcon } from "@/components/zen/icons";
 import zenLogo from "../../../public/zen-logo.svg";
 
 interface NavItem {
   href: string;
-  en: string;
-  es: string;
+  label: string;
 }
 
 const studioNavItems: NavItem[] = [
-  { href: "#servicios", en: "Services", es: "Servicios" },
-  { href: "#proceso", en: "Approach", es: "Proceso" },
-  { href: "#contacto", en: "Contact", es: "Contacto" },
+  { href: "#servicios", label: "Services" },
+  { href: "#works", label: "Works" },
+  { href: "#proceso", label: "Approach" },
+  { href: "#contacto", label: "Contact" },
 ];
 
 /**
- * Creative Studio Header (Section 9 & 10 of DESIGN.md)
+ * Creative Studio Header
  *
  * Implements:
- * - Clean 3-zone contract: Brand title — 3 core nav links — Language switcher + Action
+ * - Clean 3-zone contract: Brand title — Core nav links — Action CTA
  * - Single-line controls (no rounded pill buttons, zero AI-slop)
- * - Bilingual support (EN / ES) via useLocaleStore
  * - Accessible mobile menu with Escape/focus management
  */
 export function Header() {
@@ -35,7 +33,6 @@ export function Header() {
   const [activeSection, setActiveSection] = useState<string | null>(null);
 
   const openDialog = useLeadDialog((s) => s.openDialog);
-  const { locale, setLocale, toggleLocale } = useLocaleStore();
 
   useEffect(() => {
     let raf = 0;
@@ -87,7 +84,6 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex h-[76px] max-w-[1480px] items-center justify-between px-6 sm:px-10 xl:px-16">
-        
         {/* Zone 1: Studio Wordmark */}
         <a
           href="#"
@@ -96,18 +92,18 @@ export function Header() {
         >
           <Image
             src={zenLogo}
-            alt={`Logo de ${siteConfig.name}`}
+            alt={`${siteConfig.name} logo`}
             className="shrink-0 transition-transform duration-500 group-hover:scale-105"
             height={28}
             style={{ height: 28, width: "auto" }}
             priority
           />
-          <span className="uppercase tracking-widest text-sm">
+          <span className="text-sm uppercase tracking-widest">
             Zen&nbsp;<span className="text-[#CB4B16]">ERP</span>
           </span>
         </a>
 
-        {/* Zone 2: Studio Navigation Links (Clean Typography with hairline underlines) */}
+        {/* Zone 2: Studio Navigation Links */}
         <nav
           aria-label="Main Navigation"
           className="hidden items-center gap-7 md:flex lg:gap-9"
@@ -119,11 +115,11 @@ export function Header() {
                 key={item.href}
                 href={item.href}
                 aria-current={isActive ? "true" : undefined}
-                className={`relative py-1 text-xs font-mono uppercase tracking-[0.16em] transition-colors duration-200 ${
+                className={`relative py-1 font-mono text-xs uppercase tracking-[0.16em] transition-colors duration-200 ${
                   isActive ? "text-[#EEE8D5]" : "text-[#839496] hover:text-[#EEE8D5]"
                 }`}
               >
-                <span>{locale === "en" ? item.en : item.es}</span>
+                <span>{item.label}</span>
                 {isActive && (
                   <span className="absolute bottom-0 left-0 h-px w-full bg-[#CB4B16]" />
                 )}
@@ -132,42 +128,14 @@ export function Header() {
           })}
         </nav>
 
-        {/* Zone 3: Language Switcher & Studio Primary Action */}
+        {/* Zone 3: Primary Action CTA */}
         <div className="hidden items-center gap-6 md:flex">
-          {/* Language Toggle: EN / ES */}
-          <div className="flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider">
-            <button
-              type="button"
-              onClick={() => setLocale("en")}
-              className={`cursor-pointer px-1.5 py-0.5 transition-colors ${
-                locale === "en"
-                  ? "text-[#EEE8D5] font-semibold"
-                  : "text-[#839496]/50 hover:text-[#839496]"
-              }`}
-            >
-              EN
-            </button>
-            <span className="text-[#839496]/30 select-none">/</span>
-            <button
-              type="button"
-              onClick={() => setLocale("es")}
-              className={`cursor-pointer px-1.5 py-0.5 transition-colors ${
-                locale === "es"
-                  ? "text-[#EEE8D5] font-semibold"
-                  : "text-[#839496]/50 hover:text-[#839496]"
-              }`}
-            >
-              ES
-            </button>
-          </div>
-
-          {/* Single-Line Action Button (Tactile 0-2px border, no pill) */}
           <button
             type="button"
             onClick={() => openDialog("header")}
             className="group relative inline-flex cursor-pointer items-center gap-2 border border-[#EEE8D5]/20 bg-transparent px-5 py-2.5 font-mono text-xs font-semibold tracking-wider text-[#EEE8D5] uppercase transition-all duration-300 hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505]"
           >
-            <span>{locale === "en" ? "Start a project" : "Iniciar proyecto"}</span>
+            <span>Start a project</span>
             <span className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
               ↗
             </span>
@@ -176,13 +144,6 @@ export function Header() {
 
         {/* Mobile Hamburger Button */}
         <div className="flex items-center gap-3 md:hidden">
-          <button
-            type="button"
-            onClick={toggleLocale}
-            className="font-mono text-xs text-[#839496] uppercase"
-          >
-            {locale.toUpperCase()}
-          </button>
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -211,7 +172,7 @@ export function Header() {
                   onClick={() => setOpen(false)}
                   className="block font-mono text-sm uppercase tracking-wider text-[#EEE8D5] hover:text-[#CB4B16]"
                 >
-                  {locale === "en" ? item.en : item.es}
+                  {item.label}
                 </a>
               </li>
             ))}
@@ -224,7 +185,7 @@ export function Header() {
                 }}
                 className="w-full border border-[#CB4B16] bg-[#CB4B16] px-5 py-3 font-mono text-xs font-semibold tracking-wider text-[#050505] uppercase"
               >
-                {locale === "en" ? "Start a project ↗" : "Iniciar proyecto ↗"}
+                Start a project ↗
               </button>
             </li>
           </ul>

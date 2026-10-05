@@ -34,8 +34,8 @@ export function Footer() {
 
   const copyEmail = () =>
     copy(siteConfig.email, {
-      success: "Email copiado",
-      fail: `No pudimos copiar — anotá ${siteConfig.email}`,
+      success: "Email copied to clipboard",
+      fail: `Could not copy — note ${siteConfig.email}`,
     });
 
   return (
@@ -47,21 +47,21 @@ export function Footer() {
         <LotusDivider />
 
         <div className="mt-10 grid gap-10 md:grid-cols-[1.2fr_0.8fr_1fr] md:items-start">
-          {/* Marca */}
+          {/* Brand */}
           <div className="max-w-sm">
             <p className="text-lg font-semibold tracking-tight text-zen-ink">
               Zen&nbsp;<span className="text-zen-accent">ERP</span>
             </p>
             <p className="mt-2 text-sm leading-relaxed text-zen-muted">
-              {siteConfig.tagline} Aplicaciones web, mobile y desktop +
-              implementación de Odoo y ERPNext.
+              {siteConfig.tagline} Web, mobile, and desktop engineering alongside
+              Odoo &amp; ERPNext deployments.
             </p>
           </div>
 
-          {/* Navegación rápida */}
-          <nav aria-label="Navegación del pie">
+          {/* Quick navigation */}
+          <nav aria-label="Footer navigation">
             <p className="text-xs font-semibold tracking-[0.16em] text-zen-muted/70 uppercase">
-              Explorá
+              Explore
             </p>
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-2.5 md:grid-cols-1">
               {navLinks
@@ -79,7 +79,7 @@ export function Footer() {
             </ul>
           </nav>
 
-          {/* Contacto directo */}
+          {/* Direct channels */}
           <div className="flex flex-col items-start gap-3">
             <div className="flex items-center gap-2">
               <a
@@ -92,8 +92,8 @@ export function Footer() {
               <button
                 type="button"
                 onClick={copyEmail}
-                aria-label={`Copiar ${siteConfig.email} al portapapeles`}
-                title="Copiar email"
+                aria-label={`Copy ${siteConfig.email} to clipboard`}
+                title="Copy email"
                 className="btn-secondary inline-flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full border border-zen-line bg-zen-surface/60 text-zen-muted hover:text-zen-accent"
               >
                 {copied ? (
@@ -120,7 +120,7 @@ export function Footer() {
         <div className="mt-12 flex flex-col items-start justify-between gap-3 border-t border-zen-line/60 pt-6 text-xs text-zen-muted/70 sm:flex-row sm:items-center">
           <p className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <span>
-              © {year} {siteConfig.name} — hecho con calma en Argentina.
+              © {year} {siteConfig.name} — engineered with calm in Buenos Aires &amp; global.
             </span>
             <span aria-hidden className="text-zen-muted/40">
               ·
@@ -130,15 +130,15 @@ export function Footer() {
               onClick={() => setPrivacyOpen(true)}
               className="link-accent cursor-pointer text-zen-muted/80 hover:text-zen-ink"
             >
-              Privacidad
+              Privacy Policy
             </button>
           </p>
-          <p className="flex items-center gap-1.5">
+          <p className="flex items-center gap-1.5 font-mono text-[11px] text-zen-muted/60">
             <span
               aria-hidden
-              className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-zen-accent/80"
+              className="inline-block h-1.5 w-1.5 rounded-full bg-zen-accent/80"
             />
-            Core studio: Services · Approach · Contact
+            Studio Architecture: Services · Works · Approach · Contact
           </p>
         </div>
       </div>

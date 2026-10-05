@@ -45,7 +45,7 @@ export function LotusMark({ className }: { className?: string }) {
           viewBox="0 0 679 454"
           fill="none"
           role="img"
-          aria-label="Logo de Zen ERP: flor de loto terracota"
+          aria-label="Zen ERP lotus emblem"
           className="h-auto w-full drop-shadow-[0_18px_50px_rgba(193,97,74,0.28)]"
           initial={reduced ? false : { opacity: 0, scale: 0.94, filter: "blur(14px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}

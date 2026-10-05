@@ -8,7 +8,7 @@
  *  Zen ERP — Sistema de diseño
  *  Paleta extraída del logo oficial (zen-logo.svg):
  *  fondo casi negro con dejo verde-azulado, acento coral/terracota.
- *  No inventar otros colores.
+ *  Escena clara: #F0EBE6 para quiebre editorial (Approach / Proceso).
  * ============================================================
  */
 @theme inline {
@@ -32,7 +32,7 @@
   --color-input: var(--zen-line);
   --color-ring: var(--zen-accent);
 
-  /* Tokens propios de la marca */
+  /* Tokens propios de la marca (Dark World) */
   --color-zen-bg: var(--zen-bg);
   --color-zen-bg-to: var(--zen-bg-to);
   --color-zen-surface: var(--zen-surface);
@@ -44,9 +44,16 @@
   --color-zen-muted: var(--zen-muted);
   --color-zen-line: var(--zen-line);
 
+  /* Tokens de la Escena Clara (Light World — Approach / Proceso) */
+  --color-zen-bg-light: var(--zen-bg-light);
+  --color-zen-ink-light: var(--zen-ink-light);
+  --color-zen-surface-light: var(--zen-surface-light);
+  --color-zen-line-light: var(--zen-line-light);
+
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-display: var(--font-display), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Clash Display', var(--font-display), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif-accent: 'Zodiak', Georgia, serif;
 
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
@@ -57,7 +64,7 @@
 :root {
   --radius: 0.75rem;
 
-  /* Paleta Zen ERP — Studio Warm Solarized */
+  /* Paleta Zen ERP — Studio Warm Solarized (Dark World) */
   --zen-bg: #050505;
   --zen-bg-to: #0c1011;
   --zen-surface: #0e1315;
@@ -68,6 +75,38 @@
   --zen-ink: #eee8d5;
   --zen-muted: #839496;
   --zen-line: rgba(238, 232, 213, 0.08);
+
+  /* Escena Clara (Light World — Approach / Proceso) */
+  --zen-bg-light: #F0EBE6;
+  --zen-ink-light: #201D1D;
+  --zen-surface-light: #E7E0DA;
+  --zen-line-light: rgba(32, 29, 29, 0.12);
+}
+
+@keyframes zenLoaderExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0%);
+    visibility: visible;
+  }
+  65% {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes zenLoaderLine {
+  0% {
+    transform: scaleX(0);
+  }
+  100% {
+    transform: scaleX(1);
+  }
 }
 
 html {

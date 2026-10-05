@@ -51,7 +51,7 @@ export const useLeadDialog = create<LeadDialogState>((set) => ({
       // prefill más rico (ej.: armador de sistema con la lista de módulos).
       form: {
         ...EMPTY_FORM,
-        message: message ?? (topic ? `Hola, me interesa «${topic}». ` : ""),
+        message: message ?? (topic ? `Hello, I would like to discuss «${topic}». ` : ""),
       },
     }),
   closeDialog: () => set({ open: false }),

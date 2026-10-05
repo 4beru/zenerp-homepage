@@ -11,9 +11,7 @@ import { siteConfig } from "@/lib/site-config";
 import { LotusIcon, ShieldIcon } from "@/components/zen/icons";
 
 /**
- * Privacidad, en criollo: mini política que respalda la promesa anti-spam
- * del formulario ("nada de listas, nada de spam"). Dialog controlado por
- * el footer, que es quien renderiza el trigger.
+ * Plain-language privacy policy backing the zero-spam guarantee.
  */
 export function PrivacyDialog({
   open,
@@ -24,33 +22,32 @@ export function PrivacyDialog({
 }) {
   const items: readonly { title: string; body: string }[] = [
     {
-      title: "Lo que guardamos",
-      body: "Tu nombre, email, empresa (si la contás) y tu mensaje — lo único que pide el formulario. Nada más, porque no hay nada más.",
+      title: "What we retain",
+      body: "Your name, email address, organization (if specified), and project message — strictly the fields requested by the intake form.",
     },
     {
-      title: "Para qué lo usamos",
-      body: "Para responderte y, si seguimos conversando, armar tu propuesta. Es la única razón por la que existe ese formulario.",
+      title: "How it is used",
+      body: "Solely to review your brief, reply, and build your technical proposal if we initiate a conversation.",
     },
     {
-      title: "Lo que NO hacemos",
-      body: "No vendemos ni compartimos tus datos, no armamos listas de correo, no enviamos newsletters automáticos. Este sitio tampoco usa cookies de tracking ni analíticas de terceros.",
+      title: "What we never do",
+      body: "We do not sell, rent, or share your data, compile cold sales lists, or send unsolicited newsletters. This platform does not deploy third-party advertising cookies.",
     },
     {
-      title: "Si querés que lo borremos",
-      body: `Escribinos a ${siteConfig.email} y eliminamos tu mensaje de nuestra base. Sin trámites, sin preguntas, sin contrapreguntas.`,
+      title: "Right to erasure",
+      body: `Contact us at ${siteConfig.email} and we will immediately remove your messages and contact records without dispute.`,
     },
   ];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-h-[90svh] gap-0 overflow-y-auto rounded-2xl border-zen-line bg-zen-surface p-0 sm:max-w-md">
-        {/* Borde superior degradado con el loto (misma familia que el dialog de contacto) */}
         <div
           aria-hidden
           className="h-1 w-full rounded-t-2xl"
           style={{
             background:
-              "linear-gradient(90deg, transparent, rgba(255,171,145,0.7), transparent)",
+              "linear-gradient(90deg, transparent, rgba(203,75,22,0.7), transparent)",
           }}
         />
 
@@ -63,11 +60,10 @@ export function PrivacyDialog({
               <ShieldIcon width={20} height={20} />
             </span>
             <DialogTitle className="mt-4 text-xl font-semibold tracking-tight text-zen-ink">
-              Privacidad, en criollo
+              Privacy Commitment
             </DialogTitle>
             <DialogDescription className="mt-1.5 text-sm leading-relaxed text-zen-muted">
-              La versión corta y honesta: tus datos viajan solo para
-              responder tu mensaje.
+              The concise, honest standard: your information exists only to respond to your technical brief.
             </DialogDescription>
           </DialogHeader>
 
@@ -97,7 +93,7 @@ export function PrivacyDialog({
               width={17}
               height={17}
             />
-            Promesa zen: tus datos no van a pasear.
+            Studio guarantee: zero advertising spam, zero data brokers.
           </p>
         </div>
       </DialogContent>

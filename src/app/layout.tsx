@@ -19,28 +19,29 @@ const spaceGrotesk = Space_Grotesk({
 
 const siteName = "Zen ERP";
 const siteDescription =
-  "Desarrollamos aplicaciones web, mobile y desktop e implementamos sistemas de gestión (ERP) como Odoo y ERPNext, adaptados a tu negocio. Simple, sin complicaciones.";
+  "We develop custom web, mobile, and desktop applications and implement management systems (ERP) like Odoo and ERPNext, tailored to your business operations. Calm, precise, reliable.";
 
 const ogImage = {
   url: "/og.png",
   width: 1200,
   height: 630,
-  alt: "Zen ERP — Software en calma, hecho a tu medida. Logo de loto sobre fondo oscuro con acentos coral.",
+  alt: "Zen ERP — Calm software, built to your measure. Lotus emblem on dark canvas with terracotta accents.",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
-  title: `${siteName} — Software a medida y sistemas de gestión (ERP)`,
+  title: `${siteName} — Bespoke Software & Business Management Systems (ERP)`,
   description: siteDescription,
   keywords: [
-    "desarrollo de software a medida",
-    "implementación Odoo",
-    "implementación ERPNext",
-    "aplicaciones web",
-    "apps mobile",
-    "apps desktop",
-    "ERP para pymes",
-    "Argentina",
+    "custom software development",
+    "Odoo implementation",
+    "ERPNext implementation",
+    "enterprise web applications",
+    "mobile apps",
+    "desktop systems",
+    "ERP for businesses",
+    "Buenos Aires",
+    "Global",
   ],
   authors: [{ name: "Zen ERP" }],
   manifest: "/manifest.webmanifest",
@@ -58,16 +59,16 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   openGraph: {
-    title: `${siteName} — Software simple, hecho a tu medida`,
+    title: `${siteName} — Calm software, built to your measure`,
     description: siteDescription,
     siteName,
     type: "website",
-    locale: "es_AR",
+    locale: "en_US",
     images: [ogImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: `${siteName} — Software simple, hecho a tu medida`,
+    title: `${siteName} — Calm software, built to your measure`,
     description: siteDescription,
     images: [ogImage.url],
   },
@@ -81,7 +82,7 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-/** Datos estructurados (Organization) para motores de búsqueda. */
+/** Structured data (Organization) for search engines. */
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
@@ -89,20 +90,20 @@ const jsonLd = {
   url: siteConfig.url,
   description: siteDescription,
   email: siteConfig.email,
-  areaServed: "Argentina",
+  areaServed: "Global",
   knowsAbout: [
     "Odoo",
     "ERPNext",
-    "Desarrollo de software a medida",
-    "Aplicaciones web y mobile",
+    "Custom Software Engineering",
+    "Web and Mobile Applications",
   ],
   contactPoint: [
     {
       "@type": "ContactPoint",
       contactType: "customer support",
       email: siteConfig.email,
-      areaServed: "AR",
-      availableLanguage: ["es"],
+      areaServed: "Global",
+      availableLanguage: ["en", "es"],
     },
   ],
 };
@@ -113,18 +114,25 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <link rel="preconnect" href="https://api.fontshare.com" crossOrigin="anonymous" />
+        <link
+          rel="stylesheet"
+          href="https://api.fontshare.com/v2/css?f[]=clash-display@400,500,600,700&f[]=zodiak@400,400i,600,600i&display=swap"
+        />
+      </head>
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        {/* Accesibilidad: primer elemento enfocable del documento */}
+        {/* Accessibility: first focusable element */}
         <a
           href="#inicio"
           className="skip-link rounded-full bg-zen-accent px-5 py-2.5 text-sm font-semibold text-[#1a1210] shadow-lg outline-none print:hidden"
         >
-          Saltar al contenido
+          Skip to content
         </a>
         {/* Sin JS: las secciones con Reveal quedan en opacity:0 inline;
             forzamos visibilidad para navegadores sin JavaScript. */}
