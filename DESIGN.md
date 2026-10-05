@@ -332,23 +332,27 @@ Motion must reinforce hierarchy.
 
 ---
 
-## 11. Motion System
+## 11. Motion System & GSAP Scroll Architecture (Splyt Awwwards Standard)
 
-### Motion personality
+### Core Philosophy: Unified Document Scroll Flow
+Motion across all sections follows the Awwwards-grade GSAP ScrollTrigger standard demonstrated by the Splyt project (`MuhammadTanveerAbbas/splyt-awwwards-website`).
 
-Motion should feel:
-
-- cinematic
-- measured
-- responsive
-- editorial
-
-Avoid:
-
-- bounce-heavy transitions
-- constant floating
-- exaggerated scaling
-- decorative motion with no purpose
+Key architectural directives:
+1. **Single Natural Scroll Thread**: Never hijack or trap the browser's scroll with artificial `preventDefault()` or step listeners. Every section, pinned reveal, and horizontal traversal is driven by natural document scroll progression.
+2. **Pinned Horizontal Sequences ("Looks like a carousel, acts like natural scroll")**:
+   - Pinned with GSAP ScrollTrigger (`pin: true`, `start: "top top"`, `anticipatePin: 1`).
+   - The scroll distance (`end: () => `+=${scrollAmount + 1200}px``) maps 1:1 to vertical scroll gestures.
+   - The horizontal track translates via `x: -scrollAmount` with `ease: "power1.inOut"` and `scrub: 1` or `scrub: true`.
+   - Multi-layer parallax (e.g. title split offsets, card depth, background float) scrubs concurrently via linked timelines.
+   - When the scroll travel completes, the pin smoothly unlocks and transitions into the next section with zero friction or desync.
+3. **No CSS Conflicts**:
+   - Strictly prohibit `html { scroll-behavior: smooth }` in CSS, as it corrupts GSAP's scroll position and spacer calculations.
+   - The horizontal track must have `w-max` (or `width: max-content`) without internal `overflow-x-auto` traps, allowing vertical wheel deltas to bubble to the window.
+4. **Motion Personality**:
+   - Cinematic, measured, weighted, editorial.
+   - Easing: `power1.inOut` or `power2.out`.
+   - Scrub smoothing: `scrub: 1` to `1.2`.
+   - Reduced motion fallback: Instantly disable scrub pinning and present clean, accessible responsive cards.
 
 ### Entrance choreography
 

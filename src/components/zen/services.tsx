@@ -1,33 +1,32 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Observer } from "gsap/Observer";
 import { services, servicesSectionCopy, type Service } from "@/data/services";
 import { usePrefersReducedMotion } from "@/hooks/use-prefers-reduced-motion";
 import { useLeadDialog } from "@/lib/store/lead-dialog";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/components/zen/icons";
 
 if (typeof window !== "undefined") {
-  gsap.registerPlugin(ScrollTrigger, Observer);
+  gsap.registerPlugin(ScrollTrigger);
 }
 
 /**
- * Creative Studio Services & Capabilities
+ * Zen ERP — Creative Studio Services & Capabilities
  *
- * Implements:
- * - Controlled Step-by-Step Scroll Carousel via GSAP Observer:
- *   When the user enters Services, scrolling down does NOT immediately jump to Works.
- *   First, each scroll gesture navigates sequentially through internal service cards (01 -> 02 -> ... -> 06).
- *   Only after reaching the last card (06) does the subsequent scroll transition to the next section (#works).
- *   Conversely, scrolling up from 06 moves back to 01, and only then transitions back up to Hero.
- * - Architectural Cards & Hover Reveal: Minimalist numbers (01..06) + uppercase titles, revealing
- *   rich photographic imagery and high-contrast typography on hover.
+ * Implements the Splyt Awwwards GSAP Scroll Architecture:
+ * - Unified Document Scroll Flow: Zero event-trapping, zero artificial locks.
+ * - Pinned Horizontal Movement: As the user scrolls naturally down the page,
+ *   the section pins at "top top" and the horizontal discipline cards glide smoothly (scrub: 1.2).
+ * - Multi-layer Parallax: The left headline and tilted badge subtly shift with scroll.
+ * - Once all cards have traversed, the pin unlocks seamlessly into the next section (#works).
+ * - High-Craft Cards: Architectural layout with smooth image hover reveal & dark scrim (Khanh Nguyen folio style).
  */
 export function Services() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const sliderRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
@@ -35,164 +34,127 @@ export function Services() {
   const openDialog = useLeadDialog((s) => s.openDialog);
   const reduced = usePrefersReducedMotion();
 
-  // Internal reference for card navigation from buttons/keyboard
-  const goToCardRef = useRef<(index: number) => void>(() => {});
-
   useEffect(() => {
     if (reduced) return;
-    const container = containerRef.current;
+    const section = sectionRef.current;
+    const slider = sliderRef.current;
     const track = trackRef.current;
-    if (!container || !track) return;
+    if (!section || !slider || !track) return;
 
-    let currentIndex = 0;
-    let isAnimating = false;
+    // Use gsap.context for complete cleanup and scoped timelines
+    const ctx = gsap.context(() => {
+      // Dynamic computation of scroll width
+      const getScrollAmount = () => {
+        return Math.max(0, track.scrollWidth - window.innerWidth + 120);
+      };
 
-    const getMaxScroll = () => {
-      const containerWidth = container.clientWidth || window.innerWidth;
-      return Math.max(0, track.scrollWidth - containerWidth + 60);
-    };
+      const scrollAmount = getScrollAmount();
 
-    const goToCard = (index: number) => {
-      if (isAnimating) return;
-      const targetIndex = Math.max(0, Math.min(services.length - 1, index));
-      if (targetIndex === currentIndex && index === currentIndex) return;
-
-      isAnimating = true;
-      currentIndex = targetIndex;
-      setActiveCardIndex(targetIndex);
-
-      const maxScroll = getMaxScroll();
-      const step = maxScroll / (services.length - 1);
-      const targetX = targetIndex * step;
-
-      if (progressBarRef.current) {
-        progressBarRef.current.style.transform = `scaleX(${
-          targetIndex / (services.length - 1)
-        })`;
-      }
-
-      gsap.to(track, {
-        x: -targetX,
-        duration: 0.6,
-        ease: "power2.out",
-        onComplete: () => {
-          setTimeout(() => {
-            isAnimating = false;
-          }, 80);
+      // Main Horizontal Pinning Timeline (Splyt Awwwards Pattern)
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(getScrollAmount() + 900, 1500)}px`,
+          scrub: 1.2,
+          pin: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            const progress = self.progress;
+            if (progressBarRef.current) {
+              progressBarRef.current.style.transform = `scaleX(${progress})`;
+            }
+            const activeIndex = Math.min(
+              services.length - 1,
+              Math.floor(progress * services.length)
+            );
+            setActiveCardIndex(activeIndex);
+          },
         },
       });
-    };
 
-    goToCardRef.current = goToCard;
+      tl.to(track, {
+        x: () => -getScrollAmount(),
+        ease: "power1.inOut",
+      });
 
-    // GSAP Observer: Captures vertical scroll intent to drive internal carousel steps
-    const observer = Observer.create({
-      target: container,
-      type: "wheel,touch",
-      wheelSpeed: -1,
-      tolerance: 15,
-      preventDefault: true,
-      onDown: () => {
-        // Scroll Down intent: move to next internal card
-        if (isAnimating) return;
+      // Synchronized Parallax for Title & Badge
+      const titleTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: () => `+=${Math.max(getScrollAmount() + 900, 1500)}px`,
+          scrub: true,
+        },
+      });
 
-        const rect = container.getBoundingClientRect();
-        // If the top of services is not yet aligned to the top of screen, dock it first
-        if (rect.top > 30) {
-          container.scrollIntoView({ behavior: "smooth" });
-          return;
-        }
+      titleTl
+        .to(".service-title-part-1", {
+          xPercent: -15,
+          ease: "power1.inOut",
+        })
+        .to(
+          ".service-title-badge",
+          {
+            xPercent: -10,
+            rotate: -4,
+            ease: "power1.inOut",
+          },
+          "<"
+        )
+        .to(
+          ".service-title-part-2",
+          {
+            xPercent: -5,
+            ease: "power1.inOut",
+          },
+          "<"
+        );
 
-        if (currentIndex < services.length - 1) {
-          goToCard(currentIndex + 1);
-        } else {
-          // At the last card: allow scroll down to the next section (Selected Works)
-          observer.disable();
-          const nextSection = document.getElementById("works");
-          if (nextSection) {
-            nextSection.scrollIntoView({ behavior: "smooth" });
-          } else {
-            window.scrollBy({ top: window.innerHeight * 0.85, behavior: "smooth" });
-          }
-          setTimeout(() => {
-            observer.enable();
-          }, 1000);
-        }
-      },
-      onUp: () => {
-        // Scroll Up intent: move to previous internal card
-        if (isAnimating) return;
+      // Refresh on resize and layout settlement
+      const handleResize = () => {
+        ScrollTrigger.refresh();
+      };
 
-        const rect = container.getBoundingClientRect();
-        if (rect.bottom < window.innerHeight - 30) {
-          container.scrollIntoView({ behavior: "smooth" });
-          return;
-        }
+      window.addEventListener("resize", handleResize);
 
-        if (currentIndex > 0) {
-          goToCard(currentIndex - 1);
-        } else {
-          // At the first card: allow scroll up to previous section (Hero)
-          observer.disable();
-          const heroSection = document.getElementById("inicio");
-          if (heroSection) {
-            heroSection.scrollIntoView({ behavior: "smooth" });
-          } else {
-            window.scrollBy({ top: -window.innerHeight * 0.85, behavior: "smooth" });
-          }
-          setTimeout(() => {
-            observer.enable();
-          }, 1000);
-        }
-      },
-    });
+      const timer = setTimeout(() => {
+        ScrollTrigger.refresh();
+      }, 300);
 
-    // Reset when scrolling away so re-entering works cleanly
-    const handleScroll = () => {
-      const rect = container.getBoundingClientRect();
-      if (rect.top > window.innerHeight) {
-        currentIndex = 0;
-        setActiveCardIndex(0);
-        gsap.set(track, { x: 0 });
-        if (progressBarRef.current) {
-          progressBarRef.current.style.transform = "scaleX(0)";
-        }
-      }
-      if (rect.bottom < 0) {
-        currentIndex = services.length - 1;
-        setActiveCardIndex(services.length - 1);
-        const maxScroll = getMaxScroll();
-        gsap.set(track, { x: -maxScroll });
-        if (progressBarRef.current) {
-          progressBarRef.current.style.transform = "scaleX(1)";
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
+      return () => {
+        window.removeEventListener("resize", handleResize);
+        clearTimeout(timer);
+        tl.kill();
+        titleTl.kill();
+      };
+    }, section);
 
     return () => {
-      observer.kill();
-      window.removeEventListener("scroll", handleScroll);
+      ctx.revert();
     };
   }, [reduced]);
 
-  const handlePrev = useCallback(() => {
-    goToCardRef.current(activeCardIndex - 1);
-  }, [activeCardIndex]);
-
-  const handleNext = useCallback(() => {
-    goToCardRef.current(activeCardIndex + 1);
-  }, [activeCardIndex]);
+  // Smooth scroll step helper for arrow buttons
+  const handleScrollStep = (direction: "prev" | "next") => {
+    const track = trackRef.current;
+    if (!track) return;
+    const step = Math.max(400, Math.round(track.scrollWidth / services.length));
+    window.scrollBy({
+      top: direction === "next" ? step : -step,
+      behavior: "smooth",
+    });
+  };
 
   return (
     <section
-      ref={containerRef}
+      ref={sectionRef}
       id="servicios"
-      aria-labelledby="services-main-heading"
-      className="relative w-full overflow-hidden bg-[#F0EBE6] text-[#201D1D]"
+      aria-labelledby="services-heading"
+      className="services-section relative w-full overflow-hidden bg-[#F0EBE6] text-[#201D1D]"
     >
-      {/* 1. Architectural Transition Boundary (Dark to Warm Editorial) */}
+      {/* 1. Architectural Transition Boundary (Dark Hero to Warm Light Scene) */}
       <div className="w-full border-b border-[#201D1D]/15 bg-[#050505] px-6 py-4 text-[#839496] sm:px-10 lg:px-16">
         <div className="mx-auto flex max-w-[1480px] items-center justify-between font-mono text-[11px] uppercase tracking-[0.2em]">
           <div className="flex items-center gap-2.5">
@@ -203,63 +165,89 @@ export function Services() {
         </div>
       </div>
 
-      {/* Main Services Container */}
+      {/* 2. Main Pinned Stage (Full Viewport Height) */}
       <div className="relative mx-auto flex h-[calc(100vh-45px)] min-h-[620px] flex-col justify-between px-6 pt-6 pb-6 sm:px-10 lg:px-16 lg:pt-8">
-        {/* 2. Brutalist / Editorial Headline Header (Image 1) */}
-        <header className="border-b border-[#201D1D]/15 pb-5 sm:pb-6">
-          {/* Top metadata ticker */}
-          <div className="flex items-center justify-between font-mono text-xs uppercase tracking-[0.2em] text-[#59524C]">
-            <div className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
-              <span>{servicesSectionCopy.eyebrow}</span>
-              <span className="mx-2 text-[#201D1D]/30">/</span>
-              <span className="hidden md:inline">{servicesSectionCopy.eyebrowSub}</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="font-bold tracking-widest text-[#201D1D]">
-                {servicesSectionCopy.catalogCode}
-              </span>
-              <span className="hidden font-mono text-[10px] text-[#59524C]/60 sm:inline">
-                2026 EDITION
-              </span>
-            </div>
+        
+        {/* Top Header & Metadata */}
+        <div className="flex items-center justify-between border-b border-[#201D1D]/15 pb-4 font-mono text-xs uppercase tracking-[0.2em] text-[#59524C]">
+          <div className="flex items-center gap-2">
+            <span className="h-1.5 w-1.5 bg-[#CB4B16]" aria-hidden="true" />
+            <span>{servicesSectionCopy.eyebrow}</span>
+            <span className="mx-2 text-[#201D1D]/30">/</span>
+            <span className="hidden md:inline">{servicesSectionCopy.eyebrowSub}</span>
           </div>
-
-          {/* Massive Display Title (Matching Image 1) */}
-          <div className="mt-4 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-            <h2
-              id="services-main-heading"
-              className="font-display text-[clamp(2.8rem,7.5vw,6.5rem)] font-extrabold uppercase leading-[0.88] tracking-[-0.04em] text-[#201D1D]"
-            >
-              SERVICES
-            </h2>
-
-            <p className="max-w-md text-xs leading-relaxed text-[#59524C] sm:text-sm">
-              {servicesSectionCopy.description}
-            </p>
-          </div>
-        </header>
-
-        {/* 3. Horizontal Gallery Strip (Images 2 & 3 + Controlled Step-by-Step Carousel) */}
-        <div className="relative my-auto flex w-full flex-1 items-center overflow-hidden py-2">
-          <div
-            ref={trackRef}
-            className="flex w-max flex-nowrap items-stretch gap-0 will-change-transform"
-          >
-            {services.map((service, index) => (
-              <ServiceCard
-                key={service.id}
-                service={service}
-                index={index}
-                total={services.length}
-                isActive={index === activeCardIndex}
-                onSelect={(title) => openDialog("services", title)}
-              />
-            ))}
+          <div className="flex items-center gap-4">
+            <span className="font-bold tracking-widest text-[#201D1D]">
+              {servicesSectionCopy.catalogCode}
+            </span>
+            <span className="hidden font-mono text-[10px] text-[#59524C]/60 sm:inline">
+              2026 EDITION
+            </span>
           </div>
         </div>
 
-        {/* 4. Bottom Controls & Hairline Progress Bar */}
+        {/* Center Arena: Split Layout (Left Editorial Title + Right Sliding Track) */}
+        <div className="relative my-auto flex flex-1 flex-col justify-center gap-8 overflow-hidden py-4 lg:flex-row lg:items-center lg:gap-14">
+          
+          {/* Left Column: Bold Display Title (Splyt Awwwards Style) */}
+          <div className="flex-none lg:w-[32%] xl:w-[30%]">
+            <div className="service-title-part-1 overflow-hidden">
+              <h2
+                id="services-heading"
+                className="font-display text-[clamp(2.5rem,5.5vw,4.8rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]"
+              >
+                WE ENGINEER
+              </h2>
+            </div>
+
+            {/* Tilted Terracotta Badge (Image Reference) */}
+            <div className="service-title-badge my-3 inline-block rotate-[-2deg] border border-[#201D1D]/20 bg-[#CB4B16] px-4 py-1.5 shadow-sm transition-transform">
+              <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#050505] sm:text-sm">
+                06 CORE DISCIPLINES
+              </span>
+            </div>
+
+            <div className="service-title-part-2 overflow-hidden">
+              <h2 className="font-display text-[clamp(2.5rem,5.5vw,4.8rem)] font-extrabold uppercase leading-[0.9] tracking-[-0.04em] text-[#201D1D]">
+                CALM SYSTEMS
+              </h2>
+            </div>
+
+            <p className="mt-4 max-w-sm text-xs leading-relaxed text-[#59524C] sm:text-sm">
+              {servicesSectionCopy.description}
+            </p>
+
+            <div className="mt-5 hidden items-center gap-3 font-mono text-[11px] uppercase tracking-wider text-[#59524C]/70 lg:flex">
+              <span className="h-1 w-1 rounded-full bg-[#CB4B16]" />
+              <span>Scroll down to glide horizontally</span>
+            </div>
+          </div>
+
+          {/* Right Column: Sliding Horizontal Track */}
+          <div
+            ref={sliderRef}
+            className="flex-1 overflow-hidden"
+          >
+            <div
+              ref={trackRef}
+              className="flex w-max flex-nowrap items-stretch gap-6 will-change-transform sm:gap-8 lg:gap-10"
+            >
+              {services.map((service, index) => (
+                <ServiceCard
+                  key={service.id}
+                  service={service}
+                  index={index}
+                  total={services.length}
+                  isActive={index === activeCardIndex}
+                  onSelect={(title) => openDialog("services", title)}
+                />
+              ))}
+            </div>
+          </div>
+
+        </div>
+
+        {/* 3. Bottom Controls & Progress Bar */}
         <footer className="flex items-center justify-between border-t border-[#201D1D]/15 pt-4">
           <div className="flex items-center gap-3 font-mono text-xs uppercase tracking-widest text-[#59524C]">
             <span className="text-[#201D1D] font-bold">
@@ -269,7 +257,7 @@ export function Services() {
             <span>0{services.length}</span>
             <span className="hidden text-[#201D1D]/40 sm:inline">·</span>
             <span className="hidden font-mono text-[11px] text-[#59524C] sm:inline">
-              Scroll moves through internal services before advancing section
+              Integrated document scroll navigation
             </span>
           </div>
 
@@ -277,32 +265,33 @@ export function Services() {
           <div className="mx-6 hidden h-[2px] flex-1 max-w-xs overflow-hidden bg-[#201D1D]/10 md:block">
             <div
               ref={progressBarRef}
-              className="h-full w-full origin-left scale-x-0 bg-[#CB4B16] transition-transform duration-300 ease-out"
+              className="h-full w-full origin-left scale-x-0 bg-[#CB4B16] transition-transform duration-100 ease-out"
             />
           </div>
 
-          {/* Navigation Arrows */}
+          {/* Navigation Arrows for Accessibility */}
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={handlePrev}
+              onClick={() => handleScrollStep("prev")}
               disabled={activeCardIndex === 0}
               aria-label="Previous service"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
             >
               <ArrowLeftIcon width={16} height={16} />
             </button>
             <button
               type="button"
-              onClick={handleNext}
+              onClick={() => handleScrollStep("next")}
               disabled={activeCardIndex === services.length - 1}
               aria-label="Next service"
-              className="flex h-10 w-10 cursor-pointer items-center justify-center border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
+              className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-sm border border-[#201D1D]/20 bg-transparent text-[#201D1D] transition-colors hover:border-[#CB4B16] hover:bg-[#CB4B16] hover:text-[#050505] disabled:cursor-not-allowed disabled:opacity-30"
             >
               <ArrowRightIcon width={16} height={16} />
             </button>
           </div>
         </footer>
+
       </div>
     </section>
   );
@@ -312,11 +301,11 @@ export function Services() {
  * Individual Architectural Service Card
  *
  * Implements:
- * - Clean vertical grid column with border-r hairlines.
- * - Top index (01..06) in serif/display typography.
- * - Center title in bold uppercase.
- * - Bottom concise description + unboxed metadata tag.
- * - Full-bleed hover image reveal with smooth scale-105 zoom & dark gradient scrim (Image 3).
+ * - Rounded-2xl architectural card frame with warm off-white canvas.
+ * - Top index (01..06) in high-contrast serif/display font.
+ * - Bold uppercase capability title.
+ * - Full-bleed hover photographic image reveal with smooth scale-105 zoom & dark gradient scrim.
+ * - Bottom concise editorial copy + unboxed metadata tag.
  */
 function ServiceCard({
   service,
@@ -334,7 +323,7 @@ function ServiceCard({
   return (
     <article
       onClick={() => onSelect(service.title)}
-      className="group relative flex h-[50vh] min-h-[380px] max-h-[520px] w-[290px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden border-r border-[#201D1D]/15 bg-[#F0EBE6] p-6 transition-colors duration-500 first:border-l sm:w-[340px] sm:p-7 md:w-[380px] lg:w-[420px]"
+      className="group relative flex h-[50vh] min-h-[380px] max-h-[500px] w-[280px] shrink-0 cursor-pointer flex-col justify-between overflow-hidden rounded-2xl border border-[#201D1D]/15 bg-[#E8E1D9] p-6 shadow-sm transition-all duration-500 sm:w-[330px] sm:p-7 md:w-[360px] lg:w-[390px]"
     >
       {/* Hover Background Image Layer (Smooth Reveal on Card Hover) */}
       <div
@@ -345,7 +334,7 @@ function ServiceCard({
           src={service.image}
           alt={service.imageAlt}
           fill
-          sizes="(max-width: 768px) 290px, 420px"
+          sizes="(max-width: 768px) 280px, 390px"
           className="object-cover object-center transition-transform duration-1000 ease-out group-hover:scale-105"
         />
         {/* Contrast Scrim / Tint to ensure foreground text is pristine and legible */}
@@ -364,7 +353,7 @@ function ServiceCard({
 
       {/* Middle Section: Service Title & Subtitle */}
       <div className="relative z-10 my-auto py-3">
-        <h3 className="font-display text-xl font-bold uppercase tracking-tight text-[#201D1D] transition-colors duration-500 sm:text-2xl md:text-3xl group-hover:text-white">
+        <h3 className="font-display text-xl font-bold uppercase tracking-tight text-[#201D1D] transition-colors duration-500 sm:text-2xl group-hover:text-white">
           {service.title}
         </h3>
         <p className="mt-1 font-mono text-[11px] uppercase tracking-widest text-[#59524C] transition-colors duration-500 group-hover:text-[#CB4B16]">
