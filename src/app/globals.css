@@ -110,7 +110,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Note: scroll-behavior: smooth removed because it breaks GSAP ScrollTrigger pinning and scrub calculations */
 }
 
 @media (prefers-reduced-motion: reduce) {
