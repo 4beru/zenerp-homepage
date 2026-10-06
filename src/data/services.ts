@@ -14,6 +14,7 @@ export interface Service {
   categoryLabel: string;
   image: string;
   imageAlt: string;
+  video: string;
   deliverables: string[];
   operationalScope: string;
 }
@@ -65,6 +66,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Modern web architecture workstation with digital code display",
+    video: "/video/service-01-web.mp4",
     deliverables: [
       "Frontend & backend architecture",
       "Secure client and admin portals",
@@ -88,6 +90,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Tactile mobile interface in hands with clean typography",
+    video: "/video/service-02-mobile.mp4",
     deliverables: [
       "Cross-platform iOS and Android apps",
       "Local-first storage & background sync",
@@ -111,6 +114,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "High-precision physical workstation with dual displays and peripherals",
+    video: "/video/service-03-desktop.mp4",
     deliverables: [
       "Standalone native desktop software",
       "Direct USB, serial & printer integrations",
@@ -134,6 +138,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Architectural automated warehouse with amber illumination and inventory grids",
+    video: "/video/service-04-odoo.mp4",
     deliverables: [
       "Operational workflow mapping & data cleanup",
       "Fiscal localization & electronic invoicing",
@@ -157,6 +162,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Monolithic geometric steel and glass skyscraper rising into calm sky",
+    video: "/video/service-05-erpnext.mp4",
     deliverables: [
       "Production-grade server infrastructure",
       "Custom DocTypes, scripting & business rules",
@@ -180,6 +186,7 @@ export const services: Service[] = [
     image:
       "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80",
     imageAlt: "Precision silicon circuitry and macro computational traces",
+    video: "/video/service-06-bespoke.mp4",
     deliverables: [
       "Domain-specific computational engines",
       "High-throughput webhook pipelines",
